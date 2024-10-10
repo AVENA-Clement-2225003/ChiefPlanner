@@ -1,0 +1,272 @@
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+nav > ul {
+    list-style-type: none;
+}
+
+nav > ul > li {
+    margin-bottom: 0.2em;
+}
+
+nav > ul > li > a {
+    color: black;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+@media (max-width: 1300px) {
+    .secondaryWidget {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 720px) {
+    nav {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .secondaryWidget {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, p, a, table, label, input {
+    font-family: Inter;
+}
+
+h1 {
+    font-size: 3em;
+    width: 4em;
+    font-weight: bold;
+    margin: 0.2em 0 0 0.2em;
+}
+
+h1 > a {
+    color: black;
+    text-decoration: none;
+}
+
+.previousWeekSelection {
+    cursor: pointer;
+    display: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+}
+
+.regenWeekSelection {
+    cursor: pointer;
+    padding: 0;
+    margin: 0 0.3em 0 0;
+    background: none;
+    border: none;
+}
+
+/******************Widget******************/
+
+.widgetHolder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.widget {
+    background-color: #E3E3E3;
+    border-radius: 25px;
+    padding: 1em;
+    margin: 0.5em;
+}
+
+.widgetTitle {
+    margin: 0;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.secondaryWidget {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.BList {
+    height: 100%;
+}
+
+.third {
+    height: 19em;
+}
+
+/******************Week Selection******************/
+
+.weekTitleHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.weekSelection {
+    background-color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    padding: 1em;
+    border-radius: 15px;
+}
+
+.daySelection {
+    padding: 0 1em;
+    border-right: 1px black solid;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.daySelection > p {
+    text-align: center;
+    margin: 0;
+}
+
+.day {
+    display: inline-block;
+    margin: 0.2em 0;
+    height: 3em;
+    width: 4em;
+    border-radius: 0.5em;
+}
+
+.selected {
+    background-color: #7AE47D;
+}
+
+.selectedRandomColor {
+
+}
+
+.notSelected {
+    background-color: #B7B7B7;
+}
+
+/******************Custom checkbox******************/
+
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Create the custom checkbox */
+.custom-checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Checkbox hover effect */
+.custom-checkbox:hover {
+    border-color: #888;
+}
+
+/* Style for the checkmark when checkbox is checked */
+input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: #4caf50; /* Change to any background color when checked */
+    border-color: #4caf50;
+}
+
+/* Create the checkmark (pseudo-element inside custom checkbox) */
+.custom-checkbox::after {
+    content: '';
+    position: absolute;
+    display: none;
+    top: 4px;
+    left: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Show the checkmark when checkbox is checked */
+input[type="checkbox"]:checked + .custom-checkbox::after {
+    display: block;
+}
+
+/******************Graph******************/
+
+.graphHolder {
+    margin-top: 1em;
+    height: 22em;
+    padding: 0.5em;
+    background-color: #F2F2F2;
+    border-radius: 15px;
+}
+
+.graphHolder > p {
+    margin: 0;
+}
+
+/******************Buying list******************/
+
+.buyingList {
+    border-collapse: collapse;
+}
+
+.buyingList > thead > tr {
+    border-bottom: 1px black solid;
+}
+
+.buyingList > tbody {
+    height: 5em;
+    overflow-y: auto;
+}
+
+.buyingList td {
+    padding: 0.2em 0.5em;
+}
+
+.bordered {
+    border-right: 1px black solid;
+}
+
+/******************Fonts******************/
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/******************Animations******************/
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: rotate 0.5s ease-in-out;
+}
