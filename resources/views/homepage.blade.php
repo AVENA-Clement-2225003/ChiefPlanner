@@ -9,12 +9,12 @@
                 <div class="weekTitleHolder">
                     <p class="widgetTitle">Cette semaine...</p>
                     <div style="display: flex;flex-direction: row">
-                        <button id="previousButton" class="previousWeekSelection">
+                        <button id="previousButton" class="buttonImg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
                             </svg>
                         </button>
-                        <button id="regenButton" class="regenWeekSelection">
+                        <button id="regenButton" class="buttonImg">
                             <svg id="regenImage" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
@@ -29,10 +29,11 @@
                         <div class="day {{ $day['morning'] === null ? 'notSelected':'selectedRandomColor' }}">
                             @if($day['morning'] !== null)
                                 <span class="info">
-                                    Plat: {{$day['morning']}}<br>
+                                    Plat: {{$day['morning'][0]}}<br>
                                     Ingrédients: <ul class="ingredientList">
-                                                    <li>{{'None'}}</li>
-                                                    <li>{{'None'}}</li>
+                                                    @foreach($day['morning'][1] as $ingredient)
+                                                        <li>{{ $ingredient }}</li>
+                                                    @endforeach
                                                 </ul>
                                 </span>
                             @endif
@@ -40,11 +41,11 @@
                         <div class="day {{ $day['afternoon'] === null ? 'notSelected':'selectedRandomColor' }}">
                             @if($day['afternoon'] !== null)
                                 <span class="info">
-                                    Plat: {{$day['afternoon']}}<br>
+                                    Plat: {{$day['afternoon'][0]}}<br>
                                     Ingrédients: <ul class="ingredientList">
-                                                    <li>{{'None'}}</li>
-                                                    <li>{{'None'}}</li>
-                                                    <li>{{'None'}}</li>
+                                                    @foreach($day['afternoon'][1] as $ingredient)
+                                                        <li>{{ $ingredient }}</li>
+                                                    @endforeach
                                                 </ul>
                                 </span>
                             @endif
@@ -72,10 +73,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach(array(array("Patate", "400g"), array("Steak", "1"), array("Jus de pomme", "1.5l"), array("Pain de mie", "Medium"), array("Jambon", "6 tranches"), array("Dentifrice", "1")) as $ingredient)
+                    @foreach($ingredientList as $ingredient => $quantity)
                         <tr>
-                            <td>{{$ingredient[0]}}</td>
-                            <td>{{$ingredient[1]}}</td>
+                            <td>{{ $ingredient }}</td>
+                            <td>{{ $quantity }}</td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredient;
 use App\Models\Plats;
+use App\Models\Quantitees;
 use App\Models\Semaine;
 use App\Models\SemainePlanif;
 
@@ -18,12 +20,33 @@ class SemaineController extends Controller
             if ($midday->selected === 1) { // On ajoute pour le jour si l'aprèm ou le matin est selectionné
                 $idMeal = SemainePlanif::where('ID_JOUR', $midday->id)->first()->ID_PLAT; //Id du repas associé à la demi-journée
                 $meal = Plats::where('id', $idMeal)->first(); //Récupération du plat
-                $daylist[$midday->day][$midday->time] = $meal->nom;
+                $listeIngredient = array();
+                foreach (Quantitees::where('id_plat', $idMeal)->get() as $ingredient) {
+                    $listeIngredient[] = Ingredient::where('id', $ingredient->id_ingredient)->first()->nom;
+                }
+                $daylist[$midday->day][$midday->time] = array($meal->nom, $listeIngredient);
             } else {
                 $daylist[$midday->day][$midday->time] = null;
             }
         }
         return $daylist;
+    }
+
+    public function prepareIngredientList() {
+        $ingredientList = array();
+        foreach (SemainePlanif::all() as $meal) {
+            foreach (Quantitees::where('id_plat', $meal->ID_PLAT)->get() as $ingredient) {
+                $ingredientTmp = Ingredient::where('id', $ingredient->id_ingredient)->first();
+
+                if (isset($ingredientList[$ingredientTmp->nom])) {
+                    $exploseNewQuantity = explode(' ', $ingredient->quantity);
+                    $exploseCurrentQuantity = explode(' ', $ingredientList[$ingredientTmp->nom]);
+                    $ingredientList[$ingredientTmp->nom] = implode(' ', [(float) $exploseCurrentQuantity[0] + (float) $exploseNewQuantity[0], $exploseCurrentQuantity[1]]);
+                }
+                else $ingredientList[$ingredientTmp->nom] = $ingredient->quantity;
+            }
+        }
+        return $ingredientList;
     }
 
     public function prepareAWeek() {

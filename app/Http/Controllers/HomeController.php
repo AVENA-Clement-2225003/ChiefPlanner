@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function showHome() {
         $daylist = (new SemaineController())->PrepareWeekArrayForHomePage();
-        return view('homepage', compact('daylist'));
+        $ingredientList = (new SemaineController())->prepareIngredientList();
+        return view('homepage', compact('daylist', 'ingredientList'));
     }
 }

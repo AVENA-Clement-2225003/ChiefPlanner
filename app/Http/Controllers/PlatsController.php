@@ -10,7 +10,8 @@ class PlatsController extends Controller
 {
     public function showPlats() {
         $plats = Plats::all();
-        return view('plats', compact('plats'));
+        $ingredients = Ingredient::all();
+        return view('plats', compact('plats', 'ingredients'));
     }
 
     public function showIngredients() {
