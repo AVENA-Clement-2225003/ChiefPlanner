@@ -26,10 +26,10 @@
             @foreach($daylist as $dayName => $day)
                     <div class="daySelection">
                         <p>{{ $dayName }}</p>
-                        <div class="day {{ $day['morning'] === 0 ? 'notSelected':'selectedRandomColor' }}">
-                            @if($day['morning'] === 1)
+                        <div class="day {{ $day['morning'] === null ? 'notSelected':'selectedRandomColor' }}">
+                            @if($day['morning'] !== null)
                                 <span class="info">
-                                    Plat: {{'None'}}<br>
+                                    Plat: {{$day['morning']}}<br>
                                     Ingrédients: <ul class="ingredientList">
                                                     <li>{{'None'}}</li>
                                                     <li>{{'None'}}</li>
@@ -37,10 +37,10 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="day {{ $day['afternoon'] === 0 ? 'notSelected':'selectedRandomColor' }}">
-                            @if($day['afternoon'] === 1)
+                        <div class="day {{ $day['afternoon'] === null ? 'notSelected':'selectedRandomColor' }}">
+                            @if($day['afternoon'] !== null)
                                 <span class="info">
-                                    Plat: {{'None'}}<br>
+                                    Plat: {{$day['afternoon']}}<br>
                                     Ingrédients: <ul class="ingredientList">
                                                     <li>{{'None'}}</li>
                                                     <li>{{'None'}}</li>
@@ -112,6 +112,7 @@
             setTimeout(() => {
                 regen_image.classList.remove('rotating');
             }, 500); //Match the ms with the duration of the animation
+            window.location.href = '/refresh';
         });
 
         prev_button.addEventListener('click', () => {
