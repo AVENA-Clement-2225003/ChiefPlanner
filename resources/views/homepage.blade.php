@@ -26,8 +26,29 @@
             @foreach($daylist as $dayName => $day)
                     <div class="daySelection">
                         <p>{{ $dayName }}</p>
-                        <div class="day {{ $day['morning'] === 0 ? 'notSelected':'selectedRandomColor' }}"></div>
-                        <div class="day {{ $day['afternoon'] === 0 ? 'notSelected':'selectedRandomColor' }}"></div>
+                        <div class="day {{ $day['morning'] === 0 ? 'notSelected':'selectedRandomColor' }}">
+                            @if($day['morning'] === 1)
+                                <span class="info">
+                                    Plat: {{'None'}}<br>
+                                    Ingrédients: <ul class="ingredientList">
+                                                    <li>{{'None'}}</li>
+                                                    <li>{{'None'}}</li>
+                                                </ul>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="day {{ $day['afternoon'] === 0 ? 'notSelected':'selectedRandomColor' }}">
+                            @if($day['afternoon'] === 1)
+                                <span class="info">
+                                    Plat: {{'None'}}<br>
+                                    Ingrédients: <ul class="ingredientList">
+                                                    <li>{{'None'}}</li>
+                                                    <li>{{'None'}}</li>
+                                                    <li>{{'None'}}</li>
+                                                </ul>
+                                </span>
+                            @endif
+                        </div>
                     </div>
             @endforeach
                 </div>
@@ -96,6 +117,22 @@
         prev_button.addEventListener('click', () => {
             alert("Not programmed yet");
             //Faire que ça remet la semaine d'avant #290404
+        });
+
+        //***********Info-bulle***********//
+
+        const days = Array.from(document.querySelectorAll('.day')).filter(day => day.querySelector('span'));
+
+        days.forEach(day => {
+            day.addEventListener('mouseover', () => {
+                const infoBox = day.querySelector('.info');
+                infoBox.style.display = 'block';
+            });
+
+            day.addEventListener('mouseout', () => {
+                const infoBox = day.querySelector('.info');
+                infoBox.style.display = 'none';
+            });
         });
     </script>
 @endsection
