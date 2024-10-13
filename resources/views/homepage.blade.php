@@ -55,12 +55,24 @@
                 </div>
             </div>
             <div class="graphHolder">
-                <p>Je suis un graphe</p>
+                <canvas id="myChart" width="400" height="200"></canvas>
             </div>
         </div>
         <div class="secondaryWidget">
             <div class="BList widget">
-                <p class="widgetTitle">A acheter</p>
+                <div>
+                    <p class="widgetTitle">A acheter</p>
+                    <form id="GForm" method="post" action="/add/groceries_purchase">
+                        @csrf
+                        <input type="hidden" required id="price" name="price"/>
+                        <button class="buttonImg" id="purchaseValidate">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
                 <table class="buyingList">
                     <colgroup>
                         <col class="bordered">
@@ -83,10 +95,11 @@
                 </table>
             </div>
             <div class="third widget">
-                <p>None</p>
+                <a href="/debug">Debug</a>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         //***********Random color***********//
         const colorList = ['#FFABAB', '#AFF8DB', '#B28DFF', '#6EB5FF', '#FFF5BA', '#FCC2FF'];
@@ -121,7 +134,18 @@
             //Faire que ça remet la semaine d'avant #290404
         });
 
-        //***********Info-bulle***********//
+        //***********Groceries***********//
+        const groceries_form = document.getElementById('GForm');
+        const input = document.getElementById('price');
+
+        groceries_form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            input.value = prompt("Combien on couté les courses ?");
+            console.log('Input changed to:', input.value);
+            groceries_form.submit();
+        });
+
+        // ***********Info-bulle***********//
 
         const days = Array.from(document.querySelectorAll('.day')).filter(day => day.querySelector('span'));
 
@@ -135,6 +159,31 @@
                 const infoBox = day.querySelector('.info');
                 infoBox.style.display = 'none';
             });
+        });
+
+        //***********Chart***********//
+        const labels = @json($priceList[0]);  // Dates (x-axis)
+        const data = @json($priceList[1]);  // Prices (y-axis)
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',  // You can use 'bar', 'line', 'pie', etc.
+            data: {
+                labels: labels,  // x-axis labels
+                datasets: [{
+                    label: 'Prix',
+                    data: data, // Dynamic data from PHP
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
         });
     </script>
 @endsection

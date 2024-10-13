@@ -5,9 +5,10 @@
 @section('content')
     <section>
         <h2>Plats</h2>
-        <form method="post" action="/nowhere">
+        <form method="post" action="/add/dish">
+            @csrf
             <label>Nouveau plat :
-                <input type="text"/>
+                <input type="text" name="plat_name"/>
             </label>
             <div id="ingredients-container">
                 <label for="ingredient_1">Ingredient:</label>
@@ -17,7 +18,15 @@
                     @endforeach
                 </select>
                 <label for="quantity_1">Quantity:</label>
-                <input type="text" name="ingredients[0][quantity]" id="quantity_1" required>
+                <input type="number" step="0.1" name="ingredients[0][quantity]" id="quantity_1" required>
+                <label for="type_1"></label>
+                <select name="ingredients[0][type]" id="type_1">
+                    <option value="tranche">tranche</option>
+                    <option value="personne">personne</option>
+                    <option value="x">x</option>
+                    <option value="g">g</option>
+                    <option value="ml">ml</option>
+                </select>
 
                 <button type="button" class="buttonImg" onclick="addIngredient()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
@@ -66,6 +75,14 @@
             </select>
             <label for="quantity_${ingredientCount}">Quantity:</label>
                 <input type="text" name="ingredients[${ingredientCount}][quantity]" id="quantity_${ingredientCount}" required>
+                <label for="type_${ingredientCount}"></label>
+                <select name="ingredients[${ingredientCount}][type]" id="type_${ingredientCount}">
+                    <option value="tranche">tranche</option>
+                    <option value="personne">personne</option>
+                    <option value="x">x</option>
+                    <option value="g">g</option>
+                    <option value="ml">ml</option>
+                </select>
             </div>
         `;
             container.insertAdjacentHTML('beforeend', html);

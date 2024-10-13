@@ -5,9 +5,10 @@
 @section('content')
     <section>
         <h2>Ingrédients</h2>
-        <form>
+        <form method="post" action="/add/ingredient">
+            @csrf
             <label>Nouvel ingrédient :
-                <input type="text"/>
+                <input type="text" name="ingredient_name"/>
             </label>
             <input type="submit"/>
         </form>

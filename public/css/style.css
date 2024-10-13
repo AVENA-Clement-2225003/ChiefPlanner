@@ -105,8 +105,13 @@ h1 > a {
     height: 100%;
 }
 
+.BList > div {
+    display: flex;
+    justify-content: space-between;
+}
+
 .third {
-    height: 19em;
+
 }
 
 /******************Week Selection******************/
@@ -156,11 +161,12 @@ h1 > a {
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    background-color: rgb(128, 128, 128);
+    background-color: rgb(162, 162, 162);
     color: black;
     padding: 10px;
     border-radius: 5px;
     white-space: nowrap;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
 .ingredientList {

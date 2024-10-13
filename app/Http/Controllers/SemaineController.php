@@ -7,6 +7,7 @@ use App\Models\Plats;
 use App\Models\Quantitees;
 use App\Models\Semaine;
 use App\Models\SemainePlanif;
+use Illuminate\Support\Facades\Session;
 
 class SemaineController extends Controller
 {
@@ -49,10 +50,22 @@ class SemaineController extends Controller
         return $ingredientList;
     }
 
+    public function addToWeekPreviousGeneration($prev_week) {
+        $actualPrev = Session::get('previous_weeks');
+
+        if ($actualPrev === null) {
+            Session::put('previous_weeks', [$prev_week->toArray()]);
+        } else {
+            $actualPrev[] = $prev_week->toArray();
+            Session::put('previous_weeks', $actualPrev);
+        }
+    }
+
     public function prepareAWeek() {
         $mealToPrepare = Semaine::where('selected', '1')->get();
-        $tmp = array();
+        $this->addToWeekPreviousGeneration(SemainePlanif::all());
         SemainePlanif::truncate(); //Remise à zéro du planning
+
         foreach ($mealToPrepare as $meal) {
             $newDay = new SemainePlanif;
             $newDay->ID_JOUR = $meal->id;
