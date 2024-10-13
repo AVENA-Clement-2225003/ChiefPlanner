@@ -110,8 +110,10 @@ h1 > a {
     justify-content: space-between;
 }
 
-.third {
-
+.third > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /******************Week Selection******************/

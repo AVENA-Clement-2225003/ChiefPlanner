@@ -13,7 +13,8 @@ class HomeController extends Controller
         $daylist = (new SemaineController())->PrepareWeekArrayForHomePage();
         $ingredientList = (new SemaineController())->prepareIngredientList();
         $priceList = $this->prepareGraphicData();
-        return view('homepage', compact('daylist', 'ingredientList', 'priceList'));
+        $extraBuyingList = $this->prepareExtraBuyList();
+        return view('homepage', compact('daylist', 'ingredientList', 'priceList', 'extraBuyingList'));
     }
 
     public function prepareGraphicData() {
@@ -25,6 +26,22 @@ class HomeController extends Controller
         $data = $data->pluck('price')->toArray();
         return array($labels, $data);
     }
+
+    function prepareExtraBuyList() { //#290404 Patch pour que ça lise le fichier JSON
+        $filePath = '../../../storage/app/public/data.json';
+
+        if (!file_exists($filePath)) {
+            return null;
+        }
+        $jsonString = file_get_contents($filePath);
+        $data = json_decode($jsonString, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
+        return $data['extraBuyingList'];
+    }
+
 
     public function showDebug() {
         $tmp = Session::get('previous_weeks');
