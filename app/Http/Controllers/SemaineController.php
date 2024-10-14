@@ -59,12 +59,10 @@ class SemaineController extends Controller
     }
 
     public function addToWeekPreviousGeneration($prev_week) {
-        $actualPrev = Session::get('previous_weeks');
-
-        if ($actualPrev === null) {
+        if (!Session::has('previous_weeks')) { //S'il n'y a pas de semaine précédente enregistrée
             Session::put('previous_weeks', [$prev_week->toArray()]);
         } else {
-            $actualPrev[] = $prev_week->toArray();
+            $actualPrev[] = $prev_week->toArray(); //Ajout de la nouvelle semaine avec les précédentes
             Session::put('previous_weeks', $actualPrev);
         }
     }
