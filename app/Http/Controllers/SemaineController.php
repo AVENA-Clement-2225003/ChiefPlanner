@@ -39,12 +39,20 @@ class SemaineController extends Controller
             foreach (Quantitees::where('id_plat', $meal->ID_PLAT)->get() as $ingredient) {
                 $ingredientTmp = Ingredient::where('id', $ingredient->id_ingredient)->first();
 
+                $exploseNewQuantity = explode(' ', $ingredient->quantity);
                 if (isset($ingredientList[$ingredientTmp->nom])) {
-                    $exploseNewQuantity = explode(' ', $ingredient->quantity);
-                    $exploseCurrentQuantity = explode(' ', $ingredientList[$ingredientTmp->nom]);
-                    $ingredientList[$ingredientTmp->nom] = implode(' ', [(float) $exploseCurrentQuantity[0] + (float) $exploseNewQuantity[0], $exploseCurrentQuantity[1]]);
+                    if (isset($ingredientList[$ingredientTmp->nom][$exploseNewQuantity[1]])) {
+                        $exploseCurrentQuantity = explode(' ', $ingredientList[$ingredientTmp->nom][$exploseNewQuantity[1]]);
+                        $ingredientList[$ingredientTmp->nom][$exploseNewQuantity[1]] = implode(' ', [(float) $exploseCurrentQuantity[0] + (float) $exploseNewQuantity[0], $exploseCurrentQuantity[1]]);
+                    } else {
+                        $ingredientList[$ingredientTmp->nom][$exploseNewQuantity[1]] = $ingredient->quantity; //Si la sous liste qui est spécifique aux types n'existe pas alors, nous la créons
+                    }
+
                 }
-                else $ingredientList[$ingredientTmp->nom] = $ingredient->quantity;
+                else {
+                    $ingredientList[$ingredientTmp->nom] = array(); //Si l'ingrédient n'existe pas dans la liste alors, nous lui créons un emplacement
+                    $ingredientList[$ingredientTmp->nom][$exploseNewQuantity[1]] = $ingredient->quantity;
+                }
             }
         }
         return $ingredientList;

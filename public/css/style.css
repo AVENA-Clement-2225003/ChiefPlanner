@@ -142,6 +142,10 @@ h1 > a {
     align-items: center;
 }
 
+.daySelection:last-child {
+    border-right: none;
+}
+
 .daySelection > p {
     text-align: center;
     margin: 0;

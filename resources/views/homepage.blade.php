@@ -85,11 +85,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($ingredientList as $ingredient => $quantity)
+                    @foreach($ingredientList as $ingredient => $types)
+                        @foreach($types as $quantity)
                         <tr>
                             <td>{{ $ingredient }}</td>
                             <td>{{ $quantity }}</td>
                         </tr>
+                        @endforeach
                     @endforeach
                     </tbody>
                 </table>

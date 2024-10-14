@@ -5,7 +5,7 @@
 @section('content')
     <section>
         <h2>Plats</h2>
-        <form method="post" action="/add/dish">
+        <form method="post" action="/add/dish" class="widget">
             @csrf
             <label>Nouveau plat :
                 <input type="text" name="plat_name"/>
@@ -43,7 +43,7 @@
             </div>
             <input type="submit"/>
         </form>
-        <table>
+        <table class="widget">
             <thead>
             <tr>
                 <td>Id</td>

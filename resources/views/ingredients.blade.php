@@ -5,14 +5,14 @@
 @section('content')
     <section>
         <h2>Ingrédients</h2>
-        <form method="post" action="/add/ingredient">
+        <form method="post" action="/add/ingredient" class="widget">
             @csrf
             <label>Nouvel ingrédient :
                 <input type="text" name="ingredient_name"/>
             </label>
             <input type="submit"/>
         </form>
-        <table>
+        <table class="widget">
             <thead>
             <tr>
                 <td>Id</td>

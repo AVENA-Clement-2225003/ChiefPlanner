@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 class PlatsController extends Controller
 {
     public function showPlats() {
-        $plats = Plats::all();
+        $plats = Plats::orderBy('nom', 'asc')->get();
         $ingredients = Ingredient::all();
         return view('plats', compact('plats', 'ingredients'));
     }
 
     public function showIngredients() {
-        $ingredients = Ingredient::all();
+        $ingredients = Ingredient::orderBy('nom', 'asc')->get();
         return view('ingredients', compact('ingredients'));
     }
 
