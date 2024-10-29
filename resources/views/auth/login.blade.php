@@ -9,7 +9,4 @@
          data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard"></div>
-    <a href="{{ route('auth.google') }}" class="btn btn-primary">
-        Connexion avec Google
-    </a>
 @endsection
