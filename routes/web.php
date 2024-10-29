@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlatsController;
 use App\Http\Controllers\PreferenceController;
@@ -26,4 +27,11 @@ Route::prefix('/add')->group(function () {
     Route::post('/dish', [PlatsController::class, 'addDish'])->name('add.dish');
     Route::post('/ingredient', [PlatsController::class, 'addIngredient'])->name('add.ingredient');
     Route::post('/groceries_purchase', [PlatsController::class, 'addGroceriesPurchase'])->name('add.groceries');
+});
+
+Route::prefix('/authentification')->group(function () {
+    Route::get('/log-in', function () {return view('auth.login');})->name('auth.login');
+    Route::get('/sign-in', function () {return view('auth.signin');})->name('auth.signin');
+    Route::get('/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
