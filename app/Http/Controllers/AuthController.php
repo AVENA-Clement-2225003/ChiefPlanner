@@ -76,6 +76,8 @@ class AuthController extends Controller
             Session::put('user_id', $user->id_user);
 
             // Redirige vers la page d'accueil ou autre
+            Session::put('isAdmin', $user->id_role === 0);
+            Session::put('user_id', $user->id_utilisateur);
             return redirect('/')->with('success', 'Connection via google effectuée');
         } catch (\Exception $e) {
             return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
