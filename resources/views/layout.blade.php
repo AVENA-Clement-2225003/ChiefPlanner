@@ -18,6 +18,11 @@
         @if(true) <!--#290404 Faire que ca s'affiche que si on est un compte administrateur-->
             <li><a href="/admin">Administration</a></li>
         @endif
+        @if(true) <!--#290404 Faire que ca s'affiche que si on est connecté-->
+            <li><a href="/authentification/log-in">Se connecter</a></li>
+        @else
+            <li><a href="/authentification/log-out">Se déconnecter</a></li>
+        @endif
     </ul>
 </nav>
     @yield('content')
