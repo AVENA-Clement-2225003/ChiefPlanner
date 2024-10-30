@@ -57,16 +57,16 @@ class AuthController extends Controller
             $googleUser = Socialite::driver('google')->stateless()->user();
 
             // Cherche l'utilisateur dans la base de données
-            $user = User::where('google_id', $googleUser->getId())->first();
+            $user = User::where('google_id', $googleUser->getEmail())->first();
 
-            if (!$user) { // Si l'utilisateur n'existe pas, le créer
+            if (!$user) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
                 $user = User::create([
                     'nom' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'password' => bcrypt('default_password'), // Vous pouvez définir un mot de passe aléatoire
+                    'password' => bcrypt('default_password'),
                 ]);
-            } else if ($user->google_id === null) { // Si l'utilisateur existe déjà, mais qu'il utilise Google pour la première fois alors, on lie le compte Google au compte existant
+            } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
                 $user->google_id = $googleUser->getId();
                 $user->save();
             }
