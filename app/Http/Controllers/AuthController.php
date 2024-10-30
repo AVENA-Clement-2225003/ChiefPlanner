@@ -60,7 +60,7 @@ class AuthController extends Controller
             // Cherche l'utilisateur dans la base de données
             $user = User::where('email', $googleUser->getEmail())->first();
 
-            if (!$user) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
+            if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
                 $user = User::create([
                     'nom' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
@@ -70,7 +70,7 @@ class AuthController extends Controller
             } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
                 $user->google_id = $googleUser->getId();
                 $user->save();
-            }
+            } // L'utilisateur existe et cherche à se connecter
 
             // Authentifie l'utilisateur
             Session::put('isAdmin', $user->id_role === 0);
@@ -79,7 +79,8 @@ class AuthController extends Controller
             // Redirige vers la page d'accueil ou autre
             return redirect('/')->with('success', 'Connection via google effectuée');
         } catch (\Exception $e) {
-            return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
+            echo $e;
+            //return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
         }
     }
 }
