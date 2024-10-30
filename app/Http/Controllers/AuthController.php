@@ -2,11 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    public function logOut()
+    {
+        Session::flush();
+        return redirect(route('auth.connection'))->with('success', 'Vous êtes déconnecté');
+    }
+
+    public function processInscription(Request $request)
+    {
+        if (User::where('email', $request->email)->first() !== null ) { // Un compte utilise déjà cette adresse mail
+            return redirect(route('auth.inscription'))->with('error', 'Un compte utilise déja cet email');
+        }
+        if ($request->pwd !== $request->pwdConf) { // Mots de passe ne correspondent pas
+            return redirect(route('auth.connection'))->with('error', 'Les mots de passe ne correspondent pas');
+        }
+        $user = (new UserController())->createNewUser($request);
+        Session::put('isAdmin', $user->id_role === 0);
+        Session::put('user_id', $user);
+        return redirect('/')->with('success', 'Inscription effectuée');
+    }
+
+    public function processConnection(Request $request)
+    {
+        $user = (new UserController())->getUser($request);
+        if ($user === null) { // On essaie de se connecter sans avoir de compte
+            return redirect(route('auth.connection'))->with('error', 'Aucun compte relié à cette adresse mail, créez votre compte');
+        }
+        if (!$user->password === hash('sha256', $request->pwd)) // on se trompe de mot de passe
+        {
+            return redirect(route('auth.connection'))->with('error', 'Mail ou mot de passe incorrect');
+        }
+        Session::put('isAdmin', $user->id_role === 0);
+        Session::put('user_id', $user->id_utilisateur);
+        return redirect('/')->with('success', 'Connection effectuée');
+    }
+
     // Redirige vers Google pour l'authentification
     public function redirectToGoogle()
     {
@@ -16,30 +53,31 @@ class AuthController extends Controller
     // Gère le callback de Google après l'authentification
     public function handleGoogleCallback()
     {
-        /*try {
+        try {
             $googleUser = Socialite::driver('google')->stateless()->user();
 
             // Cherche l'utilisateur dans la base de données
-            $user = User::where('email', $googleUser->getEmail())->first();
+            $user = User::where('google_id', $googleUser->getId())->first();
 
-            // Si l'utilisateur n'existe pas, le créer
-            if (!$user) {
+            if (!$user) { // Si l'utilisateur n'existe pas, le créer
                 $user = User::create([
-                    'name' => $googleUser->getName(),
+                    'nom' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'password' => bcrypt('default_password'), // Vous pouvez définir un mot de passe aléatoire
                 ]);
+            } else if ($user->google_id === null) { // Si l'utilisateur existe déjà, mais qu'il utilise Google pour la première fois alors, on lie le compte Google au compte existant
+                $user->google_id = $googleUser->getId();
+                $user->save();
             }
 
             // Authentifie l'utilisateur
-            Auth::login($user);
+            Session::put('user_id', $user->id_user);
 
             // Redirige vers la page d'accueil ou autre
-            return redirect()->intended('dashboard');
+            return redirect('/');
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors('Impossible de se connecter avec Google.');
-        }*/
-        return redirect('/');
+            return redirect(route('auth.connection'))->withErrors('Impossible de se connecter avec Google.');
+        }
     }
 }

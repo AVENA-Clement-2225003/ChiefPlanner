@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaySelection;
 use App\Models\Ingredient;
 use App\Models\Plats;
 use App\Models\Quantitees;
@@ -13,21 +14,23 @@ class SemaineController extends Controller
 {
     public function PrepareWeekArrayForHomePage() {
         $week = Semaine::all();
+        $daySelected = DaySelection::where('id_utilisateur', Session::get('user_id'))->get()->pluck('id_jour')->toArray();
         $daylist = array();
         foreach ($week as $midday) {
-            if (!isset($daylist[$midday->day])) { //La sous liste n'existe pas donc on la crée
-                $daylist[$midday->day] = array();
+            if (!isset($daylist[$midday->day_name])) { //La sous liste n'existe pas donc on la crée
+                $daylist[$midday->day_name] = array();
             }
-            if ($midday->selected === 1) { // On ajoute pour le jour si l'aprèm ou le matin est selectionné
-                $idMeal = SemainePlanif::where('ID_JOUR', $midday->id)->first()->ID_PLAT; //Id du repas associé à la demi-journée
+            if (in_array($midday->id_jour, $daySelected)) { // On ajoute pour le jour si l'aprèm ou le matin est selectionné
+                /*$idMeal = SemainePlanif::where('id_utilisateur', Session::get('user_id'))->where('ID_JOUR', $midday->id)->first()->id_plat; //Id du repas associé à la demi-journée
                 $meal = Plats::where('id', $idMeal)->first(); //Récupération du plat
                 $listeIngredient = array();
                 foreach (Quantitees::where('id_plat', $idMeal)->get() as $ingredient) {
                     $listeIngredient[] = Ingredient::where('id', $ingredient->id_ingredient)->first()->nom;
                 }
-                $daylist[$midday->day][$midday->time] = array($meal->nom, $listeIngredient);
+                $daylist[$midday->day][$midday->day_time] = array($meal->nom, $listeIngredient);*/ #290404 A revoir avoir le nouveau fonctionnement de compte
+                $daylist[$midday->day_name][$midday->day_time] = null;
             } else {
-                $daylist[$midday->day][$midday->time] = null;
+                $daylist[$midday->day_name][$midday->day_time] = null;
             }
         }
         return $daylist;

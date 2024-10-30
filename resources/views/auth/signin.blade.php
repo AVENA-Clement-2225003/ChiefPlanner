@@ -3,13 +3,25 @@
 @section('auth.title', 'Inscription')
 
 @section('auth.content')
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    {{--<div id="g_id_onload"
-         data-client_id="829444804686-f203dmng55mtkvm85hhlrsrrrhn371r1.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse">
-    </div>--}}
-    <div class="g_id_signin" data-type="standard" onclick="window.location='/authentification/google'"></div>
+    <h2>Inscription</h2>
+    <form method="post" action="{{ route('auth.process.inscription') }}">
+        @csrf
+        <label>Mail :
+            <input type="email" name="email" placeholder="email@gmail.com" required>
+        </label>
+        <label>Prénom :
+            <input type="text" name="name" placeholder="James" required>
+        </label>
+        <label>Mot de passe :
+            <input type="password" name="pwd" placeholder="Mot de passe" required>
+        </label>
+        <label>Confirmation :
+            <input type="password" name="pwdConf" placeholder="Mot de passe" required>
+        </label>
+        <input type="submit" value="S'inscrire">
+    </form>
     <a href="{{ route('auth.google') }}" class="btn btn-primary">
-        Connexion avec Google
+        Inscription avec Google
     </a>
+    <p>Déjà un compte ? <a href="{{ route('auth.connection') }}">Connectez-vous !</a></p>
 @endsection
