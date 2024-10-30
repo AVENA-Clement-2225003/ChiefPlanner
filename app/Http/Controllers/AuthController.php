@@ -77,6 +77,7 @@ class AuthController extends Controller
             // Redirige vers la page d'accueil ou autre
             return redirect('/')->with('success', 'Connection via google effectuée');
         } catch (\Exception $e) {
+            echo $e;
             return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
         }
     }
