@@ -54,33 +54,28 @@ class AuthController extends Controller
     // Gère le callback de Google après l'authentification
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->stateless()->setHttpClient(new Client(['verify' => false]))->user();
+        $googleUser = Socialite::driver('google')->stateless()->setHttpClient(new Client(['verify' => false]))->user();
 
-            // Cherche l'utilisateur dans la base de données
-            $user = User::where('email', $googleUser->getEmail())->first();
+        // Cherche l'utilisateur dans la base de données
+        $user = User::where('email', $googleUser->getEmail())->first();
 
-            if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
-                $user = User::create([
-                    'nom' => $googleUser->getName(),
-                    'email' => $googleUser->getEmail(),
-                    'google_id' => $googleUser->getId(),
-                    'password' => bcrypt('default_password'),
-                ]);
-            } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
-                $user->google_id = $googleUser->getId();
-                $user->save();
-            } // L'utilisateur existe et cherche à se connecter
+        if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
+            $user = User::create([
+                'nom' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'password' => bcrypt('default_password'),
+            ]);
+        } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
+            $user->google_id = $googleUser->getId();
+            $user->save();
+        } // L'utilisateur existe et cherche à se connecter
 
-            // Authentifie l'utilisateur
-            Session::put('isAdmin', $user->id_role === 0);
-            Session::put('user_id', $user->id_utilisateur);
+        // Authentifie l'utilisateur
+        Session::put('isAdmin', $user->id_role === 0);
+        Session::put('user_id', $user->id_utilisateur);
 
-            // Redirige vers la page d'accueil ou autre
-            return redirect('/')->with('success', 'Connection via google effectuée');
-        } catch (\Exception $e) {
-            echo $e;
-            //return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
-        }
+        // Redirige vers la page d'accueil ou autre
+        return redirect('/')->with('success', 'Connection via google effectuée');
     }
 }
