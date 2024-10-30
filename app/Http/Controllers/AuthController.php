@@ -40,5 +40,6 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return redirect('/login')->withErrors('Impossible de se connecter avec Google.');
         }*/
+        return redirect('/');
     }
 }
