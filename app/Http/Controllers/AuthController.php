@@ -58,7 +58,7 @@ class AuthController extends Controller
             $googleUser = Socialite::driver('google')->stateless()->setHttpClient(new Client(['verify' => false]))->user();
 
             // Cherche l'utilisateur dans la base de données
-            $user = User::where('google_id', $googleUser->getEmail())->first();
+            $user = User::where('email', $googleUser->getEmail())->first();
 
             if (!$user) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
                 $user = User::create([
@@ -73,11 +73,10 @@ class AuthController extends Controller
             }
 
             // Authentifie l'utilisateur
-            Session::put('user_id', $user->id_user);
-
-            // Redirige vers la page d'accueil ou autre
             Session::put('isAdmin', $user->id_role === 0);
             Session::put('user_id', $user->id_utilisateur);
+
+            // Redirige vers la page d'accueil ou autre
             return redirect('/')->with('success', 'Connection via google effectuée');
         } catch (\Exception $e) {
             return redirect(route('auth.connection'))->with('error', 'Impossible de se connecter avec Google.');
