@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaySelection;
 use App\Models\Semaine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PreferenceController extends Controller
 {
     public function PrepareWeekArrayForPreferencePage () {
         $week = Semaine::all();
+        $daySelected = DaySelection::where('id_utilisateur', Session::get('user_id'))->get()->pluck('id_jour')->toArray();
         $daylist = array();
         foreach ($week as $midday) {
-            if (!isset($daylist[$midday->day])) { //La sous liste n'existe pas donc on la crée
-                $daylist[$midday->day] = array();
+            if (!isset($daylist[$midday->day_name])) { //La sous liste n'existe pas donc on la crée
+                $daylist[$midday->day_name] = array();
             }
-            $daylist[$midday->day][$midday->time] = $midday->selected; // On ajoute pour le jour si l'aprèm ou le matin est selectionné
+            if (in_array($midday->id_jour, $daySelected)) {
+                $daylist[$midday->day_name][$midday->day_time] = 1;
+            } else {
+                $daylist[$midday->day_name][$midday->day_time] = 0;
+            }
         }
         return $daylist;
     }
@@ -27,24 +34,33 @@ class PreferenceController extends Controller
     public function updatePreferences(Request $request) {
         $schedule = $request->input('schedule');
 
-        if ($schedule === null) { //Si aucun jour n'est sélectionné
-            foreach (Semaine::all() as $midday) {
-                $midday->selected = 0;
-                $midday->save();
-            }
-        } else {
+        DaySelection::where('id_utilisateur', Session::get('user_id'))->delete(); //On reset la selection pour ajouter que ceux selectionné
+        if (isset($schedule)) {
+            $user_id = Session::get('user_id');
             foreach ($schedule as $dayName => $times) {
-                // Update morning
-                Semaine::where('day', $dayName)
-                    ->where('time', 'morning')
-                    ->update(['selected' => isset($times['morning']) ? 1 : 0]);
+                if (isset($times['morning'])) {
+                    $id_jour = Semaine::where('day_name', $dayName)->where('day_time', 'morning')->first()->id_jour;
+                    // Update morning
+                    DaySelection::create(
+                        [
+                            'id_utilisateur' => $user_id,
+                            'id_jour' => $id_jour
+                        ] //Les infos à mettre en DB
+                    );
+                }
 
-                // Update afternoon
-                Semaine::where('day', $dayName)
-                    ->where('time', 'afternoon')
-                    ->update(['selected' => isset($times['afternoon']) ? 1 : 0]);
+                if (isset($times['afternoon'])) {// Update afternoon
+                    $id_jour = Semaine::where('day_name', $dayName)->where('day_time', 'afternoon')->first()->id_jour;
+                    DaySelection::create(
+                        [
+                            'id_utilisateur' => $user_id,
+                            'id_jour' => $id_jour
+                        ] //Les infos à mettre en DB
+                    );
+                }
             }
         }
+
 
         return redirect()->back()->with('success', 'Preferences updated successfully!');
     }

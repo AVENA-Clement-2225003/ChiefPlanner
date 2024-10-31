@@ -12,5 +12,6 @@ class GroceriesPrice extends Model
     public $timestamps = false;
     protected $fillable = [
         'price',
+        'id_utilisateur'
     ];
 }

@@ -9,7 +9,9 @@ class Plats extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    public $primaryKey = 'id_plat';
     protected $fillable = [
         'nom',
+        'id_utilisateur',
     ];
 }

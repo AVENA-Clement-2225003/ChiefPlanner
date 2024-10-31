@@ -11,5 +11,6 @@ class Ingredient extends Model
     public $timestamps = false;
     protected $fillable = [
         'nom',
+        'id_utilisateur'
     ];
 }

@@ -26,6 +26,7 @@ class AuthController extends Controller
         }
         $user = (new UserController())->createNewUser($request);
         Session::put('isAdmin', $user->id_role === 0);
+        Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
         Session::put('user_id', $user);
         return redirect('/')->with('success', 'Inscription effectuée');
     }
@@ -41,6 +42,7 @@ class AuthController extends Controller
             return redirect(route('auth.connection'))->with('error', 'Mail ou mot de passe incorrect');
         }
         Session::put('isAdmin', $user->id_role === 0);
+        Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
         Session::put('user_id', $user->id_utilisateur);
         return redirect('/')->with('success', 'Connection effectuée');
     }
@@ -73,6 +75,7 @@ class AuthController extends Controller
 
         // Authentifie l'utilisateur
         Session::put('isAdmin', $user->id_role === 0);
+        Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
         Session::put('user_id', $user->id_utilisateur);
 
         // Redirige vers la page d'accueil ou autre

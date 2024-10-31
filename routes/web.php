@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlatsController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\SemaineController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\CreatorMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/debug')->group(function () {
@@ -26,9 +29,17 @@ Route::middleware(AuthMiddleware::class)->group(function() {
     });
 
     Route::prefix('/add')->group(function () {
-        Route::post('/dish', [PlatsController::class, 'addDish'])->name('add.dish');
-        Route::post('/ingredient', [PlatsController::class, 'addIngredient'])->name('add.ingredient');
+        Route::middleware(CreatorMiddleware::class)->group(function() {
+            Route::post('/dish', [PlatsController::class, 'addDish'])->name('add.dish');
+            Route::post('/ingredient', [PlatsController::class, 'addIngredient'])->name('add.ingredient');
+        });
         Route::post('/groceries_purchase', [PlatsController::class, 'addGroceriesPurchase'])->name('add.groceries');
+    });
+
+    Route::middleware(AdminMiddleware::class)->group(function() {
+        Route::prefix('/admin')->group(function () {
+            Route::get('/', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+        });
     });
 });
 
