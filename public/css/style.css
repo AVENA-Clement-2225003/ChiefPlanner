@@ -30,6 +30,16 @@ nav > ul > li > a {
 }
 
 @media (max-width: 720px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logWidget {
+        margin-top: 2em;
+    }
+
     nav {
         display: flex;
         flex-direction: row;
@@ -260,6 +270,80 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
 .bordered {
     border-right: 1px black solid;
+}
+
+/******************LogIn&SignIn******************/
+
+.logWidget {
+    max-width: 75%;
+    margin-top: 2em;
+}
+
+.logForm {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5em 0;
+}
+
+.logForm > div { /*The label & inputHolder*/
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5em;
+    background-color: white;
+    box-shadow: black 0 0 0 0;
+    padding: 0.5em;
+    border-radius: 10px;
+}
+
+.inputHolder {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.inputHolder > input {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.logForm > input[type="submit"] {
+    padding: 0.5em 0.2em;
+    border: none;
+    border-radius: 10px;
+}
+
+.logForm > input[type="submit"]:hover {
+    background-color: darkgray;
+}
+
+.logSecondary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    border-top: 1px black solid;
+    padding-top: 0.5em;
+}
+
+.logSecondaryLink:visited {
+    color: black;
+}
+
+.logSecondaryLink > svg {
+    width: 32px;
+    height: 32px;
+}
+
+.goToInscriptionOrLog {
+    text-align: right;
+    margin-bottom: 0.1em;
 }
 
 /******************Fonts******************/
