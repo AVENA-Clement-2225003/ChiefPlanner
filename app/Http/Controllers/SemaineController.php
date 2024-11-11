@@ -21,14 +21,13 @@ class SemaineController extends Controller
                 $daylist[$midday->day_name] = array();
             }
             if (in_array($midday->id_jour, $daySelected)) { // On ajoute pour le jour si l'aprèm ou le matin est selectionné
-                /*$idMeal = SemainePlanif::where('id_utilisateur', Session::get('user_id'))->where('ID_JOUR', $midday->id)->first()->id_plat; //Id du repas associé à la demi-journée
-                $meal = Plats::where('id', $idMeal)->first(); //Récupération du plat
+                $idMeal = SemainePlanif::where('id_utilisateur', Session::get('user_id'))->where('id_jour', $midday->id_jour)->first()->id_plat; //Id du repas associé à la demi-journée
+                $meal = Plats::where('id_plat', $idMeal)->first(); //Récupération du plat
                 $listeIngredient = array();
                 foreach (Quantitees::where('id_plat', $idMeal)->get() as $ingredient) {
-                    $listeIngredient[] = Ingredient::where('id', $ingredient->id_ingredient)->first()->nom;
+                    $listeIngredient[] = Ingredient::where('id_ingredient', $ingredient->id_ingredient)->first()->nom;
                 }
-                $daylist[$midday->day][$midday->day_time] = array($meal->nom, $listeIngredient);*/ #290404 A revoir avoir le nouveau fonctionnement de compte
-                $daylist[$midday->day_name][$midday->day_time] = null;
+                $daylist[$midday->day_name][$midday->day_time] = array($meal->nom, $listeIngredient); #290404 A revoir avoir le nouveau fonctionnement de compte
             } else {
                 $daylist[$midday->day_name][$midday->day_time] = null;
             }
@@ -38,9 +37,9 @@ class SemaineController extends Controller
 
     public function prepareIngredientList() {
         $ingredientList = array();
-        foreach (SemainePlanif::all() as $meal) {
-            foreach (Quantitees::where('id_plat', $meal->ID_PLAT)->get() as $ingredient) {
-                $ingredientTmp = Ingredient::where('id', $ingredient->id_ingredient)->first();
+        foreach (SemainePlanif::where('id_utilisateur', Session::get('user_id'))->get() as $meal) {
+            foreach (Quantitees::where('id_plat', $meal->id_plat)->get() as $ingredient) {
+                $ingredientTmp = Ingredient::where('id_ingredient', $ingredient->id_ingredient)->first();
 
                 $exploseNewQuantity = explode(' ', $ingredient->quantity);
                 if (isset($ingredientList[$ingredientTmp->nom])) {
@@ -71,14 +70,19 @@ class SemaineController extends Controller
     }
 
     public function prepareAWeek() {
-        $mealToPrepare = Semaine::where('selected', '1')->get();
+        $mealToPrepare = Semaine::join('day_selected as D', 'semaine.id_jour', '=', 'D.id_jour')
+            ->where('D.id_utilisateur', Session::get('user_id'))
+            ->orderBy('semaine.id_jour', 'asc')
+            ->select('semaine.id_jour', 'semaine.day_name', 'semaine.day_time')
+            ->get();
         $this->addToWeekPreviousGeneration(SemainePlanif::all());
-        SemainePlanif::truncate(); //Remise à zéro du planning
+        SemainePlanif::where('id_utilisateur', Session::get('user_id'))->delete(); //Remise à zéro du planning
 
         foreach ($mealToPrepare as $meal) {
             $newDay = new SemainePlanif;
-            $newDay->ID_JOUR = $meal->id;
-            $newDay->ID_PLAT = Plats::all()->random(1)->first()->id;
+            $newDay->id_utilisateur = Session::get('user_id');
+            $newDay->id_jour = $meal->id_jour;
+            $newDay->id_plat = Plats::all()->random(1)->first()->id_plat;
             $newDay->save();
         }
         return redirect('/');

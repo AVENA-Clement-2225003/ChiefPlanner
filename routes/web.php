@@ -39,6 +39,11 @@ Route::middleware(AuthMiddleware::class)->group(function() {
     Route::middleware(AdminMiddleware::class)->group(function() {
         Route::prefix('/admin')->group(function () {
             Route::get('/', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+            Route::prefix('/user/{user_id}')->group(function () {
+                Route::get('/inspect', [AdminController::class, 'showUser'])->name('admin.user.inspect');
+                Route::post('/change-role', [AdminController::class, 'changeRole'])->name('admin.user.changeRole');
+                Route::post('/delete', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
+            });
         });
     });
 });

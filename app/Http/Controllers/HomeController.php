@@ -27,7 +27,7 @@ class HomeController extends Controller
         return array($labels, $data);
     }
 
-    function prepareExtraBuyList() { //#290404 Patch pour que ça lise le fichier JSON
+    function prepareExtraBuyList() { //#290404 Faire une table dans la DB avec l'id de l'utilisateur
         $filePath = '../../../storage/app/public/data.json';
 
         if (!file_exists($filePath)) {
