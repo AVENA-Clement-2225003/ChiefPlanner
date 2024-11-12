@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 nav {
@@ -23,28 +24,6 @@ nav > ul > li > a {
 }
 
 @media (max-width: 1300px) {
-    .secondaryWidget {
-        display: flex;
-        flex-direction: row;
-    }
-}
-
-@media (max-width: 720px) {
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .logWidget {
-        margin-top: 2em;
-    }
-
-    nav {
-        display: flex;
-        flex-direction: row;
-    }
-
     .secondaryWidget {
         display: flex;
         flex-direction: row;
@@ -90,6 +69,7 @@ h1 > a {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .widget {
@@ -137,7 +117,6 @@ h1 > a {
 .weekSelection {
     background-color: #F2F2F2;
     display: flex;
-    justify-content: center;
     width: fit-content;
     padding: 1em;
     border-radius: 15px;
@@ -368,4 +347,50 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
 .rotating {
     animation: rotate 0.5s ease-in-out;
+}
+
+/******************Mobile Style******************/
+
+@media (max-width: 720px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logWidget {
+        margin-top: 2em;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .secondaryWidget {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+    }
+
+    .weekSelection {
+        overflow-y: scroll;
+        max-width: 21.5em;
+    }
+
+    .main {
+        max-width: 88%;
+    }
+
+    .day {
+        height: 5em;
+        width: 7em;
+    }
+
+    .daySelection > p {
+        font-size: 1.5em;
+    }
+
+    .third {
+        width: 100%;
+    }
 }
