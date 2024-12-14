@@ -21,13 +21,14 @@ class SemaineController extends Controller
                 $daylist[$midday->day_name] = array();
             }
             if (in_array($midday->id_jour, $daySelected)) { // On ajoute pour le jour si l'aprèm ou le matin est selectionné
-                $idMeal = SemainePlanif::where('id_utilisateur', Session::get('user_id'))->where('id_jour', $midday->id_jour)->first()->id_plat; //Id du repas associé à la demi-journée
+                $tmp = SemainePlanif::where('id_utilisateur', Session::get('user_id'))->where('id_jour', $midday->id_jour)->first();
+                $idMeal = $tmp?->id_plat; //Id du repas associé à la demi-journée
                 $meal = Plats::where('id_plat', $idMeal)->first(); //Récupération du plat
                 $listeIngredient = array();
                 foreach (Quantitees::where('id_plat', $idMeal)->get() as $ingredient) {
                     $listeIngredient[] = Ingredient::where('id_ingredient', $ingredient->id_ingredient)->first()->nom;
                 }
-                $daylist[$midday->day_name][$midday->day_time] = array($meal->nom, $listeIngredient); #290404 A revoir avoir le nouveau fonctionnement de compte
+                $daylist[$midday->day_name][$midday->day_time] = array($meal?->nom, $listeIngredient); #290404 A revoir avoir le nouveau fonctionnement de compte
             } else {
                 $daylist[$midday->day_name][$midday->day_time] = null;
             }

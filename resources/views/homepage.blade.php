@@ -138,6 +138,28 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // ***********Info-bulle***********//
+        const timeoutIds = [];
+        const days = Array.from(document.querySelectorAll('.day')).filter(day => day.querySelector('span'));
+
+        days.forEach(day => {
+            day.addEventListener('mouseover', () => {
+                const infoBox = day.querySelector('.info');
+                infoBox.style.display = 'block';
+            });
+
+            day.addEventListener('mouseout', () => {
+                timeoutIds.forEach(clearTimeout);
+                timeoutIds.length = 0;
+
+                const timeoutId = setTimeout(() => {
+                    const infoBox = day.querySelector('.info');
+                    infoBox.style.display = 'none';
+                }, 50);
+                timeoutIds.push(timeoutId);
+            });
+        });
+
         //***********Random color***********//
         const colorList = ['#FFABAB', '#AFF8DB', '#B28DFF', '#6EB5FF', '#FFF5BA', '#FCC2FF'];
 
@@ -149,57 +171,6 @@
         const elements = document.querySelectorAll('.selectedRandomColor');
         elements.forEach(element => {
             element.style.backgroundColor = getRandomColor();
-        });
-
-        //***********Regen***********//
-
-        const regen_button = document.getElementById('regenButton');
-        const prev_button = document.getElementById('previousButton');
-        const regen_image = document.getElementById('regenImage');
-
-        regen_button.addEventListener('click', () => {
-            regen_image.classList.add('rotating');
-            setTimeout(() => {
-                regen_image.classList.remove('rotating');
-            }, 500); //Match the ms with the duration of the animation
-            window.location.href = '/refresh';
-        });
-
-        prev_button.addEventListener('click', () => {
-            alert("Not programmed yet");
-            //Faire que ça remet la semaine d'avant #290404
-        });
-
-        //***********Groceries***********//
-        const groceries_form = document.getElementById('GForm');
-        const input = document.getElementById('price');
-
-        groceries_form.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent form submission initially
-            const userInput = prompt("Combien on couté les courses ?");
-
-            if (userInput === null || userInput.trim() === '') {
-                return;
-            }
-
-            input.value = userInput;
-            groceries_form.submit();
-        });
-
-        // ***********Info-bulle***********//
-
-        const days = Array.from(document.querySelectorAll('.day')).filter(day => day.querySelector('span'));
-
-        days.forEach(day => {
-            day.addEventListener('mouseover', () => {
-                const infoBox = day.querySelector('.info');
-                infoBox.style.display = 'block';
-            });
-
-            day.addEventListener('mouseout', () => {
-                const infoBox = day.querySelector('.info');
-                infoBox.style.display = 'none';
-            });
         });
 
         //***********Chart***********//
@@ -225,6 +196,41 @@
                     }
                 }
             }
+        });
+
+        //***********Groceries***********//
+        const groceries_form = document.getElementById('GForm');
+        const input = document.getElementById('price');
+
+        groceries_form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission initially
+            const userInput = prompt("Combien on couté les courses ?");
+
+            if (userInput === null || userInput.trim() === '') {
+                return;
+            }
+
+            input.value = userInput;
+            groceries_form.submit();
+        });
+
+        //***********Regen***********//
+
+        const regen_button = document.getElementById('regenButton');
+        const prev_button = document.getElementById('previousButton');
+        const regen_image = document.getElementById('regenImage');
+
+        regen_button.addEventListener('click', () => {
+            regen_image.classList.add('rotating');
+            setTimeout(() => {
+                regen_image.classList.remove('rotating');
+            }, 500); //Match the ms with the duration of the animation
+            window.location.href = '/refresh';
+        });
+
+        prev_button.addEventListener('click', () => {
+            alert("Not programmed yet");
+            //Faire que ça remet la semaine d'avant #290404
         });
     </script>
 @endsection
