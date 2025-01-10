@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExtraController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlatsController;
 use App\Http\Controllers\PreferenceController;
@@ -45,6 +46,12 @@ Route::middleware(AuthMiddleware::class)->group(function() {
                 Route::post('/delete', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
             });
         });
+    });
+
+    Route::prefix('/extra')->group(function () {
+        Route::get('/', [ExtraController::class, 'showExtraEdit'])->name('extra.homepage');
+        Route::post('/add', [ExtraController::class, 'addExtra'])->name('extra.add');
+        Route::post('/delete', [ExtraController::class, 'deleteExtra'])->name('extra.delete');
     });
 });
 
