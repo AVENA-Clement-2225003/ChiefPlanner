@@ -28,7 +28,7 @@ class SemaineController extends Controller
                 foreach (Quantitees::where('id_plat', $idMeal)->get() as $ingredient) {
                     $listeIngredient[] = Ingredient::where('id_ingredient', $ingredient->id_ingredient)->first()->nom;
                 }
-                $daylist[$midday->day_name][$midday->day_time] = array($meal?->nom, $listeIngredient); #290404 A revoir avoir le nouveau fonctionnement de compte
+                $daylist[$midday->day_name][$midday->day_time] = array("dish_name"=>$meal?->nom, "ingredients"=>$listeIngredient, "id_jour"=>$midday->id_jour); #290404 A revoir avoir le nouveau fonctionnement de compte
             } else {
                 $daylist[$midday->day_name][$midday->day_time] = null;
             }

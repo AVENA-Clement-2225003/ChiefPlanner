@@ -14,6 +14,7 @@ class ExtraController extends Controller
     }
 
     public function addExtra(Request $request) {
+        if (Extra::where('intitule', $request->intitule)->where('id_utilisateur', Session::get('user_id'))->first() !== null) return redirect()->route('extra.homepage')->with('success','Extra déjà existant');
         $newExtra = new Extra();
         $newExtra->intitule = $request->intitule;
         $newExtra->quantite = $request->quantite;
@@ -23,13 +24,13 @@ class ExtraController extends Controller
     }
 
     public function deleteExtra(Request $request) {
-        Extra::where('id_utilisateur', Session::get('user_id'))->where('intitule', $request->intitule)->first()->delete();
+        Extra::where('id_utilisateur', Session::get('user_id'))->where('intitule', $request->intitule)->delete();
         return redirect()->route('extra.homepage')->with('success','Extra supprimé');
     }
 
     public function modifyExtra(Request $request) {
         $extra = Extra::where('id_utilisateur', Session::get('user_id'))->where('intitule', $request->intitule)->first();
         $extra->quantite = $request->newQuantite;
-        return redirect()->route('extra.homepage')->with('success','Extra supprimé');
+        return redirect()->route('extra.homepage')->with('success','Extra modifié');
     }
 }

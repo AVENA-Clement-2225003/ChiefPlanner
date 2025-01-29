@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Extra;
 use App\Models\GroceriesPrice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,18 +29,8 @@ class HomeController extends Controller
     }
 
     function prepareExtraBuyList() { //#290404 Faire une table dans la DB avec l'id de l'utilisateur
-        $filePath = '../../../storage/app/public/data.json';
-
-        if (!file_exists($filePath)) {
-            return null;
-        }
-        $jsonString = file_get_contents($filePath);
-        $data = json_decode($jsonString, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return null;
-        }
-
-        return $data['extraBuyingList'];
+        $extraList = Extra::where('id_utilisateur', Session::get('user_id'))->get();
+        return $extraList;
     }
 
 

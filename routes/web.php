@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlatsController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\SemaineController;
+use App\Http\Controllers\WeekDishController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\CreatorMiddleware;
@@ -19,6 +20,8 @@ Route::prefix('/debug')->group(function () {
 
 Route::middleware(AuthMiddleware::class)->group(function() {
     Route::get('/', [HomeController::class, 'showHome'])->name('home');
+
+    Route::get('/search', [WeekDishController::class, 'search'])->name('search');
 
     Route::get('/plats', [PlatsController::class, 'showPlats'])->name('plats');
     Route::get('/ingredients', [PlatsController::class, 'showIngredients'])->name('ingredients');
@@ -52,6 +55,12 @@ Route::middleware(AuthMiddleware::class)->group(function() {
         Route::get('/', [ExtraController::class, 'showExtraEdit'])->name('extra.homepage');
         Route::post('/add', [ExtraController::class, 'addExtra'])->name('extra.add');
         Route::post('/delete', [ExtraController::class, 'deleteExtra'])->name('extra.delete');
+    });
+
+    Route::prefix('/week-dish/{day_id}')->group(function () {
+        Route::get('/', [WeekDishController::class, 'inspectDish'])->name('week-dish.inspect');
+        Route::post('/update', [WeekDishController::class, 'updateDish'])->name('week-dish.modify');
+        Route::post('/regen', [WeekDishController::class, 'regenDish'])->name('week-dish.regenerate');
     });
 });
 

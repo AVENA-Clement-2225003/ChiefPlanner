@@ -27,9 +27,9 @@
     </ul>
 </nav>
 @if(Session::has('success'))
-    <div><p>{{ Session::get('success') }}</p></div>
+    <div class="alertDiv alertSuccess"><p>{{ Session::get('success') }}</p></div>
 @elseif(Session::has('error'))
-    <div><p>{{ Session::get('error') }}</p></div>
+    <div class="alertDiv alertError"><p>{{ Session::get('error') }}</p></div>
 @endif
 @yield('content')
 </body>

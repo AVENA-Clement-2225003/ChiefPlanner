@@ -34,20 +34,20 @@
                     @foreach($daylist as $dayName => $day)
                         <div class="daySelection">
                             <p>{{ $dayName }}</p>
-                            <div class="day {{ $day['morning'] === null ? 'notSelected':'selectedRandomColor' }}">
-                                @if($day['morning'] !== null)
+                            <a @if($day['morning'] !== null) href="{{ route('week-dish.inspect', ['day_id' => $day['morning']['id_jour']]) }}" @endif class="day {{ $day['morning'] === null ? 'notSelected':'selectedRandomColor' }}">
+                                {{--@if($day['morning'] !== null)
                                     <span class="info">
-                                    Plat: {{$day['morning'][0]}}<br>
+                                    Plat: {{$day['morning']['dish_name']}}<br>
                                     Ingrédients: <ul class="ingredientList">
-                                                    @foreach($day['morning'][1] as $ingredient)
+                                                    @foreach($day['morning']['ingredients'] as $ingredient)
                                                 <li>{{ $ingredient }}</li>
                                             @endforeach
                                                 </ul>
                                 </span>
-                                @endif
-                            </div>
-                            <div class="day {{ $day['afternoon'] === null ? 'notSelected':'selectedRandomColor' }}">
-                                @if($day['afternoon'] !== null)
+                                @endif--}}
+                            </a>
+                            <a @if($day['afternoon'] !== null) href="{{ route('week-dish.inspect', ['day_id' => $day['afternoon']['id_jour']]) }}" @endif class="day {{ $day['afternoon'] === null ? 'notSelected':'selectedRandomColor' }}">
+                                {{--@if($day['afternoon'] !== null)
                                     <span class="info">
                                     Plat: {{$day['afternoon'][0]}}
                                         <a id="showOtherDishes">
@@ -62,8 +62,8 @@
                                             @endforeach
                                                 </ul>
                                 </span>
-                                @endif
-                            </div>
+                                @endif--}}
+                            </a>
                         </div>
                     @endforeach
                 </div>
@@ -127,9 +127,9 @@
                 @if($extraBuyingList === null)
                     <p>Aucun</p>
                 @else
-                    <ul>
+                    <ul class="extra-buy-list">
                         @foreach($extraBuyingList as $item)
-                            <li>{{ $item }}</li>
+                            <li>{{ $item->intitule . ' ' . $item->quantite }}</li>
                         @endforeach
                     </ul>
                 @endif
