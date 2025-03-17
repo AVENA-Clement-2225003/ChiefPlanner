@@ -23,6 +23,17 @@ class ExtraController extends Controller
         return redirect()->route('extra.homepage')->with('success','Extra ajouté');
     }
 
+    public function updateExtra(Request $request) {
+        Extra::where('id_utilisateur', Session::get('user_id'))
+            ->where('intitule', $request->input('old_intitule'))
+            ->update([
+                'intitule' => $request->input('intitule'),
+                'quantite' => $request->input('quantite')
+            ]);
+
+        return redirect()->route('extra.homepage')->with('success', 'Extra mis à jour avec succès');
+    }
+
     public function deleteExtra(Request $request) {
         Extra::where('id_utilisateur', Session::get('user_id'))->where('intitule', $request->intitule)->delete();
         return redirect()->route('extra.homepage')->with('success','Extra supprimé');

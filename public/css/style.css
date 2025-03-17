@@ -179,7 +179,7 @@ h1 > a {
 }
 
 .selectedRandomColor {
-
+    background-color: inherit;
 }
 
 .notSelected {
@@ -445,5 +445,148 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
     .third {
         width: 100%;
+    }
+}
+
+/******************Extra page styles******************/
+
+.extra-widgetHolder {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.extra-widget {
+    background-color: #E3E3E3;
+    border-radius: 15px;
+    padding: 1.5em;
+}
+
+.extra-table-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.extra-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.extra-table th,
+.extra-table td {
+    padding: 0.6em;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+.extra-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.extra-table tr:last-child td {
+    border-bottom: none;
+}
+
+.extra-actions {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.extra-action-button {
+    background: none;
+    border: none;
+    padding: 0.4em;
+    margin: 0 0.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.extra-edit-button {
+    color: #2196F3;
+}
+
+.extra-edit-button:hover {
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+.extra-delete-button {
+    color: #dc3545;
+}
+
+.extra-delete-button:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.extra-save-button {
+    color: #28a745;
+}
+
+.extra-save-button:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.extra-cancel-button {
+    color: #6c757d;
+}
+
+.extra-cancel-button:hover {
+    background-color: rgba(108, 117, 125, 0.1);
+}
+
+.extra-add-form {
+    margin-top: 1em;
+}
+
+.extra-input-group {
+    display: flex;
+    gap: 0.5em;
+}
+
+.extra-input-group input {
+    flex: 1;
+    padding: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+.extra-input-group input:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+.extra-add-button {
+    color: #28a745;
+    padding: 0 0.8em;
+}
+
+.extra-add-button:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.extra-edit-mode {
+    width: 100%;
+    padding: 0.4em;
+    border: 1px solid #2196F3;
+    border-radius: 4px;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+@media (max-width: 600px) {
+    .extra-input-group {
+        flex-direction: column;
+    }
+    
+    .extra-action-button {
+        padding: 0.6em;
     }
 }

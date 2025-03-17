@@ -54,6 +54,7 @@ Route::middleware(AuthMiddleware::class)->group(function() {
     Route::prefix('/extra')->group(function () {
         Route::get('/', [ExtraController::class, 'showExtraEdit'])->name('extra.homepage');
         Route::post('/add', [ExtraController::class, 'addExtra'])->name('extra.add');
+        Route::post('/update', [ExtraController::class, 'updateExtra'])->name('extra.update');
         Route::post('/delete', [ExtraController::class, 'deleteExtra'])->name('extra.delete');
     });
 
@@ -75,4 +76,3 @@ Route::prefix('/authentification')->group(function () {
     Route::get('/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
-

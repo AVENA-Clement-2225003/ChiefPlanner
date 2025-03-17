@@ -20,19 +20,37 @@ class WeekDishController extends Controller
         return view('week_dish.index', compact('dish', 'ingredients', 'day'));
     }
 
-    public function updateDish(string $day_id) {
-        return redirect()->route('week-dish.inspect')->with('success', 'Plat ');
+    public function updateDish(Request $request, string $day_id) {
+        $dish_id = $request->input('dish_id');
+        
+        // Update the dish in semaine_planif
+        SemainePlanif::where('id_utilisateur', Session::get('user_id'))
+            ->where('id_jour', $day_id)
+            ->update(['id_plat' => $dish_id]);
+
+        return redirect()->route('week-dish.inspect', ['day_id' => $day_id])
+            ->with('success', 'Plat mis à jour avec succès');
     }
 
     public function regenDish(string $day_id) {
-        return redirect()->route('week-dish.inspect')->with('success', 'Plat ');
+        return redirect()->route('week-dish.inspect', ['day_id' => $day_id])
+            ->with('success', 'Plat régénéré avec succès');
     }
 
     public function search(Request $request)
     {
-        $dish_name = $request->input('dish_name');
-        $results = Plats::where('non', 'like', "%{$dish_name}%")->get();
-
-        return response()->json($results);
+        try {
+            $dish_name = $request->input('dish_name');
+            
+            if (empty($dish_name)) {
+                return response()->json([]);
+            }
+            
+            $results = Plats::where('nom', 'like', "%{$dish_name}%")->get();
+            
+            return response()->json($results);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
