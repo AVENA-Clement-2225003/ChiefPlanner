@@ -6,6 +6,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -56,30 +57,39 @@ class AuthController extends Controller
     // Gère le callback de Google après l'authentification
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->stateless()->setHttpClient(new Client(['verify' => false]))->user();
+        try {
+            $googleUser = Socialite::driver('google')
+                ->stateless()
+                ->setHttpClient(new Client(['verify' => false]))
+                ->user();
 
-        // Cherche l'utilisateur dans la base de données
-        $user = User::where('email', $googleUser->getEmail())->first();
+            // Cherche l'utilisateur dans la base de données
+            $user = User::where('email', $googleUser->getEmail())->first();
 
-        if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
-            $user = User::create([
-                'nom' => $googleUser->getName(),
-                'email' => $googleUser->getEmail(),
-                'google_id' => $googleUser->getId(),
-                'password' => bcrypt('default_password'),
-                'id_role' => 1, // Set default role to regular user
-            ]);
-        } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
-            $user->google_id = $googleUser->getId();
-            $user->save();
-        } // L'utilisateur existe et cherche à se connecter
+            if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
+                $user = User::create([
+                    'nom' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'google_id' => $googleUser->getId(),
+                    'password' => bcrypt('default_password'),
+                    'id_role' => 1, // Set default role to regular user
+                ]);
+            } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
+                $user->google_id = $googleUser->getId();
+                $user->save();
+            } // L'utilisateur existe et cherche à se connecter
 
-        // Authentifie l'utilisateur
-        Session::put('isAdmin', $user->id_role === 0);
-        Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
-        Session::put('user_id', $user->id_utilisateur);
+            // Authentifie l'utilisateur
+            Session::put('isAdmin', $user->id_role === 0);
+            Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
+            Session::put('user_id', $user->id_utilisateur);
 
-        // Redirige vers la page d'accueil ou autre
-        return redirect('/')->with('success', 'Connection via google effectuée');
+            // Redirige vers la page d'accueil ou autre
+            return redirect('/')->with('success', 'Connection via google effectuée');
+        } catch (\Exception $e) {
+            Log::error('Google Auth Error: ' . $e->getMessage());
+            return redirect()->route('auth.connection')
+                ->with('error', 'Une erreur est survenue lors de la connexion avec Google. Veuillez réessayer.');
+        }
     }
 }
