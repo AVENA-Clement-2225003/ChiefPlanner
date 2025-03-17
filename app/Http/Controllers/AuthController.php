@@ -67,6 +67,7 @@ class AuthController extends Controller
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
                 'password' => bcrypt('default_password'),
+                'id_role' => 1, // Set default role to regular user
             ]);
         } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
             $user->google_id = $googleUser->getId();

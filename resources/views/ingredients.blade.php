@@ -4,32 +4,37 @@
 @section('title', 'ChiefPlanner - Ingrédients')
 
 @section('content')
-    <section>
-        <h2>Ingrédients</h2>
+    <div class="ingredients-container">
         @if(Session::get('isCreator'))
-            <form method="post" action="/add/ingredient" class="widget">
-                @csrf
-                <label>Nouvel ingrédient :
-                    <input type="text" name="ingredient_name"/>
-                </label>
-                <input type="submit"/>
-            </form>
+            <div class="ingredients-widget">
+                <h2 class="widgetTitle">Ajouter un ingrédient</h2>
+                <form method="post" action="/add/ingredient" class="ingredients-form">
+                    @csrf
+                    <label for="ingredient_name">Nouvel ingrédient</label>
+                    <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Nom de l'ingrédient" required/>
+                    <input type="submit" value="Ajouter"/>
+                </form>
+            </div>
         @endif
-        <table class="widget">
-            <thead>
-            <tr>
-                <td>Id</td>
-                <td>Ingrédient</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($ingredients as $ingredient)
-                <tr>
-                    <td>{{ $ingredient->id_ingredient }}</td>
-                    <td>{{ $ingredient->nom }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </section>
+
+        <div class="ingredients-widget">
+            <h2 class="widgetTitle">Liste des ingrédients</h2>
+            <table class="ingredients-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ingrédient</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($ingredients as $ingredient)
+                        <tr>
+                            <td>{{ $ingredient->id_ingredient }}</td>
+                            <td>{{ $ingredient->nom }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection

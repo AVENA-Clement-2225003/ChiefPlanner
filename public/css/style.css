@@ -590,3 +590,303 @@ input[type="checkbox"]:checked + .custom-checkbox {
         padding: 0.6em;
     }
 }
+
+/******************Ingredients and Dishes page styles******************/
+
+.ingredients-container,
+.dishes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1em;
+    display: flex;
+    gap: 1.5em;
+    align-items: flex-start;
+}
+
+.ingredients-widget,
+.dishes-widget {
+    background-color: #E3E3E3;
+    border-radius: 15px;
+    padding: 1.5em;
+    flex: 1;
+    min-width: 0; /* Prevent flex items from overflowing */
+}
+
+@media (max-width: 900px) {
+    .ingredients-container,
+    .dishes-container {
+        flex-direction: column;
+    }
+    
+    .ingredients-widget,
+    .dishes-widget {
+        width: 100%;
+    }
+}
+
+.ingredients-table,
+.dishes-table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-top: 1em;
+}
+
+.ingredients-table th,
+.ingredients-table td,
+.dishes-table th,
+.dishes-table td {
+    padding: 0.8em;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+.ingredients-table th,
+.dishes-table th {
+    font-weight: 600;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.ingredients-table tr:last-child td,
+.dishes-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ingredients-form,
+.dishes-form {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.ingredients-form label,
+.dishes-form label {
+    display: block;
+    margin-bottom: 0.5em;
+    color: #333;
+    font-weight: 500;
+}
+
+.ingredients-form input[type="text"],
+.dishes-form input[type="text"],
+.dishes-form input[type="number"],
+.dishes-form select {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+.ingredients-form input[type="submit"],
+.dishes-form input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.ingredients-form input[type="submit"]:hover,
+.dishes-form input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+#ingredients-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.ingredient-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1em;
+    align-items: center;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #eee;
+}
+
+.ingredient-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.ingredient-actions {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 1em;
+}
+
+.ingredient-button {
+    background: none;
+    border: none;
+    padding: 0.4em;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ingredient-button:hover {
+    transform: scale(1.1);
+}
+
+.ingredient-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.add-ingredient {
+    color: #28a745;
+}
+
+.remove-ingredient {
+    color: #dc3545;
+}
+
+@media (max-width: 600px) {
+    .ingredient-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .ingredients-table,
+    .dishes-table {
+        font-size: 0.9em;
+    }
+    
+    .ingredients-table td,
+    .dishes-table td {
+        padding: 0.6em;
+    }
+}
+
+/******************Admin Dashboard styles******************/
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.admin-widget {
+    background-color: #E3E3E3;
+    border-radius: 15px;
+    padding: 1.5em;
+}
+
+.admin-table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-top: 1em;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.8em;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+}
+
+.admin-table th {
+    font-weight: 600;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-table select {
+    width: 100%;
+    padding: 0.4em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Inter, sans-serif;
+    font-size: 0.95em;
+    background-color: white;
+}
+
+.admin-table select:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+.admin-action-button {
+    background: none;
+    border: none;
+    padding: 0.4em;
+    margin: 0 0.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #6c757d;
+}
+
+.admin-action-button:hover {
+    background-color: rgba(108, 117, 125, 0.1);
+    transform: scale(1.1);
+}
+
+.admin-action-button.save {
+    color: #28a745;
+}
+
+.admin-action-button.save:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.admin-action-button.delete {
+    color: #dc3545;
+}
+
+.admin-action-button.delete:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.admin-user-link {
+    color: #2196F3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.admin-user-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .admin-table {
+        font-size: 0.9em;
+    }
+    
+    .admin-table td,
+    .admin-table th {
+        padding: 0.6em;
+    }
+    
+    .admin-action-button {
+        padding: 0.6em;
+    }
+}
