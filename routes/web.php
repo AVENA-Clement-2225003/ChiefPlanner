@@ -19,7 +19,7 @@ Route::prefix('/debug')->group(function () {
 });
 
 // Authentication routes outside middleware
-Route::prefix('/authentification')->group(function () {
+Route::prefix('/auth')->group(function () {
     Route::get('/log-in', function () {return view('auth.login');})->name('auth.connection');
     Route::get('/sign-in', function () {return view('auth.signin');})->name('auth.inscription');
     Route::get('/log-out', [AuthController::class, 'logOut'])->name('auth.logout');
