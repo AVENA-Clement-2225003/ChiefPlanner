@@ -17,5 +17,7 @@ class User extends Authenticatable
         'nom',
         'email',
         'password',
+        'id_role',
+        'google_id',
     ];
 }

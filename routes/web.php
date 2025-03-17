@@ -18,6 +18,19 @@ Route::prefix('/debug')->group(function () {
     Route::get('/reset', [HomeController::class, 'resetDebug'])->name('debug.reset');
 });
 
+// Authentication routes outside middleware
+Route::prefix('/authentification')->group(function () {
+    Route::get('/log-in', function () {return view('auth.login');})->name('auth.connection');
+    Route::get('/sign-in', function () {return view('auth.signin');})->name('auth.inscription');
+    Route::get('/log-out', [AuthController::class, 'logOut'])->name('auth.logout');
+    Route::prefix('/process')->group(function () {
+        Route::post('/inscription', [AuthController::class, 'processInscription'])->name('auth.process.inscription');
+        Route::post('/connection', [AuthController::class, 'processConnection'])->name('auth.process.connection');
+    });
+    Route::get('/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+});
+
 Route::middleware(AuthMiddleware::class)->group(function() {
     Route::get('/', [HomeController::class, 'showHome'])->name('home');
 
@@ -63,16 +76,4 @@ Route::middleware(AuthMiddleware::class)->group(function() {
         Route::post('/update', [WeekDishController::class, 'updateDish'])->name('week-dish.modify');
         Route::post('/regen', [WeekDishController::class, 'regenDish'])->name('week-dish.regenerate');
     });
-});
-
-Route::prefix('/authentification')->group(function () {
-    Route::get('/log-in', function () {return view('auth.login');})->name('auth.connection');
-    Route::get('/sign-in', function () {return view('auth.signin');})->name('auth.inscription');
-    Route::get('/log-out', [AuthController::class, 'logOut'])->name('auth.logout');
-    Route::prefix('/process')->group(function () {
-        Route::post('/inscription', [AuthController::class, 'processInscription'])->name('auth.process.inscription');
-        Route::post('/connection', [AuthController::class, 'processConnection'])->name('auth.process.connection');
-    });
-    Route::get('/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-    Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
