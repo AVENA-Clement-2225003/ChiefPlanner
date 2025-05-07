@@ -54,34 +54,46 @@ class AuthController extends Controller
         $redirectUrl = config('services.google.redirect');
         \Log::info('Google redirect URL: ' . $redirectUrl);
         
-        return Socialite::driver('google')
-            ->stateless()
-            ->with(['access_type' => 'offline'])
-            ->redirectUrl($redirectUrl) // Use redirectUrl instead of with()
-            ->redirect();
+        try {
+            return Socialite::driver('google')
+                ->stateless()
+                ->redirectUrl($redirectUrl)
+                ->redirect();
+        } catch (\Exception $e) {
+            \Log::error('Google redirect error: ' . $e->getMessage());
+            return redirect()->route('auth.connection')
+                ->with('error', 'Une erreur est survenue lors de la redirection vers Google. Veuillez réessayer.');
+        }
     }
 
     // Gère le callback de Google après l'authentification
     public function handleGoogleCallback()
     {
         try {
+            $redirectUrl = config('services.google.redirect');
+            \Log::info('Google callback URL: ' . $redirectUrl);
+            
             $googleUser = Socialite::driver('google')
                 ->stateless()
-                ->setHttpClient(new Client(['verify' => false]))
+                ->redirectUrl($redirectUrl)
                 ->user();
 
+            \Log::info('Google user retrieved: ' . $googleUser->getEmail());
+            
             // Cherche l'utilisateur dans la base de données
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user === null) { // Inscription de l'utilisateur, car aucun compte avec l'email fourni par Google
+                \Log::info('Creating new user from Google: ' . $googleUser->getEmail());
                 $user = User::create([
                     'nom' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'password' => bcrypt('default_password'),
+                    'password' => bcrypt(\Illuminate\Support\Str::random(16)),
                     'id_role' => 1, // Set default role to regular user
                 ]);
             } else if ($user->google_id === null) { // Utilisateur existant, mais qui utilise Google pour la première fois
+                \Log::info('Updating existing user with Google ID: ' . $user->email);
                 $user->google_id = $googleUser->getId();
                 $user->save();
             } // L'utilisateur existe et cherche à se connecter
@@ -91,10 +103,13 @@ class AuthController extends Controller
             Session::put('isCreator', $user->id_role === 0 || $user->id_role === 3);
             Session::put('user_id', $user->id_utilisateur);
 
+            \Log::info('User authenticated successfully: ' . $user->email);
+            
             // Redirige vers la page d'accueil ou autre
-            return redirect('/')->with('success', 'Connection via google effectuée');
+            return redirect('/')->with('success', 'Connection via Google effectuée');
         } catch (\Exception $e) {
-            Log::error('Google Auth Error: ' . $e->getMessage());
+            \Log::error('Google Auth Error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
             return redirect()->route('auth.connection')
                 ->with('error', 'Une erreur est survenue lors de la connexion avec Google. Veuillez réessayer.');
         }
