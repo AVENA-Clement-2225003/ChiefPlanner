@@ -232,6 +232,7 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
 .buyingList {
     border-collapse: collapse;
+    width: 100%;
 }
 
 .buyingList > thead > tr {
@@ -421,17 +422,18 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
     .secondaryWidget {
         display: flex;
-        flex-direction: row;
-        height: 100%;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 .4em 0 0;
     }
 
     .weekSelection {
         overflow-y: scroll;
-        max-width: 21.5em;
+        width: 90%;
     }
 
     .main {
-        max-width: 88%;
+        width: 100%;
     }
 
     .day {
@@ -441,10 +443,6 @@ input[type="checkbox"]:checked + .custom-checkbox {
 
     .daySelection > p {
         font-size: 1.5em;
-    }
-
-    .third {
-        width: 100%;
     }
 }
 
