@@ -84,13 +84,13 @@
         }
 
         .extra-widget {
-            background-color: #E3E3E3;
+            /* background-color: #E3E3E3; */
             border-radius: 15px;
             padding: 1.5em;
         }
 
         .extra-table-container {
-            background-color: white;
+            background-color:rgb(241, 241, 241);
             border-radius: 10px;
             padding: 0.5em;
             margin-bottom: 1em;
@@ -105,7 +105,7 @@
         th, td {
             padding: 0.6em;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #fff;
             font-family: Inter, sans-serif;
             font-size: 0.95em;
         }
