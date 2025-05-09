@@ -1,15 +1,61 @@
 /* Global Styles */
 :root {
-    --primary: #4361ee;
-    --primary-light: #4cc9f0;
-    --secondary: #7209b7;
-    --accent: #f72585;
-    --dark: #3a0ca3;
+    /* Modern Teal/Green Theme */
+    --primary: #2a9d8f;
+    --primary-light: #64c2b7;
+    --primary-dark: #218478;
+    --secondary: #2d6a5f;
+    --accent: #e76f51;
+    --dark: #2d6a5f;
     --light: #f8f9fa;
     --gray: #e9ecef;
-    --success: #4ade80;
-    --warning: #fbbf24;
-    --danger: #f87171;
+    --success: #52b788;
+    --warning: #ffb703;
+    --danger: #e63946;
+    
+    /* Uncomment one of these alternative themes if you prefer */
+    
+    /* Warm Earth Tones Theme */
+    /*
+    --primary: #606c38;
+    --primary-light: #95a88a;
+    --secondary: #283618;
+    --accent: #bc6c25;
+    --dark: #283618;
+    --light: #fefae0;
+    --gray: #dda15e;
+    --success: #606c38;
+    --warning: #dda15e;
+    --danger: #bc4749;
+    */
+    
+    /* Elegant Purple Theme */
+    /*
+    --primary: #7b2cbf;
+    --primary-light: #c77dff;
+    --secondary: #5a189a;
+    --accent: #ff9e00;
+    --dark: #3c096c;
+    --light: #f8f9fa;
+    --gray: #e9ecef;
+    --success: #38b000;
+    --warning: #ffaa00;
+    --danger: #d90429;
+    */
+    
+    /* Professional Gray Theme */
+    /*
+    --primary: #495057;
+    --primary-light: #adb5bd;
+    --secondary: #343a40;
+    --accent: #ff7b00;
+    --dark: #212529;
+    --light: #f8f9fa;
+    --gray: #e9ecef;
+    --success: #40916c;
+    --warning: #ffb703;
+    --danger: #d00000;
+    */
 }
 
 body {
@@ -89,7 +135,7 @@ nav ul li a {
 
 nav ul li a:hover {
     color: white;
-    background-color: var(--primary-light);
+    background-color: var(--primary-dark);
 }
 
 /* Alert Messages */
@@ -208,11 +254,39 @@ nav ul li a:hover {
     overflow-x: auto;
     gap: 2vw;
     padding-bottom: 1.5vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-light) var(--gray);
     max-width: 100%;
+    position: relative;
+}
+
+.weekHolder {
+    position: relative;
+}
+
+.weekSelection::before,
+.weekSelection::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.weekSelection::before {
+    left: 0;
+    background: linear-gradient(to right, white, rgba(255, 255, 255, 0));
+}
+
+.weekSelection::after {
+    right: 0;
+    background: linear-gradient(to left, white, rgba(255, 255, 255, 0));
 }
 
 .weekSelection::-webkit-scrollbar {
@@ -336,6 +410,11 @@ nav ul li a:hover {
 .BList {
     margin-bottom: 3vh;
 }
+.BList > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .buyingList {
     width: 100%;
@@ -355,6 +434,7 @@ nav ul li a:hover {
     border-bottom: 1px solid var(--gray);
     word-break: break-word;
     overflow: hidden;
+    padding-left: 0.4vw;
     text-overflow: ellipsis;
 }
 
@@ -451,7 +531,7 @@ button, input[type="submit"], input[type="button"], .btn {
 }
 
 button:hover, input[type="submit"]:hover, input[type="button"]:hover, .btn:hover {
-    background-color: var(--dark);
+    background-color: var(--primary-dark);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -463,7 +543,7 @@ button:active, input[type="submit"]:active, input[type="button"]:active, .btn:ac
 
 button:focus, input[type="submit"]:focus, input[type="button"]:focus, .btn:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.3);
 }
 
 button:disabled, input[type="submit"]:disabled, input[type="button"]:disabled, .btn:disabled {
@@ -511,7 +591,7 @@ input[type="datetime-local"]:focus,
 textarea:focus,
 select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
     outline: none;
 }
 
@@ -523,7 +603,7 @@ textarea::placeholder {
 
 select {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234361ee' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232a9d8f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: calc(100% - 10px) center;
     padding-right: 2.5vw;
@@ -745,7 +825,7 @@ textarea {
 }
 
 .dishes-table tbody tr:hover {
-    background-color: rgba(67, 97, 238, 0.05);
+    background-color: rgba(42, 157, 143, 0.05);
 }
 
 @media (min-width: 768px) {
@@ -858,7 +938,7 @@ textarea {
 }
 
 .ingredients-table tbody tr:hover {
-    background-color: rgba(67, 97, 238, 0.05);
+    background-color: rgba(42, 157, 143, 0.05);
 }
 
 @media (min-width: 768px) {
@@ -879,46 +959,152 @@ textarea {
 }
 
 /* Preferences Page Styles */
-.preferences-container {
-    width: 95vw;
-    margin: 2vh auto;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
+/* Preferences Widget Styles */
 .preferences-widget {
-    background-color: white;
-    border-radius: 15px;
-    width: 100%;
-    padding: 3vh 3vw;
-    box-shadow: 0 0.5vh 2vh rgba(67, 97, 238, 0.07);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    margin-bottom: 3vh;
 }
 
 .preferences-form {
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    gap: 3vh;
+}
+
+.preferences-form .weekSelection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2vw;
+    margin-bottom: 2vh;
+    padding-bottom: 2vh;
+    overflow-x: visible;
+}
+
+.preferences-form .daySelection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+    min-width: 0;
+}
+
+.preferences-form .daySelection p {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 2.2vmin;
+    margin-bottom: 1vh;
+    text-transform: capitalize;
+    position: relative;
+}
+
+.preferences-form .daySelection p:after {
+    content: '';
+    position: absolute;
+    bottom: -0.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background-color: var(--primary-light);
+    border-radius: 2px;
+}
+
+/* Custom Checkbox Styles for Preferences */
+.day-label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1vh;
+}
+
+.day-label:first-of-type:before {
+    content: 'Matin';
+    font-size: 1.6vmin;
+    color: var(--dark);
+    opacity: 0.7;
+    margin-bottom: 0.5vh;
+}
+
+.day-label:last-of-type:before {
+    content: 'Soir';
+    font-size: 1.6vmin;
+    color: var(--dark);
+    opacity: 0.7;
+    margin-bottom: 0.5vh;
+}
+
+.preferences-form .custom-checkbox {
+    height: 8vh;
+    min-width: 60px;
+    border-radius: 10px;
+    background-color: var(--gray);
+    border: 2px dashed #ddd;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.preferences-form input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: var(--primary-light);
+    border: none;
+    box-shadow: 0 4px 8px rgba(42, 157, 143, 0.2);
+}
+
+.preferences-form input[type="checkbox"]:checked + .custom-checkbox:after {
+    content: '\2713';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2.5vmin;
+    font-weight: bold;
 }
 
 .preferences-form input[type="submit"] {
     background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 1.2vh 2vw;
+    border-radius: 8px;
+    padding: 1.5vh 3vw;
     font-size: 2vmin;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 2vh;
-    align-self: flex-start;
+    align-self: center;
+    margin-top: 1vh;
+    box-shadow: 0 4px 6px rgba(42, 157, 143, 0.2);
 }
 
 .preferences-form input[type="submit"]:hover {
-    background-color: var(--dark);
+    background-color: var(--primary-dark);
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(42, 157, 143, 0.3);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+}
+
+.form-actions .btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1.5vh 3vw;
+    font-size: 2vmin;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(42, 157, 143, 0.2);
+}
+
+.form-actions .btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(42, 157, 143, 0.3);
 }
 
 /* Custom Checkbox Styles */
@@ -949,7 +1135,7 @@ input[type="checkbox"]:checked + .custom-checkbox {
 }
 
 input[type="checkbox"]:focus + .custom-checkbox {
-    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
 }
 
 /* Week Dish Page Styles */
@@ -1023,7 +1209,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .search-results div:hover {
-    background-color: rgba(67, 97, 238, 0.05);
+    background-color: rgba(42, 157, 143, 0.05);
 }
 
 .search-results div.error-message {
@@ -1061,7 +1247,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .selected-dish {
-    background-color: rgba(74, 222, 128, 0.1) !important;
+    background-color: rgba(42, 157, 143, 0.1) !important;
     font-weight: 500;
 }
 
@@ -1275,7 +1461,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .extra-table tbody tr:hover {
-    background-color: rgba(67, 97, 238, 0.05);
+    background-color: rgba(42, 157, 143, 0.05);
 }
 
 /* Admin Pages Styles */
@@ -1318,7 +1504,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .admin-table tbody tr:hover {
-    background-color: rgba(67, 97, 238, 0.05);
+    background-color: rgba(42, 157, 143, 0.05);
 }
 
 .admin-actions {
@@ -1343,7 +1529,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .admin-button.edit:hover {
-    background-color: rgba(67, 97, 238, 0.1);
+    background-color: rgba(42, 157, 143, 0.1);
 }
 
 .admin-button.delete {
