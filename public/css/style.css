@@ -184,6 +184,10 @@ nav ul li a:hover {
 }
 
 @media (min-width: 768px) {
+    table {
+        font-size: 1vw;
+    }
+    
     .widgetHolder {
         flex-direction: row;
         align-items: flex-start;
@@ -220,7 +224,7 @@ nav ul li a:hover {
 }
 
 .widgetTitle {
-    font-size: 1.5em;
+    font-size: 2vw;
     font-weight: 600;
     margin-bottom: 2vh;
     margin-top: 2vh;
@@ -255,13 +259,13 @@ nav ul li a:hover {
     overflow-x: auto;
     gap: 2vw;
     padding-bottom: 1.5vh;
-    padding-left: 1vw;
-    padding-right: 1vw;
+    padding-left: 1vh;
+    padding-right: 1vh;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-light) var(--gray);
-    max-width: 100%;
+    width: calc(100% - 2vh);
     position: relative;
 }
 
@@ -359,7 +363,7 @@ nav ul li a:hover {
 }
 
 .notSelected:after {
-    content: '+';
+    content: '';
     font-size: 3vmin;
     color: #aaa;
 }
@@ -368,6 +372,164 @@ nav ul li a:hover {
     border: none;
     cursor: pointer;
     box-shadow: 0 0.3vh 1vh rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dish name styling */
+.dish-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    padding: 5px;
+    margin: 2px;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Responsive font sizing for smaller screens */
+@media (max-width: 768px) {
+    .dish-name {
+        font-size: 12px;
+        padding: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dish-name {
+        font-size: 11px;
+        padding: 2px;
+    }
+}
+
+/* Edit dish button styling */
+.edit-dish-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--primary);
+    z-index: 5;
+}
+
+.edit-dish-btn:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal styling */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 15px;
+    width: 95%;
+    max-width: 1000px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.3);
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Make modal even wider on larger screens */
+@media (min-width: 1200px) {
+    .modal-content {
+        max-width: 1200px;
+        width: 90%;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh 3vw;
+    border-bottom: 1px solid var(--gray);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--dark);
+    font-size: 1.5em;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--danger);
+}
+
+.form-group {
+    margin-bottom: 2vh;
+    padding: 0 3vw;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5vh;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.ingredient-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 1vw;
+    align-items: center;
+    margin-bottom: 1vh;
+    padding: 1vh;
+    background-color: var(--light);
+    border-radius: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1vw;
+    padding: 2vh 3vw;
+    border-top: 1px solid var(--gray);
 }
 
 /* Info tooltip */
@@ -529,6 +691,7 @@ button, input[type="submit"], input[type="button"], .btn {
     text-align: center;
     display: inline-block;
     text-decoration: none;
+    margin: 0 0.2vw;
 }
 
 button:hover, input[type="submit"]:hover, input[type="button"]:hover, .btn:hover {
@@ -572,7 +735,7 @@ select {
     padding: 1.2vh 1vw;
     border: 1px solid var(--gray);
     border-radius: 5px;
-    font-size: 2vmin;
+    font-size: 1vw;
     transition: all 0.3s ease;
     background-color: white;
     color: var(--dark);
@@ -720,7 +883,7 @@ textarea {
     padding: 1.2vh 1vw;
     border: 1px solid var(--gray);
     border-radius: 5px;
-    font-size: 2vmin;
+    font-size: 1vw;
     transition: all 0.3s ease;
 }
 
@@ -763,7 +926,8 @@ textarea {
     grid-template-columns: 2fr 1fr 1fr;
     gap: 2vw;
     align-items: end;
-    padding: 1vh 0;
+    padding: 1vh 0.5vw;
+    border-radius: 1vmin;
     border-bottom: 1px solid var(--gray);
 }
 
@@ -772,6 +936,90 @@ textarea {
     gap: 1vw;
     margin-bottom: 2vh;
 }
+
+/* Edit ingredient button styles use admin-button.edit class */
+
+/* Modal styles */
+.modal {
+    display: none; /* Will be changed to flex when modal is shown */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border: 1px solid var(--gray);
+    border-radius: 8px;
+    /* width: 90%;
+    max-width: 400px; */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    margin: 0;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--gray);
+    padding-bottom: 10px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.close {
+    color: var(--text-color);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close:hover {
+    color: var(--primary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Using standard button classes for form actions */
 
 .ingredient-button {
     background: none;
@@ -1299,10 +1547,10 @@ input[type="checkbox"]:focus + .custom-checkbox {
 
 .inputHolder input {
     width: 100%;
-    padding: 1.2vh 1vw 1.2vh 3vw;
+    padding: 1vh 1vw 1vh 3vw;
     border: 1px solid var(--gray);
     border-radius: 5px;
-    font-size: 2vmin;
+    font-size: 1.5vmin;
     transition: all 0.3s ease;
 }
 
@@ -1600,7 +1848,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
     }
     
     .widgetTitle {
-        font-size: 1em;
+        font-size: 5vw;
     }
     
     .buttonImg svg {
@@ -1634,6 +1882,15 @@ input[type="checkbox"]:focus + .custom-checkbox {
     .graphHolder {
         height: 40vh;
     }
+
+    .inputHolder input {
+        width: 100%;
+        padding: 1vh 1vw 1vh 8vw;
+        border: 1px solid var(--gray);
+        border-radius: 5px;
+        font-size: 3vmin;
+        transition: all 0.3s ease;
+    }
     
     .buttonImg svg {
         width: 5vmin;
@@ -1642,5 +1899,39 @@ input[type="checkbox"]:focus + .custom-checkbox {
 
     .BList {
         margin-bottom: 3vh;
+    }
+
+    .logSecondary {
+        display: flex;
+        justify-content: center;
+        gap: 7vw;
+        margin: 3vh 0;
+    }
+    
+    .logSecondaryLink {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 16vw;
+        height: 16vw;
+        border-radius: 50%;
+        background-color: var(--light);
+        color: var(--dark);
+        transition: all 0.3s ease;
+    }
+    
+    .logSecondaryLink:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .logSecondaryLink > svg {
+        width: 6vmin;
+        height: 6vmin;
+    }
+
+    .logForm input[type="submit"] {
+        font-size: 3vmin;
     }
 }

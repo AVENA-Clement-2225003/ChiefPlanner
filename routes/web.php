@@ -52,6 +52,11 @@ Route::middleware(AuthMiddleware::class)->group(function() {
         });
         Route::post('/groceries_purchase', [PlatsController::class, 'addGroceriesPurchase'])->name('add.groceries');
     });
+    
+    // Ingredient management routes
+    Route::middleware(CreatorMiddleware::class)->group(function() {
+        Route::put('/ingredients/update/{ingredient_id}', [PlatsController::class, 'updateIngredient'])->name('ingredients.update');
+    });
 
     Route::middleware(AdminMiddleware::class)->group(function() {
         Route::prefix('/admin')->group(function () {
@@ -75,5 +80,16 @@ Route::middleware(AuthMiddleware::class)->group(function() {
         Route::get('/', [WeekDishController::class, 'inspectDish'])->name('week-dish.inspect');
         Route::post('/update', [WeekDishController::class, 'updateDish'])->name('week-dish.modify');
         Route::post('/regen', [WeekDishController::class, 'regenDish'])->name('week-dish.regenerate');
+    });
+
+    // Dish editing routes for Admin/Creator users
+    Route::middleware(CreatorMiddleware::class)->group(function() {
+        Route::get('/dish/ingredients/{day_id}', [PlatsController::class, 'getDishIngredients'])->name('dish.ingredients');
+        Route::put('/dish/update/{day_id}', [PlatsController::class, 'updateDish'])->name('dish.update');
+        
+        // Plats page dish management
+        Route::get('/plats/ingredients/{dish_id}', [PlatsController::class, 'getPlatIngredients'])->name('plats.ingredients');
+        Route::put('/plats/update/{dish_id}', [PlatsController::class, 'updatePlat'])->name('plats.update');
+        Route::delete('/plats/delete/{dish_id}', [PlatsController::class, 'deletePlat'])->name('plats.delete');
     });
 });
