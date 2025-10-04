@@ -8,7 +8,7 @@
         @if(Session::get('isCreator'))
             <div class="dishes-widget">
                 <h2 class="widgetTitle">Ajouter un plat</h2>
-                <form method="post" action="/add/dish" class="dishes-form">
+                <form method="post" action="/add/dish" class="dishes-form" id="addDishForm">
                     @csrf
                     <label for="plat_name">Nouveau plat</label>
                     <input type="text" id="plat_name" name="plat_name" placeholder="Nom du plat" required/>
@@ -60,6 +60,19 @@
                                 <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                             </svg>
                         </button>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--dark); cursor: pointer; font-size: 1rem;">
+                            <input type="checkbox" id="addToPlaylistCheck" onchange="togglePlaylistSelect()" style="width: 18px; height: 18px; cursor: pointer;">
+                            <span>Ajouter à un MealFlow</span>
+                        </label>
+                        <div id="playlistSelectContainer" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+                            <label for="playlist_id" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--dark);">Sélectionner un MealFlow:</label>
+                            <select name="playlist_id" id="playlist_id" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1rem; background-color: white;">
+                                <option value="">-- Aucun --</option>
+                            </select>
+                        </div>
                     </div>
 
                     <input type="submit" value="Ajouter le plat"/>
@@ -161,6 +174,46 @@
 
     <script>
         let ingredientCount = 1;
+        let userPlaylists = [];
+
+        // Load playlists on page load
+        @if(Session::get('isCreator'))
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPlaylists();
+        });
+
+        function loadPlaylists() {
+            fetch('/api/playlists')
+                .then(response => response.json())
+                .then(playlists => {
+                    userPlaylists = playlists;
+                    const select = document.getElementById('playlist_id');
+                    select.innerHTML = '<option value="">-- Aucune --</option>';
+                    playlists.forEach(playlist => {
+                        const option = document.createElement('option');
+                        option.value = playlist.id_playlist;
+                        option.textContent = playlist.name;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading playlists:', error));
+        }
+
+        function togglePlaylistSelect() {
+            const checkbox = document.getElementById('addToPlaylistCheck');
+            const container = document.getElementById('playlistSelectContainer');
+            container.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        // Handle form submission to add dish to playlist
+        document.getElementById('addDishForm').addEventListener('submit', function(e) {
+            const playlistId = document.getElementById('playlist_id').value;
+            if (playlistId && document.getElementById('addToPlaylistCheck').checked) {
+                // Store playlist ID to add after dish creation
+                sessionStorage.setItem('pendingPlaylistAdd', playlistId);
+            }
+        });
+        @endif
 
         function addIngredient() {
             const container = document.getElementById('ingredients-container');

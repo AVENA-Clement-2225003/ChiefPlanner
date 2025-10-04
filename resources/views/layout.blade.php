@@ -18,6 +18,8 @@
         @else
             <li><a href="/plats">Plats</a></li>
             <li><a href="/ingredients">Ingrédients</a></li>
+            <li><a href="/playlists">MealFlows</a></li>
+            <li><a href="/all-dishes">Tous les plats</a></li>
             <li><a href="/preferences">Préférences</a></li>
             @if(Session::has('isAdmin') && Session::get('isAdmin'))
                 <li><a href="/admin">Administration</a></li>

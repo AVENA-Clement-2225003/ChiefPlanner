@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExtraController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlatsController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\SemaineController;
 use App\Http\Controllers\WeekDishController;
@@ -92,4 +93,21 @@ Route::middleware(AuthMiddleware::class)->group(function() {
         Route::put('/plats/update/{dish_id}', [PlatsController::class, 'updatePlat'])->name('plats.update');
         Route::delete('/plats/delete/{dish_id}', [PlatsController::class, 'deletePlat'])->name('plats.delete');
     });
+
+    // Playlist routes
+    Route::prefix('/playlists')->group(function () {
+        Route::get('/', [PlaylistController::class, 'index'])->name('playlists.index');
+        Route::get('/{playlist_id}', [PlaylistController::class, 'show'])->name('playlists.show');
+        Route::post('/create', [PlaylistController::class, 'store'])->name('playlists.store');
+        Route::put('/update/{playlist_id}', [PlaylistController::class, 'update'])->name('playlists.update');
+        Route::delete('/delete/{playlist_id}', [PlaylistController::class, 'destroy'])->name('playlists.destroy');
+        Route::post('/{playlist_id}/add-dish', [PlaylistController::class, 'addDish'])->name('playlists.addDish');
+        Route::delete('/{playlist_id}/remove-dish/{dish_id}', [PlaylistController::class, 'removeDish'])->name('playlists.removeDish');
+    });
+
+    // All dishes view with playlist integration
+    Route::get('/all-dishes', [PlaylistController::class, 'showAllDishes'])->name('all-dishes');
+    
+    // API endpoint for playlists
+    Route::get('/api/playlists', [PlaylistController::class, 'getUserPlaylists'])->name('api.playlists');
 });

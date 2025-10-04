@@ -1,0 +1,21 @@
+I have a new functionnality to implement. A system of playlist like for dishes.
+
+SQL Script of new tables Added in db :
+CREATE TABLE playlist(
+   id_playlist INT,
+   name VARCHAR(50),
+   id_utilisateur INT NOT NULL,
+   PRIMARY KEY(id_playlist),
+   FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id_utilisateur)
+);
+CREATE TABLE contain(
+   id_plat INT,
+   id_playlist INT,
+   PRIMARY KEY(id_plat, id_playlist),
+   FOREIGN KEY(id_plat) REFERENCES plats(id_plat),
+   FOREIGN KEY(id_playlist) REFERENCES playlist(id_playlist)
+);
+
+- When a dish is created
+	- It can be added in playlist throught the interface
+- New tab that allow to see all the playlist

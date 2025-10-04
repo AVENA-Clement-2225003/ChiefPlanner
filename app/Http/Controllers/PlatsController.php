@@ -27,11 +27,13 @@ class PlatsController extends Controller
             'plat_name' => 'required|string|max:191',
             'ingredients.*.id_ingredient' => 'required|exists:ingredients,id_ingredient',
             'ingredients.*.quantity' => 'required|string|max:191',
-            'ingredients.*.type' => 'required|string|'
+            'ingredients.*.type' => 'required|string|',
+            'playlist_id' => 'nullable|exists:playlist,id_playlist'
         ]);
 
         // Create the dish
         $plat = Plats::create(['nom' => $request->plat_name, 'id_utilisateur'=>Session::get('user_id')]);
+        
         // Save the ingredient and quantity associations
         foreach ($request->ingredients as $ingredient) {
             Quantitees::create([
@@ -40,7 +42,19 @@ class PlatsController extends Controller
                 'quantity' => $ingredient['quantity'] . ' ' . $ingredient['type']
             ]);
         }
-        return redirect('/plats');
+
+        // Add to playlist if specified
+        if ($request->has('playlist_id') && !empty($request->playlist_id)) {
+            $playlist = \App\Models\Playlist::where('id_playlist', $request->playlist_id)
+                ->where('id_utilisateur', Session::get('user_id'))
+                ->first();
+            
+            if ($playlist) {
+                $playlist->plats()->attach($plat->id_plat);
+            }
+        }
+
+        return redirect('/plats')->with('success', 'Plat créé avec succès');
     }
 
     public function addIngredient(Request $request) {
