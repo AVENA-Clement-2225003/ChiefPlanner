@@ -13,10 +13,17 @@ class WeekDishController extends Controller
 {
     public function inspectDish(int $day_id) {
         $day = Semaine::where('id_jour', $day_id)->first();
-        $dish = SemainePlanif::where('semaine_planif.id_utilisateur', Session::get('user_id'))->where('id_jour', $day_id)->join('plats', 'plats.id_plat', '=', 'semaine_planif.id_plat')->first();
-        $ingredients = Quantitees::join('ingredients', 'quantitees.id_ingredient', '=', 'ingredients.id_ingredient')
-            ->where('quantitees.id_plat', $dish->id_plat)
-            ->select('quantitees.quantity', 'ingredients.nom')->get();
+        $dish = SemainePlanif::where('semaine_planif.id_utilisateur', Session::get('user_id'))
+            ->where('id_jour', $day_id)
+            ->join('plats', 'plats.id_plat', '=', 'semaine_planif.id_plat')
+            ->first();
+
+        $ingredients = $dish
+            ? Quantitees::join('ingredients', 'quantitees.id_ingredient', '=', 'ingredients.id_ingredient')
+                ->where('quantitees.id_plat', $dish->id_plat)
+                ->select('quantitees.quantity', 'ingredients.nom')
+                ->get()
+            : collect();
 
         $navigation = $this->getDayNavigation($day_id);
 

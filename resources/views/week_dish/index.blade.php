@@ -2,7 +2,7 @@
 
 @section('week_dish.day', $day->day_name . ' ' . $day->day_time)
 
-@section('week_dish.title', $dish->nom)
+@section('week_dish.title', $dish?->nom ?? 'Aucun plat')
 
 @section('week_dish.content')
     <div class="widgetHolder">
@@ -43,54 +43,64 @@
 
             <div class="dish-header">
                 <h2 class="widgetTitle">{{ $day->day_name . ' - ' . $day->day_time }}</h2>
-                <div class="dish-title">
-                    <h3>{{ $dish->nom }}</h3>
-                    <button onclick="showEdit()" class="buttonImg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="editOptionHolder" class="edit-options" style="display: none">
-                    <button onclick="regenDish()" class="buttonImg" title="Régénérer un plat aléatoire">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-                        </svg>
-                    </button>
-                    <div class="search-container">
-                        <input id="searchInput" type="text" name="dish_name" placeholder="Rechercher un plat..."/>
-                        <div id="searchResults" class="search-results">
-                            <!-- Results will be loaded here -->
-                        </div>
+
+                @if($dish)
+                    <div class="dish-title">
+                        <h3>{{ $dish->nom }}</h3>
+                        <button onclick="showEdit()" class="buttonImg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
                     </div>
-                    <form id="updateDishForm" method="POST" action="{{ route('week-dish.modify', ['day_id' => $day->id_jour]) }}">
-                        @csrf
-                        <input type="hidden" name="dish_id" id="selectedDishId" value="">
-                        <button type="submit" class="submit-button" disabled>Valider</button>
-                    </form>
-                </div>
+                    <div id="editOptionHolder" class="edit-options" style="display: none">
+                        <button onclick="regenDish()" class="buttonImg" title="Régénérer un plat aléatoire">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                            </svg>
+                        </button>
+                        <div class="search-container">
+                            <input id="searchInput" type="text" name="dish_name" placeholder="Rechercher un plat..."/>
+                            <div id="searchResults" class="search-results">
+                                <!-- Results will be loaded here -->
+                            </div>
+                        </div>
+                        <form id="updateDishForm" method="POST" action="{{ route('week-dish.modify', ['day_id' => $day->id_jour]) }}">
+                            @csrf
+                            <input type="hidden" name="dish_id" id="selectedDishId" value="">
+                            <button type="submit" class="submit-button" disabled>Valider</button>
+                        </form>
+                    </div>
+                @else
+                    <div class="no-dish-message">
+                        <p>Aucun plat n'est défini pour ce jour.</p>
+                        <a href="{{ route('home') }}" class="nav-button">Retour à l'accueil</a>
+                    </div>
+                @endif
             </div>
 
-            <div class="ingredients-table">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Ingrédient</th>
-                        <th>Quantité</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($ingredients as $ingredient)
+            @if($dish)
+                <div class="ingredients-table">
+                    <table>
+                        <thead>
                         <tr>
-                            <td>{{ $ingredient->nom }}</td>
-                            <td>{{ $ingredient->quantity }}</td>
+                            <th>Ingrédient</th>
+                            <th>Quantité</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                        @foreach($ingredients as $ingredient)
+                            <tr>
+                                <td>{{ $ingredient->nom }}</td>
+                                <td>{{ $ingredient->quantity }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -123,6 +133,20 @@
         .nav-button.disabled {
             opacity: 0.4;
             cursor: not-allowed;
+        }
+
+        .no-dish-message {
+            text-align: center;
+            padding: 2em;
+            background-color: #F2F2F2;
+            border-radius: 15px;
+            margin-top: 1em;
+        }
+
+        .no-dish-message p {
+            margin: 0 0 1em 0;
+            color: #666;
+            font-size: 1.1em;
         }
 
         .dish-header {
