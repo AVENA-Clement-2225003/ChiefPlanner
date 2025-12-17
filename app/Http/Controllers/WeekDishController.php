@@ -17,7 +17,26 @@ class WeekDishController extends Controller
         $ingredients = Quantitees::join('ingredients', 'quantitees.id_ingredient', '=', 'ingredients.id_ingredient')
             ->where('quantitees.id_plat', $dish->id_plat)
             ->select('quantitees.quantity', 'ingredients.nom')->get();
-        return view('week_dish.index', compact('dish', 'ingredients', 'day'));
+
+        $navigation = $this->getDayNavigation($day_id);
+
+        return view('week_dish.index', compact('dish', 'ingredients', 'day', 'navigation'));
+    }
+
+    private function getDayNavigation(int $currentDayId): array
+    {
+        $previousDay = Semaine::where('id_jour', '<', $currentDayId)
+            ->orderBy('id_jour', 'desc')
+            ->first();
+
+        $nextDay = Semaine::where('id_jour', '>', $currentDayId)
+            ->orderBy('id_jour', 'asc')
+            ->first();
+
+        return [
+            'previous' => $previousDay?->id_jour,
+            'next' => $nextDay?->id_jour,
+        ];
     }
 
     public function updateDish(Request $request, string $day_id) {

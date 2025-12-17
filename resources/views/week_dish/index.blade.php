@@ -7,6 +7,40 @@
 @section('week_dish.content')
     <div class="widgetHolder">
         <div class="widget">
+            <nav class="dish-navigation">
+                @if($navigation['previous'])
+                    <a href="{{ route('week-dish.inspect', ['day_id' => $navigation['previous']]) }}" class="nav-button nav-previous" title="Plat précédent">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                        <span>Précédent</span>
+                    </a>
+                @else
+                    <span class="nav-button nav-previous disabled">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                        <span>Précédent</span>
+                    </span>
+                @endif
+
+                @if($navigation['next'])
+                    <a href="{{ route('week-dish.inspect', ['day_id' => $navigation['next']]) }}" class="nav-button nav-next" title="Plat suivant">
+                        <span>Suivant</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                @else
+                    <span class="nav-button nav-next disabled">
+                        <span>Suivant</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </span>
+                @endif
+            </nav>
+
             <div class="dish-header">
                 <h2 class="widgetTitle">{{ $day->day_name . ' - ' . $day->day_time }}</h2>
                 <div class="dish-title">
@@ -61,6 +95,36 @@
     </div>
 
     <style>
+        .dish-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5em;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            padding: 0.5em 1em;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            color: #333;
+            background-color: #F2F2F2;
+        }
+
+        .nav-button:hover:not(.disabled) {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
         .dish-header {
             margin-bottom: 2em;
         }
