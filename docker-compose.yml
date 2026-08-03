@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chiefplanner-app
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      APP_URL: 'http://chiefplanner.michaelkineticsystems.fr'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - chiefplanner
+
+  mysql:
+    image: 'mysql:8.0'
+    container_name: chiefplanner-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-change_me_root}'
+      MYSQL_DATABASE: '${DB_DATABASE:-chiefplanner}'
+      MYSQL_USER: '${DB_USERNAME:-chiefplanner}'
+      MYSQL_PASSWORD: '${DB_PASSWORD:-change_me_user}'
+    volumes:
+      - 'chiefplanner-mysql:/var/lib/mysql'
+    networks:
+      - chiefplanner
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-h'
+        - localhost
+        - '-u'
+        - root
+        - '-p${DB_PASSWORD:-change_me_root}'
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  chiefplanner:
+    driver: bridge
+
+volumes:
+  chiefplanner-mysql:
+    driver: local
