@@ -1,6 +1,6 @@
 /* Global Styles */
 :root {
-    /* Modern Teal/Green Theme */
+    /* Light Theme (Default) */
     --primary: #2a9d8f;
     --primary-light: #64c2b7;
     --primary-dark: #218478;
@@ -12,6 +12,36 @@
     --success: #52b788;
     --warning: #ffb703;
     --danger: #e63946;
+    
+    /* Common variables for both themes */
+    --background: #ffffff;
+    --text-color: #333333;
+    --border-color: #e9ecef;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --primary-rgb: 42, 157, 143; /* RGB values for primary color */
+    --widget-bg: #f8f9fa;      /* Background for widgets in light mode */
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --primary: #1e8a7e;        /* Darker green */
+    --primary-light: #4ba89e;  /* Darker teal */
+    --primary-dark: #176d63;   /* Even darker green */
+    --secondary: #1e5046;      /* Darker secondary */
+    --accent: #d15a3c;         /* Darker accent */
+    --dark: #1e5046;           /* Darker dark */
+    --light: #e9ecef;          /* Slightly darker light */
+    --gray: #495057;           /* Darker gray */
+    
+    /* Dark theme specific variables */
+    --background: #1a1a1a;      /* Less harsh dark background */
+    --text-color: #e9ecef;     /* Light text for dark background */
+    --border-color: #343a40;   /* Darker border */
+    --card-bg: #242424;        /* Slightly lighter than background */
+    --shadow-color: rgba(0, 0, 0, 0.3); /* Darker shadow */
+    --primary-rgb: 30, 138, 126; /* RGB values for primary color in dark mode */
+    --widget-bg: #2a2a2a;      /* Background for widgets in dark mode */
     
     /* Uncomment one of these alternative themes if you prefer */
     
@@ -62,18 +92,73 @@ body {
     display: flex;
     flex-direction: column;
     width: 100vw;
+    background-color: var(--background);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
     margin: 0;
     padding: 0;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     overflow-x: hidden;
-    background-color: #f8f9fa;
-    color: #333;
     box-sizing: border-box;
 }
 
 *, *:before, *:after {
     box-sizing: inherit;
+}
+
+/* Theme Toggle */
+.theme-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-dark);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+#theme-toggle:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.light-icon {
+    display: inline;
+}
+
+.dark-icon {
+    display: none;
+}
+
+[data-theme="dark"] .light-icon {
+    display: none;
+}
+
+[data-theme="dark"] .dark-icon {
+    display: inline;
 }
 
 /* Navigation */
@@ -209,12 +294,12 @@ nav ul li a:hover {
 }
 
 .widget {
-    background-color: white;
+    background-color: var(--widget-bg);
     border-radius: 15px;
     width: 100%;
     padding: 2vh 2vw;
     box-shadow: 0 0.5vh 2vh rgba(67, 97, 238, 0.07);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
@@ -434,7 +519,7 @@ nav ul li a:hover {
 }
 
 .edit-dish-btn:hover {
-    background: white;
+    background: var(--card-bg);
     transform: scale(1.1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -454,7 +539,7 @@ nav ul li a:hover {
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--card-bg);
     border-radius: 15px;
     width: 95%;
     max-width: 1000px;
@@ -536,19 +621,24 @@ nav ul li a:hover {
 .info {
     display: none;
     position: absolute;
-    background-color: white;
-    border-radius: 5px;
-    padding: 1vh 1vw;
-    box-shadow: 0 0.3vh 0.6vh rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    width: 200%;
-    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 1vh;
 }
 
+.stat-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 2vh 2vw;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 .ingredientList {
+    list-style-type: disc;
     margin: 0.5vh 0 0 0;
     padding-left: 1vw;
 }
@@ -560,8 +650,9 @@ nav ul li a:hover {
     margin-top: 3vh;
     padding: 1vh;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--card-bg);
     overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
 .graphHolder canvas {
@@ -736,10 +827,10 @@ select {
     border: 1px solid var(--gray);
     border-radius: 5px;
     font-size: 1vw;
-    transition: all 0.3s ease;
-    background-color: white;
-    color: var(--dark);
+    background-color: var(--card-bg);
+    color: var(--text-color);
     font-family: inherit;
+    transition: all 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -854,7 +945,7 @@ textarea {
 }
 
 .dishes-widget {
-    background-color: white;
+    background-color: var(--widget-bg);
     border-radius: 15px;
     width: 100%;
     padding: 3vh 3vw;
@@ -955,7 +1046,7 @@ textarea {
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--card-bg);
     padding: 25px;
     border: 1px solid var(--gray);
     border-radius: 8px;
@@ -1074,7 +1165,7 @@ textarea {
 }
 
 .dishes-table tbody tr:hover {
-    background-color: rgba(42, 157, 143, 0.05);
+    background-color: rgba(var(--primary-rgb, 42, 157, 143), 0.1);
 }
 
 @media (min-width: 768px) {
@@ -1106,7 +1197,7 @@ textarea {
 }
 
 .ingredients-widget {
-    background-color: white;
+    background-color: var(--widget-bg);
     border-radius: 15px;
     width: 100%;
     padding: 3vh 3vw;
@@ -1187,7 +1278,7 @@ textarea {
 }
 
 .ingredients-table tbody tr:hover {
-    background-color: rgba(42, 157, 143, 0.05);
+    background-color: rgba(var(--primary-rgb, 42, 157, 143), 0.1);
 }
 
 @media (min-width: 768px) {
@@ -1442,7 +1533,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--gray);
     border-radius: 0 0 5px 5px;
     max-height: 30vh;
@@ -1593,7 +1684,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
     height: 4vw;
     border-radius: 50%;
     background-color: var(--light);
-    color: var(--dark);
+    color: var(--background);
     transition: all 0.3s ease;
 }
 
@@ -1630,7 +1721,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .extra-widget {
-    background-color: white;
+    background-color: var(--widget-bg);
     border-radius: 15px;
     width: 100%;
     padding: 3vh 3vw;
@@ -1710,7 +1801,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .extra-table tbody tr:hover {
-    background-color: rgba(42, 157, 143, 0.05);
+    background-color: rgba(var(--primary-rgb, 42, 157, 143), 0.1);
 }
 
 /* Admin Pages Styles */
@@ -1722,7 +1813,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .admin-widget {
-    background-color: white;
+    background-color: var(--widget-bg);
     border-radius: 15px;
     width: 100%;
     padding: 3vh 3vw;
@@ -1753,7 +1844,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .admin-table tbody tr:hover {
-    background-color: rgba(42, 157, 143, 0.05);
+    background-color: rgba(var(--primary-rgb, 42, 157, 143), 0.1);
 }
 
 .admin-actions {
@@ -1797,7 +1888,7 @@ input[type="checkbox"]:focus + .custom-checkbox {
 }
 
 .stat-card {
-    background-color: white;
+    background-color: var(--card-bg);
     border-radius: 10px;
     padding: 2vh 2vw;
     box-shadow: 0 0.3vh 1vh rgba(67, 97, 238, 0.07);

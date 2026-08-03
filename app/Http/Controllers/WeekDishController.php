@@ -13,11 +13,37 @@ class WeekDishController extends Controller
 {
     public function inspectDish(int $day_id) {
         $day = Semaine::where('id_jour', $day_id)->first();
-        $dish = SemainePlanif::where('semaine_planif.id_utilisateur', Session::get('user_id'))->where('id_jour', $day_id)->join('plats', 'plats.id_plat', '=', 'semaine_planif.id_plat')->first();
-        $ingredients = Quantitees::join('ingredients', 'quantitees.id_ingredient', '=', 'ingredients.id_ingredient')
-            ->where('quantitees.id_plat', $dish->id_plat)
-            ->select('quantitees.quantity', 'ingredients.nom')->get();
-        return view('week_dish.index', compact('dish', 'ingredients', 'day'));
+        $dish = SemainePlanif::where('semaine_planif.id_utilisateur', Session::get('user_id'))
+            ->where('id_jour', $day_id)
+            ->join('plats', 'plats.id_plat', '=', 'semaine_planif.id_plat')
+            ->first();
+
+        $ingredients = $dish
+            ? Quantitees::join('ingredients', 'quantitees.id_ingredient', '=', 'ingredients.id_ingredient')
+                ->where('quantitees.id_plat', $dish->id_plat)
+                ->select('quantitees.quantity', 'ingredients.nom')
+                ->get()
+            : collect();
+
+        $navigation = $this->getDayNavigation($day_id);
+
+        return view('week_dish.index', compact('dish', 'ingredients', 'day', 'navigation'));
+    }
+
+    private function getDayNavigation(int $currentDayId): array
+    {
+        $previousDay = Semaine::where('id_jour', '<', $currentDayId)
+            ->orderBy('id_jour', 'desc')
+            ->first();
+
+        $nextDay = Semaine::where('id_jour', '>', $currentDayId)
+            ->orderBy('id_jour', 'asc')
+            ->first();
+
+        return [
+            'previous' => $previousDay?->id_jour,
+            'next' => $nextDay?->id_jour,
+        ];
     }
 
     public function updateDish(Request $request, string $day_id) {
