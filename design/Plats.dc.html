@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #1E72B8; text-decoration: none; }
+    a:hover { color: #175A93; }
+  </style>
+</helmet>
+<div style="width: 1440px; min-height: 1620px; background: #F7F8FA; font-family: 'Public Sans', sans-serif; color: #1A1D23; display: flex; flex-direction: column;">
+
+  <div style="height: 72px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: #FFFFFF; border-bottom: 1px solid #E2E5EA;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700;">Chief Planner</div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Accueil</div>
+      <div style="font-size: 14px; font-weight: 600; color: {{accent}};">Plats</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Ingredients</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">MealFlows</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Tous les plats</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Preferences</div>
+      <div style="width: 56px; height: 28px; border-radius: 999px; background: #EEF0F3; display: flex; align-items: center; padding: 2px;">
+        <div style="width: 24px; height: 24px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(26,29,35,0.16); display: flex; align-items: center; justify-content: center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F0883E" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"></path></svg>
+        </div>
+      </div>
+      <div style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid #E2E5EA; display: flex; align-items: center; justify-content: center;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      </div>
+      <div style="width: 36px; height: 36px; border-radius: 999px; background: {{accentTint}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: {{accent}};">CP</div>
+    </div>
+  </div>
+
+  <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600;">Plats</div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="width: 260px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; color: #A6ACB6;">Rechercher un plat</div>
+        <div style="padding: 10px 18px; background: {{accent}}; color: #FFFFFF; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+          Nouveau plat
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start;">
+
+      <div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}}; border: 1px solid {{accent}};">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Poulet roti aux herbes</div>
+            <div style="font-size: 12px; color: #5B6270;">Volaille - 45 min</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Curry de legumes</div>
+            <div style="font-size: 12px; color: #5B6270;">Vegetarien - 25 min</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Saumon grille</div>
+            <div style="font-size: 12px; color: #5B6270;">Poisson - 20 min</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Salade Cesar</div>
+            <div style="font-size: 12px; color: #5B6270;">Entree - 15 min</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Burger maison</div>
+            <div style="font-size: 12px; color: #5B6270;">Viande - 30 min</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">Pizza maison</div>
+            <div style="font-size: 12px; color: #5B6270;">Four - 35 min</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 28px;">
+
+        <div style="display: flex; gap: 20px;">
+          <div style="width: 120px; height: 120px; border-radius: 14px; background: {{accentTint}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Nom du plat</div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; padding-bottom: 8px; border-bottom: 1px solid #E2E5EA;">Poulet roti aux herbes</div>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <div style="padding: 6px 12px; background: {{accentTint}}; color: {{accent}}; border-radius: 999px; font-size: 12px; font-weight: 600;">Volaille</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #F7F8FA; border: 1px solid #E2E5EA; border-radius: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-size: 14px; font-weight: 600;">Partager ce plat</div>
+            <div style="font-size: 12px; color: #5B6270;">Visible dans les recherches des autres utilisateurs (Tous les plats)</div>
+          </div>
+          <div style="width: 44px; height: 24px; border-radius: 999px; background: {{accent}}; display: flex; align-items: center; justify-content: flex-end; padding: 2px; flex-shrink: 0;">
+            <div style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(26,29,35,0.2);"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 24px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Portions</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E2E5EA; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #5B6270;">-</div>
+              <div style="font-size: 16px; font-weight: 600; width: 20px; text-align: center;">4</div>
+              <div style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E2E5EA; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #5B6270;">+</div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Temps de preparation</div>
+            <div style="padding: 8px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; width: 140px;">45 min</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Difficulte</div>
+            <div style="padding: 8px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; width: 140px;">Facile</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600;">Ingredients</div>
+          <div style="display: flex; gap: 10px; padding: 0 0 0 0;">
+            <div style="flex: 1; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Ingredient</div>
+            <div style="width: 90px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Valeur</div>
+            <div style="width: 130px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Unite</div>
+            <div style="width: 16px;"></div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">Poulet entier</div>
+              <div style="width: 90px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">1</div>
+              <div style="width: 130px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; display: flex; align-items: center; justify-content: space-between;">unite<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">Herbes de Provence</div>
+              <div style="width: 90px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">2</div>
+              <div style="width: 130px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; display: flex; align-items: center; justify-content: space-between;">c. a soupe<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">Beurre</div>
+              <div style="width: 90px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">50</div>
+              <div style="width: 130px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; display: flex; align-items: center; justify-content: space-between;">g<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">Ail</div>
+              <div style="width: 90px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px;">3</div>
+              <div style="width: 130px; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; display: flex; align-items: center; justify-content: space-between;">gousse(s)<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A6ACB6" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: {{accent}};">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+            Ajouter un ingredient
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600;">Etapes de la recette</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 12px;">
+              <div style="width: 26px; height: 26px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; color: #5B6270;">Prechauffer le four a 200 degres.</div>
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <div style="width: 26px; height: 26px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; color: #5B6270;">Frotter le poulet avec le beurre, l'ail et les herbes.</div>
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <div style="width: 26px; height: 26px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+              <div style="flex: 1; padding: 10px 14px; border: 1px solid #E2E5EA; border-radius: 8px; font-size: 14px; color: #5B6270;">Enfourner 1h15 en arrosant regulierement.</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: {{accent}};">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+            Ajouter une etape
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600;">MealFlows</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <div style="padding: 8px 16px; border-radius: 999px; border: 1px solid #E2E5EA; color: #5B6270; font-size: 13px; font-weight: 600;">Semaine vegetarienne</div>
+            <div style="padding: 8px 16px; border-radius: 999px; border: 1px solid #E2E5EA; color: #5B6270; font-size: 13px; font-weight: 600;">Rapide - moins de 20 min</div>
+            <div style="padding: 8px 16px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-size: 13px; font-weight: 600;">Repas du dimanche</div>
+            <div style="padding: 8px 16px; border-radius: 999px; border: 1px dashed #E2E5EA; color: #5B6270; font-size: 13px; font-weight: 600;">+ Nouveau mealflow</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; border-top: 1px solid #E2E5EA;">
+          <div style="padding: 10px 22px; color: #5B6270; font-size: 14px; font-weight: 600;">Annuler</div>
+          <div style="padding: 10px 22px; background: {{accent}}; color: #FFFFFF; border-radius: 8px; font-size: 14px; font-weight: 600;">Enregistrer le plat</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#2A8FE0","options":["#7C5CFC","#E24C4C","#F0883E","#2A8FE0","#14B8A6"]}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2A8FE0';
+    const map = {
+      '#7C5CFC': { tint: '#EDE9FE' },
+      '#E24C4C': { tint: '#FBE7E7' },
+      '#F0883E': { tint: '#FDECD9' },
+      '#2A8FE0': { tint: '#E3F1FC' },
+      '#14B8A6': { tint: '#DAF5F1' }
+    };
+    const m = map[accent] || map['#2A8FE0'];
+    return { accent: accent, accentTint: m.tint };
+  }
+}
+</script>
+</body>
+</html>

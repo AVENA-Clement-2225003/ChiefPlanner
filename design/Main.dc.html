@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #1E72B8; }
+    a:hover { color: #175A93; }
+  </style>
+</helmet>
+<div style="width: 1240px; min-height: 1900px; background: #F7F8FA; font-family: 'Public Sans', sans-serif; color: #1A1D23; padding: 64px; display: flex; flex-direction: column; gap: 56px;">
+
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5B6270;">ChiefPlanner</div>
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.1;">Systeme de design</div>
+    <div style="font-size: 16px; color: #5B6270; max-width: 680px; line-height: 1.6;">Base neutre clair/sombre, cinq accents au choix, et une typographie distincte pour l'interface v2. Compatible avec les composants Ant Design.</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">Neutres</div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5B6270;">Mode clair</div>
+      <div style="display: flex; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #F7F8FA; border: 1px solid #E2E5EA;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Fond</div>
+          <div style="font-size: 13px; color: #5B6270;">#F7F8FA</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E2E5EA;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Surface</div>
+          <div style="font-size: 13px; color: #5B6270;">#FFFFFF</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #E2E5EA;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Bordure</div>
+          <div style="font-size: 13px; color: #5B6270;">#E2E5EA</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #5B6270;"></div>
+          <div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Texte 2nd</div>
+          <div style="font-size: 13px; color: #5B6270;">#5B6270</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #1A1D23;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Texte principal</div>
+          <div style="font-size: 13px; color: #5B6270;">#1A1D23</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; background: #14161A; padding: 20px; border-radius: 16px;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #9AA1AC;">Mode sombre</div>
+      <div style="display: flex; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #14161A; border: 1px solid #2C2F36;"></div>
+          <div style="font-size: 13px; font-weight: 600; color: #F2F3F5;">Fond</div>
+          <div style="font-size: 13px; color: #9AA1AC;">#14161A</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #1E2127; border: 1px solid #2C2F36;"></div>
+          <div style="font-size: 13px; font-weight: 600; color: #F2F3F5;">Surface</div>
+          <div style="font-size: 13px; color: #9AA1AC;">#1E2127</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #2C2F36;"></div>
+          <div style="font-size: 13px; font-weight: 600; color: #F2F3F5;">Bordure</div>
+          <div style="font-size: 13px; color: #9AA1AC;">#2C2F36</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #9AA1AC;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Texte 2nd</div>
+          <div style="font-size: 13px; color: #9AA1AC;">#9AA1AC</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #F2F3F5;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Texte principal</div>
+          <div style="font-size: 13px; color: #9AA1AC;">#F2F3F5</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5B6270;">Etats (fixes, independants du theme)</div>
+      <div style="display: flex; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #3F9142;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Succes</div>
+          <div style="font-size: 13px; color: #5B6270;">#3F9142</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 130px;">
+          <div style="width: 130px; height: 80px; border-radius: 12px; background: #D64545;"></div>
+          <div style="font-size: 13px; font-weight: 600;">Erreur</div>
+          <div style="font-size: 13px; color: #5B6270;">#D64545</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">Accents (au choix)</div>
+    <div style="font-size: 14px; color: #5B6270; max-width: 680px; line-height: 1.6; margin-top: -12px;">Chaque accent fournit une couleur de base, un etat hover, et une teinte adaptee au mode clair et au mode sombre.</div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="width: 110px; font-size: 14px; font-weight: 600;">Violet</div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #7C5CFC;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #5A3FD1;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #EDE9FE; border: 1px solid #E2E5EA;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #2E2350;"></div>
+        <div style="font-size: 13px; color: #5B6270;">#7C5CFC</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="width: 110px; font-size: 14px; font-weight: 600;">Rouge</div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #E24C4C;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #C93A3A;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #FBE7E7; border: 1px solid #E2E5EA;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #3A2020;"></div>
+        <div style="font-size: 13px; color: #5B6270;">#E24C4C</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="width: 110px; font-size: 14px; font-weight: 600;">Orange</div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #F0883E;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #D66F26;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #FDECD9; border: 1px solid #E2E5EA;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #3A2A18;"></div>
+        <div style="font-size: 13px; color: #5B6270;">#F0883E</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="width: 110px; font-size: 14px; font-weight: 600;">Bleu</div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #2A8FE0;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #1E72B8;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #E3F1FC; border: 1px solid #E2E5EA;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #163247;"></div>
+        <div style="font-size: 13px; color: #5B6270;">#2A8FE0</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="width: 110px; font-size: 14px; font-weight: 600;">Turquoise</div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #14B8A6;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #0F9488;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #DAF5F1; border: 1px solid #E2E5EA;"></div>
+        <div style="width: 100px; height: 56px; border-radius: 10px; background: #10302C;"></div>
+        <div style="font-size: 13px; color: #5B6270;">#14B8A6</div>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-top: 4px;">
+        <div style="width: 110px;"></div>
+        <div style="width: 100px; font-size: 12px; color: #5B6270; text-align: center;">Base</div>
+        <div style="width: 100px; font-size: 12px; color: #5B6270; text-align: center;">Hover</div>
+        <div style="width: 100px; font-size: 12px; color: #5B6270; text-align: center;">Teinte claire</div>
+        <div style="width: 100px; font-size: 12px; color: #5B6270; text-align: center;">Teinte sombre</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">Selecteur de theme</div>
+    <div style="width: 420px; background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Apparence</div>
+        <div style="display: flex; gap: 8px;">
+          <div style="padding: 8px 20px; background: #1A1D23; color: #FFFFFF; border-radius: 8px; font-size: 14px; font-weight: 600;">Clair</div>
+          <div style="padding: 8px 20px; background: #F7F8FA; color: #5B6270; border-radius: 8px; font-size: 14px; font-weight: 600;">Sombre</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6270;">Couleur d'accent</div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <div style="width: 32px; height: 32px; border-radius: 999px; background: #7C5CFC;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 999px; background: #E24C4C;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 999px; background: #F0883E;"></div>
+          <div style="width: 38px; height: 38px; border-radius: 999px; background: #2A8FE0; border: 3px solid #E3F1FC; box-shadow: 0 0 0 2px #2A8FE0;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 999px; background: #14B8A6;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">Typographie</div>
+    <div style="display: flex; flex-direction: column; gap: 28px;">
+
+      <div style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #E2E5EA; padding-bottom: 20px;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; line-height: 1.15;">Planifiez vos repas de la semaine</div>
+        <div style="font-size: 13px; color: #5B6270;">Space Grotesk - 40px - 700 - Titre H1</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #E2E5EA; padding-bottom: 20px;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.2;">Vos plats favoris</div>
+        <div style="font-size: 13px; color: #5B6270;">Space Grotesk - 28px - 600 - Titre H2</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #E2E5EA; padding-bottom: 20px;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; line-height: 1.3;">Ingredients</div>
+        <div style="font-size: 13px; color: #5B6270;">Space Grotesk - 20px - 600 - Titre H3</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #E2E5EA; padding-bottom: 20px;">
+        <div style="font-family: 'Public Sans', sans-serif; font-size: 16px; font-weight: 400; line-height: 1.6; max-width: 640px;">Ce plat se prepare en 30 minutes et convient pour 4 personnes. Ajoutez-le a votre planning de la semaine ou a vos favoris pour le retrouver facilement.</div>
+        <div style="font-size: 13px; color: #5B6270;">Public Sans - 16px - 400 - Corps de texte</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #E2E5EA; padding-bottom: 20px;">
+        <div style="font-family: 'Public Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;">Categorie</div>
+        <div style="font-size: 13px; color: #5B6270;">Public Sans - 13px - 600 - Label</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="font-family: 'Public Sans', sans-serif; font-size: 13px; font-weight: 400; color: #5B6270;">Derniere mise a jour il y a 2 heures</div>
+        <div style="font-size: 13px; color: #5B6270;">Public Sans - 13px - 400 - Caption</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

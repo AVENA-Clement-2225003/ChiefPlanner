@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #1E72B8; text-decoration: none; }
+    a:hover { color: #175A93; }
+  </style>
+</helmet>
+<div style="width: 1440px; min-height: 1180px; background: #F7F8FA; font-family: 'Public Sans', sans-serif; color: #1A1D23; display: flex; flex-direction: column;">
+
+  <div style="height: 72px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: #FFFFFF; border-bottom: 1px solid #E2E5EA;">
+    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700;">Chief Planner</div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Accueil</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Plats</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Ingredients</div>
+      <div style="font-size: 14px; font-weight: 600; color: {{accent}};">MealFlows</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Tous les plats</div>
+      <div style="font-size: 14px; font-weight: 500; color: #5B6270;">Preferences</div>
+      <div style="width: 56px; height: 28px; border-radius: 999px; background: #EEF0F3; display: flex; align-items: center; padding: 2px;">
+        <div style="width: 24px; height: 24px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(26,29,35,0.16); display: flex; align-items: center; justify-content: center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F0883E" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"></path></svg>
+        </div>
+      </div>
+      <div style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid #E2E5EA; display: flex; align-items: center; justify-content: center;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      </div>
+      <div style="width: 36px; height: 36px; border-radius: 999px; background: {{accentTint}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: {{accent}};">CP</div>
+    </div>
+  </div>
+
+  <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600;">MealFlows</div>
+      <div style="padding: 10px 18px; background: {{accent}}; color: #FFFFFF; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+        Nouveau mealflow
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start;">
+
+      <div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; background: {{accentTint}}; border: 1px solid {{accent}};">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">Semaine vegetarienne</div>
+            <div style="font-size: 12px; color: #5B6270;">7 plats</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">Rapide - moins de 20 min</div>
+            <div style="font-size: 12px; color: #5B6270;">5 plats</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">Repas du dimanche</div>
+            <div style="font-size: 12px; color: #5B6270;">3 plats</div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 10px; border: 1px dashed #E2E5EA; color: #5B6270;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+          <div style="font-size: 13px; font-weight: 600;">Nouveau mealflow</div>
+        </div>
+
+      </div>
+
+      <div style="position: relative;">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+
+          <div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;">
+              <div style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600;">Tous les plats</div>
+              <div style="font-size: 12px; color: #5B6270;">6 plats</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Poulet roti aux herbes</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Saumon grille</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Burger maison</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Pizza maison</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Tacos</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid #E2E5EA;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #EEF0F3; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Roti du dimanche</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style="background: #FFFFFF; border: 1px solid {{accent}}; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;">
+              <div style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600;">Semaine vegetarienne</div>
+              <div style="font-size: 12px; color: #5B6270;">7 plats</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Curry de legumes</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Pates bolognaise</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Ratatouille</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Soupe de potiron</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Quiche aux poireaux</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: {{accentTint}};">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #FFFFFF; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600;">Tarte aux legumes</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1.5px dashed {{accent}};">
+                <div style="width: 14px;"></div>
+                <div style="width: 34px; height: 34px; flex-shrink: 0;"></div>
+                <div style="flex: 1; font-size: 13px; font-weight: 600; color: {{accent}};">Deposez ici</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div style="position: absolute; left: 50%; top: 210px; width: 300px; margin-left: -150px; transform: rotate(-3deg); background: #FFFFFF; border: 1px solid {{accent}}; border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 16px 32px rgba(26,29,35,0.24); z-index: 5;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#C7CBD1"><circle cx="5" cy="4" r="1.6"></circle><circle cx="5" cy="10" r="1.6"></circle><circle cx="5" cy="16" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+          <div style="width: 34px; height: 34px; border-radius: 8px; background: {{accentTint}}; flex-shrink: 0;"></div>
+          <div style="flex: 1; font-size: 13px; font-weight: 600;">Risotto aux champignons</div>
+        </div>
+
+        <div style="text-align: center; font-size: 12px; color: #5B6270; margin-top: 14px;">Glissez un plat entre les colonnes pour l'ajouter ou le retirer du mealflow.</div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#2A8FE0","options":["#7C5CFC","#E24C4C","#F0883E","#2A8FE0","#14B8A6"]}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2A8FE0';
+    const map = {
+      '#7C5CFC': { tint: '#EDE9FE' },
+      '#E24C4C': { tint: '#FBE7E7' },
+      '#F0883E': { tint: '#FDECD9' },
+      '#2A8FE0': { tint: '#E3F1FC' },
+      '#14B8A6': { tint: '#DAF5F1' }
+    };
+    const m = map[accent] || map['#2A8FE0'];
+    return { accent: accent, accentTint: m.tint };
+  }
+}
+</script>
+</body>
+</html>

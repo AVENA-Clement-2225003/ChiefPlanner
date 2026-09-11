@@ -1,0 +1,24 @@
+{
+  "units": [
+    { "id": "unit", "label": "unite" },
+    { "id": "g", "label": "g" },
+    { "id": "kg", "label": "kg" },
+    { "id": "ml", "label": "ml" },
+    { "id": "l", "label": "L" },
+    { "id": "tbsp", "label": "c. a soupe" },
+    { "id": "tsp", "label": "c. a cafe" },
+    { "id": "clove", "label": "gousse(s)" },
+    { "id": "slice", "label": "tranche(s)" },
+    { "id": "pinch", "label": "pincee" }
+  ],
+  "categories": [
+    { "id": "poultry", "label": "Volaille" },
+    { "id": "vegetarian", "label": "Vegetarien" },
+    { "id": "fish", "label": "Poisson" },
+    { "id": "meat", "label": "Viande" },
+    { "id": "starter", "label": "Entree" },
+    { "id": "dessert", "label": "Dessert" },
+    { "id": "oven", "label": "Four" },
+    { "id": "soup", "label": "Soupe" }
+  ]
+}

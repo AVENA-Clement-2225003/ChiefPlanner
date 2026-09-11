@@ -1,0 +1,24 @@
+{
+  "pages": [
+    { "id": "page-system", "name": "Systeme de design" },
+    { "id": "page-screens", "name": "Ecrans" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1240, "h": 1900, "page": "page-system" },
+    { "file": "Components.dc.html", "x": 1360, "y": 0, "w": 1200, "h": 1680, "page": "page-system" },
+    { "file": "ComponentsDark.dc.html", "x": 2680, "y": 0, "w": 1200, "h": 1680, "page": "page-system" },
+    { "file": "Nav.dc.html", "x": 4000, "y": 0, "w": 1280, "h": 420, "page": "page-system" },
+    { "file": "NavDark.dc.html", "x": 4000, "y": 540, "w": 1280, "h": 420, "page": "page-system" },
+    { "file": "Home.dc.html", "x": 0, "y": 0, "w": 1440, "h": 1720, "page": "page-screens" },
+    { "file": "HomeDark.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 1720, "page": "page-screens" },
+    { "file": "Plats.dc.html", "x": 3120, "y": 0, "w": 1440, "h": 1780, "page": "page-screens" },
+    { "file": "PlatsDark.dc.html", "x": 4680, "y": 0, "w": 1440, "h": 1780, "page": "page-screens" },
+    { "file": "MealFlows.dc.html", "x": 6240, "y": 0, "w": 1440, "h": 1200, "page": "page-screens" },
+    { "file": "MealFlowsDark.dc.html", "x": 7800, "y": 0, "w": 1440, "h": 1200, "page": "page-screens" },
+    { "file": "TousLesPlats.dc.html", "x": 9360, "y": 0, "w": 1440, "h": 1140, "page": "page-screens" },
+    { "file": "TousLesPlatsDark.dc.html", "x": 10920, "y": 0, "w": 1440, "h": 1140, "page": "page-screens" },
+    { "file": "AccountModal.dc.html", "x": 12480, "y": 0, "w": 1440, "h": 900, "page": "page-screens" },
+    { "file": "AccountModalDark.dc.html", "x": 14040, "y": 0, "w": 1440, "h": 900, "page": "page-screens" }
+  ],
+  "launch": { "view": "canvas", "page": "page-screens" }
+}
