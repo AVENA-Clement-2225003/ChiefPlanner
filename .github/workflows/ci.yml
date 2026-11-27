@@ -31,7 +31,8 @@ jobs:
       - run: vendor/bin/pint --test
       # The image runs `artisan optimize` at every start: a closure route or a missing directory must fail here, not in production.
       - run: cp .env.example .env && php artisan key:generate && php artisan optimize
-      - run: php artisan optimize:clear && rm .env
+      # `optimize:clear` would also try to empty the database cache: just remove the files `optimize` wrote.
+      - run: rm -f .env bootstrap/cache/config.php bootstrap/cache/routes-*.php bootstrap/cache/events.php
       - run: vendor/bin/phpunit
       # Same tests again on MySQL, the database of production (the default run uses SQLite in memory).
       - run: vendor/bin/phpunit
