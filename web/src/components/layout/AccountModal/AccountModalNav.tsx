@@ -45,7 +45,7 @@ export function AccountModalNav({ user, activeSection, onSelect }: AccountModalN
         gap: 4,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 36px 8px 12px', marginBottom: 8 }}>
         <span
           style={{
             width: 32,
@@ -62,7 +62,17 @@ export function AccountModalNav({ user, activeSection, onSelect }: AccountModalN
         >
           {user?.initials ?? '--'}
         </span>
-        <span style={{ fontSize: 13, fontWeight: 600, color: neutrals.textPrimary }}>
+        <span
+          style={{
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            fontSize: 13,
+            fontWeight: 600,
+            color: neutrals.textPrimary,
+          }}
+        >
           {user?.displayName ?? 'Mon compte'}
         </span>
       </div>
