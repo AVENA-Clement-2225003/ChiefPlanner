@@ -1,5 +1,5 @@
 import { CheckIcon, ImagePlaceholderIcon, PlusIcon } from '@/components/icons';
-import { categoryLabel } from '@/services/catalogService';
+import { tagsCaption } from '@/services/catalogService';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { RADII } from '@/theme/tokens';
 import type { Dish } from '@/types';
@@ -131,7 +131,7 @@ export function DishResultCard({ dish, onToggleSubscription }: DishResultCardPro
           <OwnershipIndicator dish={dish} onToggleSubscription={onToggleSubscription} />
         </div>
         <span style={{ fontSize: 12, color: neutrals.textSecondary }}>
-          {dish.portions} pers. - {categoryLabel(dish.category)}
+          {dish.prepTimeMinutes} min - {tagsCaption(dish.tagIds) || 'sans étiquette'}
         </span>
       </div>
     </div>

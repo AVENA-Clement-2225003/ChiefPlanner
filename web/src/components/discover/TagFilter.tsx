@@ -1,21 +1,21 @@
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS } from '@/theme/tokens';
-import type { Category, DishCategory } from '@/types';
+import type { Tag } from '@/types';
 
-export type CategoryFilterValue = DishCategory | 'all';
+export type TagFilterValue = string | 'all';
 
-interface CategoryFilterProps {
-  categories: Category[];
-  value: CategoryFilterValue;
-  onChange: (value: CategoryFilterValue) => void;
+interface TagFilterProps {
+  tags: Tag[];
+  value: TagFilterValue;
+  onChange: (value: TagFilterValue) => void;
 }
 
-export function CategoryFilter({ categories, value, onChange }: CategoryFilterProps) {
+export function TagFilter({ tags, value, onChange }: TagFilterProps) {
   const { accent, neutrals } = useAppTheme();
 
-  const options: { value: CategoryFilterValue; label: string }[] = [
+  const options: { value: TagFilterValue; label: string }[] = [
     { value: 'all', label: 'Tous' },
-    ...categories.map((category) => ({ value: category.id as CategoryFilterValue, label: category.label })),
+    ...tags.map((tag) => ({ value: tag.id, label: tag.label })),
   ];
 
   return (

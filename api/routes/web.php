@@ -52,6 +52,8 @@ Route::prefix('api')->group(function () {
 
         Route::get('/week', [WeekController::class, 'show']);
         Route::put('/week', [WeekController::class, 'restore']);
+        Route::delete('/week/meals/{day}/{slot}', [WeekController::class, 'clearMeal'])
+            ->whereNumber('day')->whereIn('slot', ['lunch', 'dinner']);
         Route::post('/week/proposal', [WeekController::class, 'propose']);
         Route::post('/week/revert', [WeekController::class, 'revert']);
         Route::put('/week/meals/{day}/{slot}', [WeekController::class, 'updateMeal'])
@@ -59,6 +61,7 @@ Route::prefix('api')->group(function () {
 
         Route::get('/shopping-list', [ShoppingListController::class, 'show']);
         Route::put('/shopping-list/ticks', [ShoppingListController::class, 'tick']);
+        Route::delete('/shopping-list/ticks', [ShoppingListController::class, 'clearTicks']);
         Route::post('/extras', [ExtraController::class, 'store']);
         Route::put('/extras/{extra}', [ExtraController::class, 'update']);
         Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);

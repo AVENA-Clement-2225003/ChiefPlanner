@@ -10,7 +10,7 @@ import type { CurrentUser } from '@/types';
 const NAV_LINKS = [
   { to: ROUTES.home, label: 'Accueil' },
   { to: ROUTES.dishes, label: 'Plats' },
-  { to: ROUTES.ingredients, label: 'Ingredients' },
+  { to: ROUTES.store, label: 'Mon magasin' },
   { to: ROUTES.mealFlows, label: 'MealFlows' },
   { to: ROUTES.allDishes, label: 'Tous les plats' },
 ];

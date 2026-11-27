@@ -1,57 +1,53 @@
-import mealFlowsMock from '@/mocks/mealFlows.json';
 import type { MealFlow } from '@/types';
-import { NotFoundError, respondWith } from './apiClient';
-import { getDish, listDishes, setDishMealFlows } from './dishService';
+import { http } from './apiClient';
 
-interface MealFlowRecord {
-  id: string;
+interface ApiMealFlow {
+  id: number;
   name: string;
+  dishIds: number[];
 }
 
-const mealFlows: MealFlowRecord[] = structuredClone(mealFlowsMock);
-
-/** Membership lives on the dish (`dish.mealFlowIds`), so flows are composed here. */
-async function composeMealFlows(): Promise<MealFlow[]> {
-  const dishes = await listDishes();
-  return mealFlows.map((flow) => ({
-    id: flow.id,
-    name: flow.name,
-    dishIds: dishes.filter((dish) => dish.mealFlowIds.includes(flow.id)).map((dish) => dish.id),
-  }));
+export function toMealFlow(flow: ApiMealFlow): MealFlow {
+  return { id: String(flow.id), name: flow.name, dishIds: flow.dishIds.map(String) };
 }
 
 export async function listMealFlows(): Promise<MealFlow[]> {
-  return respondWith(await composeMealFlows());
-}
-
-export async function getMealFlow(mealFlowId: string): Promise<MealFlow> {
-  const flows = await composeMealFlows();
-  const flow = flows.find((candidate) => candidate.id === mealFlowId);
-  if (!flow) {
-    throw new NotFoundError('MealFlow', mealFlowId);
-  }
-  return respondWith(flow);
-}
-
-export async function addDishToMealFlow(mealFlowId: string, dishId: string): Promise<MealFlow> {
-  const dish = await getDish(dishId);
-  if (!dish.mealFlowIds.includes(mealFlowId)) {
-    await setDishMealFlows(dishId, [...dish.mealFlowIds, mealFlowId]);
-  }
-  return getMealFlow(mealFlowId);
-}
-
-export async function removeDishFromMealFlow(mealFlowId: string, dishId: string): Promise<MealFlow> {
-  const dish = await getDish(dishId);
-  await setDishMealFlows(
-    dishId,
-    dish.mealFlowIds.filter((id) => id !== mealFlowId),
-  );
-  return getMealFlow(mealFlowId);
+  const { data } = await http.get<{ data: ApiMealFlow[] }>('/meal-flows');
+  return data.data.map(toMealFlow);
 }
 
 export async function createMealFlow(name: string): Promise<MealFlow> {
-  const record: MealFlowRecord = { id: `flow-${mealFlows.length + 1}-${Date.now()}`, name };
-  mealFlows.push(record);
-  return respondWith({ ...record, dishIds: [] });
+  const { data } = await http.post<ApiMealFlow>('/meal-flows', { name });
+  return toMealFlow(data);
+}
+
+export async function renameMealFlow(mealFlowId: string, name: string): Promise<MealFlow> {
+  const { data } = await http.put<ApiMealFlow>(`/meal-flows/${mealFlowId}`, { name });
+  return toMealFlow(data);
+}
+
+export async function setMealFlowDishes(mealFlowId: string, dishIds: string[]): Promise<MealFlow> {
+  const { data } = await http.put<ApiMealFlow>(`/meal-flows/${mealFlowId}`, { dishIds: dishIds.map(Number) });
+  return toMealFlow(data);
+}
+
+export async function deleteMealFlow(mealFlowId: string): Promise<void> {
+  await http.delete(`/meal-flows/${mealFlowId}`);
+}
+
+export async function addDishToMealFlow(mealFlowId: string, dishId: string): Promise<MealFlow> {
+  const flows = await listMealFlows();
+  const flow = flows.find((candidate) => candidate.id === mealFlowId);
+  const dishIds = new Set(flow?.dishIds ?? []);
+  dishIds.add(dishId);
+  return setMealFlowDishes(mealFlowId, [...dishIds]);
+}
+
+export async function removeDishFromMealFlow(mealFlowId: string, dishId: string): Promise<MealFlow> {
+  const flows = await listMealFlows();
+  const flow = flows.find((candidate) => candidate.id === mealFlowId);
+  return setMealFlowDishes(
+    mealFlowId,
+    (flow?.dishIds ?? []).filter((id) => id !== dishId),
+  );
 }

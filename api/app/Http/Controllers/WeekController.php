@@ -62,6 +62,14 @@ class WeekController extends Controller
         return response()->json($this->presentMeal($this->week->updateMeal($request->user(), $day, $slot, $data)));
     }
 
+    /** Takes the Slot out of the week: nothing is planned there any more. */
+    public function clearMeal(Request $request, int $day, string $slot): JsonResponse
+    {
+        Meal::query()->where(['user_id' => $request->user()->id, 'day' => $day, 'slot' => $slot])->delete();
+
+        return response()->json(null, 204);
+    }
+
     private function assertDishInCatalogue(User $user, ?int $dishId): void
     {
         if ($dishId !== null && ! Dish::query()->inCatalogueOf($user)->whereKey($dishId)->exists()) {

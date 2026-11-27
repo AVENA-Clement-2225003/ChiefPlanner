@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 import { ImagePlaceholderIcon } from '@/components/icons';
-import { categoryLabel } from '@/services/catalogService';
+import { tagsCaption } from '@/services/catalogService';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { RADII } from '@/theme/tokens';
 import type { Dish } from '@/types';
@@ -70,7 +70,7 @@ export function DishSidebarList({ dishes, selectedDishId, onSelect }: DishSideba
                 {dish.name}
               </span>
               <span style={{ display: 'block', fontSize: 12, color: neutrals.textSecondary }}>
-                {categoryLabel(dish.category)} - {dish.prepTimeMinutes} min
+                {tagsCaption(dish.tagIds) || 'sans étiquette'} - {dish.prepTimeMinutes} min
               </span>
             </span>
           </button>

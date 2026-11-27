@@ -1,10 +1,10 @@
 import type { ComponentType, SVGProps } from 'react';
-import { BellIcon, DatabaseIcon, DocumentIcon, ShieldIcon, SlidersIcon } from '@/components/icons';
+import { DatabaseIcon, DocumentIcon, ShieldIcon, SlidersIcon } from '@/components/icons';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS } from '@/theme/tokens';
 import type { CurrentUser } from '@/types';
 
-export type AccountSectionKey = 'preferences' | 'notifications' | 'data' | 'administration' | 'legal';
+export type AccountSectionKey = 'planning' | 'preferences' | 'data' | 'administration' | 'legal';
 
 interface SectionEntry {
   key: AccountSectionKey;
@@ -15,11 +15,11 @@ interface SectionEntry {
 }
 
 const SECTIONS: SectionEntry[] = [
-  { key: 'preferences', label: 'Preferences', Icon: SlidersIcon },
-  { key: 'notifications', label: 'Notifications', Icon: BellIcon },
-  { key: 'data', label: 'Donnees', Icon: DatabaseIcon },
+  { key: 'planning', label: 'Planning', Icon: SlidersIcon },
+  { key: 'preferences', label: 'Apparence', Icon: SlidersIcon },
+  { key: 'data', label: 'Mes données', Icon: DatabaseIcon },
   { key: 'administration', label: 'Administration', Icon: ShieldIcon, adminOnly: true, separatorBefore: true },
-  { key: 'legal', label: 'Legal', Icon: DocumentIcon },
+  { key: 'legal', label: 'Légal', Icon: DocumentIcon },
 ];
 
 interface AccountModalNavProps {

@@ -16,6 +16,14 @@ class ShoppingListController extends Controller
         return response()->json($this->shoppingList->build($request->user()));
     }
 
+    /** Empties the ticks once the shopping trip is over. */
+    public function clearTicks(Request $request): JsonResponse
+    {
+        DB::table('shopping_ticks')->where('user_id', $request->user()->id)->delete();
+
+        return response()->json(null, 204);
+    }
+
     /** Ticks or unticks an item of the list while shopping. */
     public function tick(Request $request): JsonResponse
     {

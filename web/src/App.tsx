@@ -5,7 +5,7 @@ import { AdminPage } from '@/pages/AdminPage';
 import { AllDishesPage } from '@/pages/AllDishesPage';
 import { DishesPage } from '@/pages/DishesPage';
 import { HomePage } from '@/pages/HomePage';
-import { IngredientsPage } from '@/pages/IngredientsPage';
+import { StorePage } from '@/pages/StorePage';
 import { MealFlowsPage } from '@/pages/MealFlowsPage';
 import { ROUTES } from '@/routes';
 
@@ -20,7 +20,7 @@ export function App() {
       <Route element={<AppLayout />}>
         <Route path={ROUTES.home} element={<HomePage />} />
         <Route path={ROUTES.dishes} element={<DishesPage />} />
-        <Route path={ROUTES.ingredients} element={<IngredientsPage />} />
+        <Route path={ROUTES.store} element={<StorePage />} />
         <Route path={ROUTES.mealFlows} element={<MealFlowsPage />} />
         <Route path={ROUTES.allDishes} element={<AllDishesPage />} />
         <Route path={ROUTES.admin} element={<AdminOnly />} />

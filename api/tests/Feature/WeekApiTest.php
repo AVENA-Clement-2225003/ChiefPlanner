@@ -205,6 +205,16 @@ class WeekApiTest extends TestCase
         $this->getJson('/api/week')->assertJsonPath('meals.0.needsReplacement', true)->assertJsonPath('meals.0.servings', 2);
     }
 
+    public function test_a_slot_can_be_taken_out_of_the_week(): void
+    {
+        $this->actingAs(User::factory()->create());
+        $this->putJson('/api/week/meals/1/dinner', ['servings' => 2])->assertOk();
+
+        $this->deleteJson('/api/week/meals/1/dinner')->assertNoContent();
+
+        $this->getJson('/api/week')->assertJsonCount(0, 'meals');
+    }
+
     public function test_each_user_sees_only_their_own_week(): void
     {
         $other = User::factory()->create();
