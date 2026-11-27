@@ -1,38 +1,39 @@
-# ChiefPlanner v2.0
-## Sommaire
-- [Résumé](#résumé)
-- [Fonctionalitées ajoutées lors de la dernière mise à jour](#fonctionalitées-ajoutées-lors-de-la-dernière-mise-à-jour)
-- [Correction de bugs](#correction-de-bugs)
-  - [Bugs corrigés](#bugs-corrigés)
-  - [Bugs connus](#bugs-connus) 
-- [Mises à jour futures](#mises-à-jour-futures)
+# ChiefPlanner
 
-## Résumé
-ChiefPlanner est une application web qui permet en un simple clic de générer son planning de repas de la semaine.
+Planificateur de repas de la semaine : on génère en un clic une Proposition de repas pour le midi et le soir, ajustée au nombre de personnes, et l'application en déduit la liste de courses.
 
-Les plats sont sélectionnés de manière aléatoire pour le midi et le soir en fonction des préférences de générations que vous avez renseignés
+- Vocabulaire : [GLOSSARY.md](GLOSSARY.md)
+- Décisions d'architecture : [docs/adr/](docs/adr/)
+- Plan de travail : [docs/lots-de-travail.md](docs/lots-de-travail.md)
+- Règles de travail : [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Fonctionalitées ajoutées lors de la dernière mise à jour
-À partir de cette version 2.0 ChiefPlanner est désormais doté :
+## Structure
 
-- Système de compte
-- Authentification par tier :
-  - Google
-- Ajout d'un système de rôles :
-    - Administrateur
-    - Créateur de plats/ingrédients
-    - Utilisateur
-- Possibilité d'ajouter des extras dans la liste de courses (Qui ne sont pas en relation avec les plats). Par exemple : une bouteille de lait, des mouchoirs, des chips, etc.)
+| Dossier | Contenu |
+|---|---|
+| `api/` | API Laravel (JSON), authentification OIDC avec Authentik |
+| `web/` | SPA React, TypeScript et Ant Design (PWA) |
+| `design/` | Maquettes et design system |
+| `docs/` | ADR, plan de travail, documentation agents |
 
-## Correction de bugs
-### Bugs corrigés
-- Une fois déconnecté et reconnecté, le script responsable de l'affichage des informations d'un plat pour un jour de la semaine ne s'exécutait plus.
-- Une erreur survenait lorsque les préférences étaient modifiée et que l'on essayait de retourner sur la page principale (tentative de lecture sur une valeur de type null)
+## Développer en local
 
-### Bugs connus
-Aucun
+```bash
+# API (PHP 8.3 ou plus, Composer)
+cd api
+composer install
+cp .env.example .env && php artisan key:generate
+php artisan serve --port=8080
 
-## Mises à jour futures
- - Authentification par tier :
-   - Microsoft
-   - Apple
+# SPA (Node 22) ; /api est proxifié vers http://127.0.0.1:8080
+cd web
+npm install
+npm run dev
+```
+
+## Contrôles
+
+```bash
+cd api && vendor/bin/pint --test && vendor/bin/phpunit
+cd web && npm run typecheck && npm run lint && npm test && npm run build
+```
