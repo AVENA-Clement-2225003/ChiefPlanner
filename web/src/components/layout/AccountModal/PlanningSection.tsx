@@ -67,7 +67,7 @@ function SlotTile({ preference, flows, palette, label, onChange }: SlotTileProps
         onClick={() => onChange({ enabled: true })}
         style={{
           ...tileButton,
-          minHeight: 92,
+          minHeight: 84,
           borderRadius: 12,
           border: `1px dashed ${palette.border}`,
           color: palette.textSecondary,
@@ -82,14 +82,14 @@ function SlotTile({ preference, flows, palette, label, onChange }: SlotTileProps
 
   const stepper: CSSProperties = {
     ...tileButton,
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
     borderRadius: 8,
     background: palette.surface,
     color: palette.textPrimary,
     fontSize: 15,
     fontWeight: 700,
-    lineHeight: '24px',
+    lineHeight: '22px',
   };
 
   return (
@@ -111,7 +111,7 @@ function SlotTile({ preference, flows, palette, label, onChange }: SlotTileProps
         onClick={() => onChange({ enabled: false })}
         style={{ ...tileButton, display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}
       >
-        <span style={{ fontFamily: FONTS.heading, fontSize: 28, fontWeight: 700, color: palette.accentText }}>
+        <span style={{ fontFamily: FONTS.heading, fontSize: 24, fontWeight: 700, color: palette.accentText }}>
           {servings}
         </span>
         <span style={{ fontSize: 11, color: palette.textSecondary, marginTop: 2 }}>
@@ -290,7 +290,7 @@ export function PlanningSection() {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <span style={{ fontFamily: FONTS.heading, fontSize: 22, fontWeight: 600, color: palette.textPrimary }}>
           Planning
