@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Layout } from 'antd';
 import { LogoutIcon } from '@/components/icons';
+import { Logo } from '@/components/layout/Logo';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { ROUTES } from '@/routes';
 import { useAppTheme } from '@/theme/ThemeProvider';
@@ -38,9 +39,7 @@ export function NavBar({ user, onOpenAccount, onLogout }: NavBarProps) {
         background: neutrals.surface,
       }}
     >
-      <span style={{ fontFamily: FONTS.heading, fontSize: 20, fontWeight: 700, color: neutrals.textPrimary }}>
-        Chief Planner
-      </span>
+      <Logo />
 
       <nav style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         {(user?.isAdmin ? [...NAV_LINKS, ADMIN_LINK] : NAV_LINKS).map((link) => (
