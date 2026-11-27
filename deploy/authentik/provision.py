@@ -72,6 +72,9 @@ provider, created = OAuth2Provider.objects.get_or_create(
 provider.redirect_uris = [
     RedirectURI(RedirectURIMatchingMode.STRICT, f"{PUBLIC_URL}/api/auth/callback", RedirectURIType.AUTHORIZATION)
 ]
+# Since Authentik 2026.8 a provider only accepts the grant types it lists: with none, every authorize request
+# is refused with a bare `invalid_request` ("The request is otherwise malformed").
+provider.grant_types = ["authorization_code", "refresh_token"]
 provider.property_mappings.set(mappings)
 provider.save()
 
