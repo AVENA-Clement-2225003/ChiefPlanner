@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\DishController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +21,22 @@ Route::prefix('api')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/me', [MeController::class, 'show']);
+        Route::get('/catalog', [CatalogController::class, 'index']);
+
+        Route::get('/ingredients', [IngredientController::class, 'index']);
+        Route::post('/ingredients', [IngredientController::class, 'store']);
+        Route::patch('/ingredients/{ingredient}', [IngredientController::class, 'update']);
+        Route::delete('/ingredients/{ingredient}', [IngredientController::class, 'destroy']);
+
+        Route::get('/dishes', [DishController::class, 'index']);
+        Route::get('/dishes/shared', [DishController::class, 'shared']);
+        Route::post('/dishes', [DishController::class, 'store']);
+        Route::get('/dishes/{dish}', [DishController::class, 'show']);
+        Route::put('/dishes/{dish}', [DishController::class, 'update']);
+        Route::delete('/dishes/{dish}', [DishController::class, 'destroy']);
+        Route::put('/dishes/{dish}/share', [DishController::class, 'share']);
+        Route::put('/dishes/{dish}/subscription', [DishController::class, 'subscribe']);
+        Route::delete('/dishes/{dish}/subscription', [DishController::class, 'unsubscribe']);
 
         Route::middleware('admin')->prefix('admin')->group(function () {
             Route::get('/users', [AdminUserController::class, 'index']);
