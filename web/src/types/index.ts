@@ -101,6 +101,13 @@ export interface HomeSummary {
   averagePrepTimeMinutes: number;
 }
 
+export interface AdminUser {
+  id: number;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
+
 export interface CurrentUser {
   id: string;
   displayName: string;

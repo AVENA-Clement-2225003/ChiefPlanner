@@ -15,6 +15,8 @@ const NAV_LINKS = [
   { to: ROUTES.allDishes, label: 'Tous les plats' },
 ];
 
+const ADMIN_LINK = { to: ROUTES.admin, label: 'Administration' };
+
 interface NavBarProps {
   user: CurrentUser | null;
   onOpenAccount: () => void;
@@ -41,7 +43,7 @@ export function NavBar({ user, onOpenAccount, onLogout }: NavBarProps) {
       </span>
 
       <nav style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        {NAV_LINKS.map((link) => (
+        {(user?.isAdmin ? [...NAV_LINKS, ADMIN_LINK] : NAV_LINKS).map((link) => (
           <NavLink
             key={link.to}
             to={link.to}

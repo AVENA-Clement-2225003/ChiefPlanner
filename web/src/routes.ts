@@ -4,4 +4,5 @@ export const ROUTES = {
   ingredients: '/ingredients',
   mealFlows: '/mealflows',
   allDishes: '/tous-les-plats',
+  admin: '/admin',
 } as const;

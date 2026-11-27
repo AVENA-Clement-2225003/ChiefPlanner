@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { App as AntdApp, Layout } from 'antd';
+import { useAuth, useCurrentUser } from '@/auth/AuthProvider';
 import { AccountModal } from '@/components/layout/AccountModal/AccountModal';
 import { NavBar } from '@/components/layout/NavBar';
-import { useAsyncData } from '@/hooks/useAsyncData';
-import { getCurrentUser, logout } from '@/services/userService';
 import { useAppTheme } from '@/theme/ThemeProvider';
 
 export function AppLayout() {
   const [accountOpen, setAccountOpen] = useState(false);
   const { neutrals } = useAppTheme();
   const { message } = AntdApp.useApp();
-  const { data: user } = useAsyncData(getCurrentUser, []);
+  const user = useCurrentUser();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
