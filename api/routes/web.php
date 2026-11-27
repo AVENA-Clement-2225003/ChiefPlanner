@@ -7,6 +7,8 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MealFlowController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\WeekController;
 use Illuminate\Support\Facades\Route;
 
 // Every route lives under /api and goes through the `web` group (session cookie + CSRF),
@@ -38,6 +40,16 @@ Route::prefix('api')->group(function () {
         Route::put('/dishes/{dish}/share', [DishController::class, 'share']);
         Route::put('/dishes/{dish}/subscription', [DishController::class, 'subscribe']);
         Route::delete('/dishes/{dish}/subscription', [DishController::class, 'unsubscribe']);
+
+        Route::get('/preferences', [PreferencesController::class, 'show']);
+        Route::put('/preferences', [PreferencesController::class, 'update']);
+
+        Route::get('/week', [WeekController::class, 'show']);
+        Route::put('/week', [WeekController::class, 'restore']);
+        Route::post('/week/proposal', [WeekController::class, 'propose']);
+        Route::post('/week/revert', [WeekController::class, 'revert']);
+        Route::put('/week/meals/{day}/{slot}', [WeekController::class, 'updateMeal'])
+            ->whereNumber('day')->whereIn('slot', ['lunch', 'dinner']);
 
         Route::get('/meal-flows', [MealFlowController::class, 'index']);
         Route::post('/meal-flows', [MealFlowController::class, 'store']);
