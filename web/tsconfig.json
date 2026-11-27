@@ -14,9 +14,8 @@
     "noEmit": true,
     "skipLibCheck": true,
     "allowImportingTsExtensions": false,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "types": ["vite/client", "node"]
   },

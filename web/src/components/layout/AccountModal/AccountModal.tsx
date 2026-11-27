@@ -1,18 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Modal } from 'antd';
 import { CloseIcon } from '@/components/icons';
+import { ROUTES } from '@/routes';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS } from '@/theme/tokens';
 import type { CurrentUser } from '@/types';
 import { AccountModalNav, type AccountSectionKey } from './AccountModalNav';
+import { DataSection } from './DataSection';
+import { PlanningSection } from './PlanningSection';
 import { PreferencesSection } from './PreferencesSection';
-
-const UNDESIGNED_SECTIONS: Record<Exclude<AccountSectionKey, 'preferences'>, string> = {
-  notifications: 'Notifications',
-  data: 'Donnees',
-  administration: 'Administration',
-  legal: 'Legal',
-};
 
 interface AccountModalProps {
   open: boolean;
@@ -20,9 +17,48 @@ interface AccountModalProps {
   onClose: () => void;
 }
 
-export function AccountModal({ open, user, onClose }: AccountModalProps) {
-  const [activeSection, setActiveSection] = useState<AccountSectionKey>('preferences');
+function SectionTitle({ children }: { children: string }) {
   const { neutrals } = useAppTheme();
+  return (
+    <span style={{ fontFamily: FONTS.heading, fontSize: 22, fontWeight: 600, color: neutrals.textPrimary }}>
+      {children}
+    </span>
+  );
+}
+
+export function AccountModal({ open, user, onClose }: AccountModalProps) {
+  const [activeSection, setActiveSection] = useState<AccountSectionKey>('planning');
+  const { neutrals } = useAppTheme();
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'planning':
+        return <PlanningSection />;
+      case 'preferences':
+        return <PreferencesSection />;
+      case 'data':
+        return <DataSection />;
+      case 'administration':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <SectionTitle>Administration</SectionTitle>
+            <Link to={ROUTES.admin} onClick={onClose}>
+              Ouvrir le panneau d&apos;administration
+            </Link>
+          </div>
+        );
+      case 'legal':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <SectionTitle>Légal</SectionTitle>
+            <span style={{ fontSize: 14, color: neutrals.textSecondary }}>
+              ChiefPlanner ne conserve que ce dont l&apos;application a besoin pour fonctionner. Vous pouvez effacer
+              vos données depuis la section « Mes données ».
+            </span>
+          </div>
+        );
+    }
+  };
 
   return (
     <Modal
@@ -38,22 +74,7 @@ export function AccountModal({ open, user, onClose }: AccountModalProps) {
       }}
     >
       <div style={{ display: 'flex', height: 600, position: 'relative' }}>
-        <div style={{ flex: 1, padding: 36, overflowY: 'auto' }}>
-          {activeSection === 'preferences' ? (
-            <PreferencesSection />
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <span
-                style={{ fontFamily: FONTS.heading, fontSize: 22, fontWeight: 600, color: neutrals.textPrimary }}
-              >
-                {UNDESIGNED_SECTIONS[activeSection]}
-              </span>
-              <span style={{ fontSize: 14, color: neutrals.textSecondary }}>
-                Section a concevoir : aucune maquette n&apos;existe encore pour cet ecran.
-              </span>
-            </div>
-          )}
-        </div>
+        <div style={{ flex: 1, padding: 36, overflowY: 'auto' }}>{renderSection()}</div>
 
         <AccountModalNav user={user} activeSection={activeSection} onSelect={setActiveSection} />
 

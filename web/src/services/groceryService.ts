@@ -1,57 +1,66 @@
-import extrasMock from '@/mocks/extras.json';
-import groceriesMock from '@/mocks/groceries.json';
-import spendingMock from '@/mocks/spending.json';
-import type { ExtraItem, GroceryItem, SpendingSummary } from '@/types';
-import { NotFoundError, respondWith } from './apiClient';
+import type { ExtraItem, GroceryItem, ShoppingList, SpendingSummary } from '@/types';
+import { http } from './apiClient';
 
-const groceries: GroceryItem[] = structuredClone(groceriesMock);
-const extras: ExtraItem[] = structuredClone(extrasMock);
-const spending: SpendingSummary = structuredClone(spendingMock);
-
-export function listGroceries(): Promise<GroceryItem[]> {
-  return respondWith(groceries);
+interface ApiShoppingItem {
+  key: string;
+  name: string;
+  quantity: number;
+  unitId: string;
+  aisleId: string | null;
+  purchased: boolean;
+  packs: GroceryItem['packs'];
+  estimatedPrice: number | null;
 }
 
-export function listExtras(): Promise<ExtraItem[]> {
-  return respondWith(extras);
+interface ApiShoppingList {
+  items: ApiShoppingItem[];
+  extras: ExtraItem[];
+  estimatedTotal: number;
+  unpricedItems: number;
 }
 
-export function getSpendingSummary(): Promise<SpendingSummary> {
-  return respondWith(spending);
+export async function getShoppingList(): Promise<ShoppingList> {
+  const { data } = await http.get<ApiShoppingList>('/shopping-list');
+  return {
+    ...data,
+    items: data.items.map((item) => ({
+      id: item.key,
+      name: item.name,
+      value: item.quantity,
+      unitId: item.unitId,
+      aisleId: item.aisleId,
+      purchased: item.purchased,
+      packs: item.packs,
+      estimatedPrice: item.estimatedPrice,
+    })),
+  };
 }
 
-export function setGroceryPurchased(groceryId: string, purchased: boolean): Promise<GroceryItem> {
-  const item = groceries.find((candidate) => candidate.id === groceryId);
-  if (!item) {
-    throw new NotFoundError('Ingredient', groceryId);
-  }
-  item.purchased = purchased;
-  return respondWith(item);
+export async function getSpendingSummary(): Promise<SpendingSummary> {
+  const { data } = await http.get<SpendingSummary>('/spendings/summary');
+  return data;
 }
 
-/**
- * Closes the current shopping list: the paid amount feeds the spending history,
- * exactly like the "valider l'achat" form of the current production app.
- */
-export function validatePurchase(amount: number): Promise<SpendingSummary> {
-  spending.points.push({ label: `S${spending.points.length + 1}`, amount });
-  spending.monthTotal += amount;
-  groceries.forEach((item) => {
-    item.purchased = false;
-  });
-  return respondWith(spending);
+export async function setGroceryPurchased(key: string, purchased: boolean): Promise<void> {
+  await http.put('/shopping-list/ticks', { key, checked: purchased });
 }
 
-export function addExtra(label: string): Promise<ExtraItem> {
-  const item: ExtraItem = { id: `extra-${Date.now()}`, label };
-  extras.push(item);
-  return respondWith(item);
+/** Closes the shopping trip: the paid amount goes to the spending history and the ticks are cleared. */
+export async function validatePurchase(amount: number): Promise<void> {
+  await http.post('/spendings', { amount });
+  await http.delete('/shopping-list/ticks');
 }
 
-export function removeExtra(extraId: string): Promise<void> {
-  const index = extras.findIndex((item) => item.id === extraId);
-  if (index !== -1) {
-    extras.splice(index, 1);
-  }
-  return respondWith(undefined);
+export async function addExtra(label: string, aisleId: string | null = null): Promise<ExtraItem> {
+  const { data } = await http.post<ExtraItem>('/extras', { label, aisleId });
+  return data;
+}
+
+export async function updateExtra(extraId: string, label: string, aisleId: string | null): Promise<ExtraItem> {
+  const { data } = await http.put<ExtraItem>(`/extras/${extraId}`, { label, aisleId });
+  return data;
+}
+
+export async function removeExtra(extraId: string): Promise<void> {
+  await http.delete(`/extras/${extraId}`);
 }

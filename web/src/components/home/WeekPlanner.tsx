@@ -57,7 +57,7 @@ function MealSlotCell({ meal, highlighted, onClick }: MealSlotCellProps) {
           overflow: 'hidden',
         }}
       >
-        {meal ? meal.dishName : '+ Ajouter'}
+        {meal ? (meal.dishName ?? 'À remplacer') : '+ Ajouter'}
       </span>
     </button>
   );
@@ -65,7 +65,8 @@ function MealSlotCell({ meal, highlighted, onClick }: MealSlotCellProps) {
 
 interface WeekPlannerProps {
   days: PlannedDay[];
-  onPreviousWeek: () => void;
+  canRevert: boolean;
+  onRevert: () => void;
   onRegenerate: () => void;
   onSelectSlot: (day: PlannedDay, slot: MealSlot) => void;
   regenerating?: boolean;
@@ -73,7 +74,8 @@ interface WeekPlannerProps {
 
 export function WeekPlanner({
   days,
-  onPreviousWeek,
+  canRevert,
+  onRevert,
   onRegenerate,
   onSelectSlot,
   regenerating = false,
@@ -93,14 +95,17 @@ export function WeekPlanner({
         </span>
         <div style={{ display: 'flex', gap: 10 }}>
           <Button
-            aria-label="Semaine precedente"
+            aria-label="Annuler la dernière proposition"
+            title="Annuler la dernière proposition"
+            disabled={!canRevert}
             icon={<ChevronLeftIcon size={16} />}
-            onClick={onPreviousWeek}
+            onClick={onRevert}
             style={{ width: 36, height: 36 }}
           />
           <Button
             type="primary"
-            aria-label="Regenerer la semaine"
+            aria-label="Régénérer la semaine"
+            title="Nouvelle proposition pour la semaine"
             icon={<RefreshIcon size={16} />}
             loading={regenerating}
             onClick={onRegenerate}

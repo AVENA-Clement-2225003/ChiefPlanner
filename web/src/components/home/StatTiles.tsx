@@ -2,6 +2,7 @@ import { Card } from 'antd';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS, RADII } from '@/theme/tokens';
 import type { HomeSummary } from '@/types';
+import { formatVariation, isGoodVariation } from './variation';
 
 interface StatTileProps {
   label: string;
@@ -60,8 +61,8 @@ export function StatTiles({ summary }: { summary: HomeSummary }) {
       <StatTile
         label="Budget courses"
         value={`${summary.spending.total} ${summary.spending.currency}`}
-        caption={`${variation > 0 ? '+' : ''}${variation}% vs mois dernier`}
-        captionColor={variation <= 0 ? status.success : status.error}
+        caption={`${formatVariation(variation)} vs mois dernier`}
+        captionColor={isGoodVariation(variation) === null ? undefined : isGoodVariation(variation) ? status.success : status.error}
       />
       <StatTile
         label="MealFlow actif"

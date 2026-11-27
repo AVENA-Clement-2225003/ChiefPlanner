@@ -9,28 +9,31 @@ import { StatTiles } from '@/components/home/StatTiles';
 import { TodayCard } from '@/components/home/TodayCard';
 import { WeekPlanner } from '@/components/home/WeekPlanner';
 import { useAsyncData } from '@/hooks/useAsyncData';
+import { apiErrorMessage } from '@/services/apiClient';
+import { listAisles } from '@/services/catalogService';
 import { listDishes } from '@/services/dishService';
 import {
+  addExtra,
+  getShoppingList,
   getSpendingSummary,
-  listExtras,
-  listGroceries,
+  removeExtra,
   setGroceryPurchased,
   validatePurchase,
 } from '@/services/groceryService';
 import { getHomeSummary } from '@/services/statsService';
-import { clearMeal, getWeekPlan, regenerateWeekPlan, setMeal } from '@/services/weekService';
+import { clearMeal, getWeekPlan, regenerateWeekPlan, revertWeekPlan, setMeal, setMealServings } from '@/services/weekService';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS } from '@/theme/tokens';
-import type { Dish, GroceryItem, MealSlot, PlannedDay } from '@/types';
+import type { Dish, ExtraItem, GroceryItem, MealSlot, PlannedDay } from '@/types';
 
 function formatToday(day: PlannedDay | undefined): string {
   if (!day) {
-    return 'Voici ou vous en etes cette semaine.';
+    return 'Voici où vous en êtes cette semaine.';
   }
   const formatted = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(
-    new Date(day.date),
+    new Date(`${day.date}T12:00:00`),
   );
-  return `${formatted} - voici ou vous en etes cette semaine.`;
+  return `${formatted} - voici où vous en êtes cette semaine.`;
 }
 
 export function HomePage() {
@@ -40,8 +43,8 @@ export function HomePage() {
   const summary = useAsyncData(getHomeSummary, []);
   const week = useAsyncData(getWeekPlan, []);
   const spending = useAsyncData(getSpendingSummary, []);
-  const groceries = useAsyncData(listGroceries, []);
-  const extras = useAsyncData(listExtras, []);
+  const shopping = useAsyncData(getShoppingList, []);
+  const aisles = useAsyncData(listAisles, []);
   const dishes = useAsyncData(listDishes, []);
 
   const [regenerating, setRegenerating] = useState(false);
@@ -49,44 +52,76 @@ export function HomePage() {
   const [pickerTarget, setPickerTarget] = useState<{ day: PlannedDay; slot: MealSlot } | null>(null);
 
   const today = week.data?.days.find((day) => day.isToday) ?? null;
-  const availableDishes = (dishes.data ?? []).filter((dish) => dish.ownedByCurrentUser || dish.subscribed);
 
   const refreshPlanning = () => {
     week.reload();
     summary.reload();
+    shopping.reload();
+  };
+
+  const attempt = async (action: () => Promise<void>, failure: string) => {
+    try {
+      await action();
+    } catch (error) {
+      message.error(apiErrorMessage(error, failure));
+    }
   };
 
   const handleRegenerate = async () => {
     setRegenerating(true);
-    try {
+    await attempt(async () => {
       await regenerateWeekPlan();
       refreshPlanning();
-      message.success('Semaine regeneree');
-    } finally {
-      setRegenerating(false);
-    }
+      message.success('Nouvelle proposition pour la semaine');
+    }, 'La proposition a échoué.');
+    setRegenerating(false);
   };
+
+  const handleRevert = () =>
+    attempt(async () => {
+      await revertWeekPlan();
+      refreshPlanning();
+      message.success('Proposition précédente retrouvée');
+    }, 'Aucune proposition précédente.');
 
   const handleToggleGrocery = async (item: GroceryItem, purchased: boolean) => {
     await setGroceryPurchased(item.id, purchased);
-    groceries.reload();
+    shopping.reload();
   };
 
   const handleValidatePurchase = async (amount: number) => {
     await validatePurchase(amount);
     setPurchaseOpen(false);
-    groceries.reload();
+    shopping.reload();
     spending.reload();
     summary.reload();
-    message.success('Achat enregistre');
+    message.success('Achat enregistré');
+  };
+
+  const handleAddExtra = async (label: string) => {
+    await addExtra(label);
+    shopping.reload();
+  };
+
+  const handleRemoveExtra = async (extra: ExtraItem) => {
+    await removeExtra(extra.id);
+    shopping.reload();
   };
 
   const handleSelectDish = async (dish: Dish) => {
     if (!pickerTarget) {
       return;
     }
-    await setMeal(pickerTarget.day.date, pickerTarget.slot, { dishId: dish.id, dishName: dish.name });
+    await setMeal(pickerTarget.day.date, pickerTarget.slot, { dishId: dish.id });
     setPickerTarget(null);
+    refreshPlanning();
+  };
+
+  const handleServings = async (servings: number) => {
+    if (!pickerTarget) {
+      return;
+    }
+    await setMealServings(pickerTarget.day.date, pickerTarget.slot, servings);
     refreshPlanning();
   };
 
@@ -99,9 +134,11 @@ export function HomePage() {
     refreshPlanning();
   };
 
-  if (!summary.data || !week.data || !spending.data || !groceries.data || !extras.data) {
+  if (!summary.data || !week.data || !spending.data || !shopping.data || !aisles.data) {
     return <Spin size="large" style={{ display: 'block', margin: '80px auto' }} />;
   }
+
+  const pickedMeal = pickerTarget ? pickerTarget.day[pickerTarget.slot] : null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -117,7 +154,7 @@ export function HomePage() {
       <TodayCard
         day={today}
         onReplace={() => today && setPickerTarget({ day: today, slot: 'lunch' })}
-        onOpenRecipe={() => message.info('La fiche recette arrive dans un prochain ecran')}
+        onOpenRecipe={() => message.info('La fiche recette arrive dans un prochain écran')}
       />
 
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, alignItems: 'start' }}>
@@ -125,7 +162,8 @@ export function HomePage() {
           <WeekPlanner
             days={week.data.days}
             regenerating={regenerating}
-            onPreviousWeek={() => message.info('Historique des semaines precedentes a venir')}
+            canRevert={week.data.hasPrevious}
+            onRevert={handleRevert}
             onRegenerate={handleRegenerate}
             onSelectSlot={(day, slot) => setPickerTarget({ day, slot })}
           />
@@ -134,11 +172,15 @@ export function HomePage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <GroceryList
-            items={groceries.data}
+            items={shopping.data.items}
+            aisles={aisles.data}
+            estimatedTotal={shopping.data.estimatedTotal}
+            unpricedItems={shopping.data.unpricedItems}
+            currency={spending.data.currency}
             onTogglePurchased={handleToggleGrocery}
             onValidatePurchase={() => setPurchaseOpen(true)}
           />
-          <ExtraList items={extras.data} onEdit={() => message.info('Edition de la liste extra a venir')} />
+          <ExtraList items={shopping.data.extras} onAdd={handleAddExtra} onRemove={handleRemoveExtra} />
         </div>
       </div>
 
@@ -146,7 +188,9 @@ export function HomePage() {
         open={pickerTarget !== null}
         day={pickerTarget?.day ?? null}
         slot={pickerTarget?.slot ?? null}
-        dishes={availableDishes}
+        dishes={dishes.data ?? []}
+        servings={pickedMeal?.servings ?? null}
+        onServingsChange={handleServings}
         onClose={() => setPickerTarget(null)}
         onSelect={handleSelectDish}
         onClear={handleClearMeal}

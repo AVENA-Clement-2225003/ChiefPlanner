@@ -1,0 +1,84 @@
+# Une instance de ChiefPlanner (api + front + base). Prod et dev = deux projets Compose distincts,
+# avec leurs propres volumes (donc leurs bases séparées) :
+#
+#   docker compose -p chiefplanner-prod --env-file prod.env up -d
+#   docker compose -p chiefplanner-dev  --env-file dev.env  up -d
+#
+# Le reverse proxy HTTPS (Nginx Proxy Manager) est hors de ce fichier. Il joint les conteneurs par leurs
+# alias sur le réseau partagé : `api-<INSTANCE>-chiefplanner` (port 8080) et `front-<INSTANCE>-chiefplanner`
+# (port 80). Voir README.md.
+
+services:
+  chiefplanner-db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: chiefplanner
+      MYSQL_USER: chiefplanner
+      MYSQL_PASSWORD: ${DB_PASSWORD:?mot de passe de la base requis}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?mot de passe root de la base requis}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  chiefplanner-api:
+    image: ghcr.io/${GHCR_OWNER}/chiefplanner-api:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      chiefplanner-db:
+        condition: service_healthy
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:?clé Laravel requise (php artisan key:generate --show)}
+      APP_URL: ${PUBLIC_URL:?URL publique requise}
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: chiefplanner-db
+      DB_PORT: "3306"
+      DB_DATABASE: chiefplanner
+      DB_USERNAME: chiefplanner
+      DB_PASSWORD: ${DB_PASSWORD}
+      SESSION_DRIVER: database
+      SESSION_SECURE_COOKIE: "true"
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      # Connexion par Authentik (ADR 0001 et 0002). Voir README.md.
+      OIDC_ISSUER: ${OIDC_ISSUER:?émetteur OIDC requis}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:?client OIDC requis}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:?secret OIDC requis}
+      OIDC_GROUP_USER: ${OIDC_GROUP_USER:?groupe des utilisateurs requis}
+      OIDC_GROUP_ADMIN: ${OIDC_GROUP_ADMIN:?groupe des administrateurs requis}
+      AUTHENTIK_API_URL: ${AUTHENTIK_API_URL:?URL de l'API Authentik requise}
+      AUTHENTIK_API_TOKEN: ${AUTHENTIK_API_TOKEN:?jeton du compte de service requis}
+      AUTHENTIK_ADMIN_GROUP_ID: ${AUTHENTIK_ADMIN_GROUP_ID:?identifiant du groupe admin requis}
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    networks:
+      default:
+      proxy:
+        aliases: ["api-${INSTANCE:?prod ou dev}-chiefplanner"]
+
+  chiefplanner-front:
+    image: ghcr.io/${GHCR_OWNER}/chiefplanner-front:${TAG:-latest}
+    restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    networks:
+      default:
+      proxy:
+        aliases: ["front-${INSTANCE:?prod ou dev}-chiefplanner"]
+
+volumes:
+  # Base MySQL de l'instance. Aucune sauvegarde automatique (ADR 0003).
+  db:
+
+networks:
+  # Réseau partagé avec Nginx Proxy Manager (sur origae : reverse-proxy_npm_network).
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:-reverse-proxy_npm_network}

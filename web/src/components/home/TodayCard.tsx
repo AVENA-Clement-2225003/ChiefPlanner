@@ -29,7 +29,7 @@ function MealChip({ slotLabel, meal }: { slotLabel: string; meal: PlannedMeal | 
         {slotLabel}
       </span>
       <span style={{ fontSize: 14, fontWeight: 600, color: meal ? neutrals.textPrimary : neutrals.textDisabled }}>
-        {meal?.dishName ?? 'Aucun plat'}
+        {meal?.dishName ?? (meal?.needsReplacement ? 'À remplacer' : 'Aucun plat')}
       </span>
     </div>
   );

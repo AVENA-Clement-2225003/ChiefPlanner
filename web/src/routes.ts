@@ -1,7 +1,8 @@
 export const ROUTES = {
   home: '/',
   dishes: '/plats',
-  ingredients: '/ingredients',
+  store: '/magasin',
   mealFlows: '/mealflows',
   allDishes: '/tous-les-plats',
+  admin: '/admin',
 } as const;

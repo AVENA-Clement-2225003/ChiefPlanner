@@ -28,7 +28,7 @@ php artisan serve --port=8080
 # SPA (Node 22) ; /api est proxifié vers http://127.0.0.1:8080
 cd web
 npm install
-npm run dev
+npm run dev        # avec l'API sur le port 8080
 ```
 
 ## Contrôles

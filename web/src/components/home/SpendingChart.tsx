@@ -2,6 +2,7 @@ import { Card } from 'antd';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS, RADII } from '@/theme/tokens';
 import type { SpendingSummary } from '@/types';
+import { formatVariation, isGoodVariation } from './variation';
 
 const VIEWBOX_WIDTH = 1000;
 const VIEWBOX_HEIGHT = 160;
@@ -45,9 +46,8 @@ export function SpendingChart({ summary }: { summary: SpendingSummary }) {
         </span>
         <span style={{ fontSize: 13, color: neutrals.textSecondary }}>
           {summary.monthTotal} {summary.currency} ce mois -{' '}
-          <span style={{ color: variation <= 0 ? status.success : status.error, fontWeight: 600 }}>
-            {variation > 0 ? '+' : ''}
-            {variation}%
+          <span style={{ color: isGoodVariation(variation) === null ? neutrals.textSecondary : isGoodVariation(variation) ? status.success : status.error, fontWeight: 600 }}>
+            {formatVariation(variation)}
           </span>
         </span>
       </div>

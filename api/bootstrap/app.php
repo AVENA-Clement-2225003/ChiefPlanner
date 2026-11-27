@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // The SPA is the only client: an unauthenticated request gets a 401, never a redirect to a login page.
         $middleware->redirectGuestsTo(fn () => null);
+        // TLS ends at Nginx Proxy Manager: trust its forwarded headers so URLs and secure cookies are right.
+        $middleware->trustProxies(at: '*');
+        $middleware->alias(['admin' => EnsureAdmin::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->shouldRenderJsonWhen(fn () => true);
