@@ -31,6 +31,17 @@ npm install
 npm run dev        # avec l'API sur le port 8080
 ```
 
+## Voir l'interface en local, sans Authentik
+
+Avec `APP_ENV=local`, `GET /api/dev/login` ouvre une session de test (compte administrateur « Chef Local », quelques plats et MealFlows de démonstration) puis renvoie vers la SPA. Cette route n'existe pas hors de `local`.
+
+```bash
+# api/.env.local (ignoré par git) : APP_ENV=local, APP_KEY, DB_CONNECTION=sqlite, DB_DATABASE=<chemin absolu>
+cd api && APP_ENV=local php artisan migrate && APP_ENV=local php artisan serve --port=8080
+cd web && npm run dev
+# puis ouvrir http://localhost:8080/api/dev/login
+```
+
 ## Contrôles
 
 ```bash
