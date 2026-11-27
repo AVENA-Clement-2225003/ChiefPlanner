@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminIngredientController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
@@ -28,6 +29,7 @@ Route::prefix('api')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/me', [MeController::class, 'show']);
+        Route::delete('/me', [MeController::class, 'destroy']);
         Route::get('/catalog', [CatalogController::class, 'index']);
 
         Route::get('/ingredients', [IngredientController::class, 'index']);
@@ -77,6 +79,11 @@ Route::prefix('api')->group(function () {
             Route::get('/users', [AdminUserController::class, 'index']);
             Route::put('/users/{user}/admin', [AdminUserController::class, 'grantAdmin']);
             Route::delete('/users/{user}/admin', [AdminUserController::class, 'revokeAdmin']);
+            Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
+
+            Route::get('/ingredients', [AdminIngredientController::class, 'index']);
+            Route::post('/ingredients/{ingredient}/merge', [AdminIngredientController::class, 'merge']);
+            Route::delete('/ingredients/{ingredient}', [AdminIngredientController::class, 'destroy']);
         });
     });
 });

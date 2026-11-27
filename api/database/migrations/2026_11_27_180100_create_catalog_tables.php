@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
+            // No owner: the ingredient belongs to the Community (its creator left, but others' dishes use it).
+            $table->foreignId('owner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             // Lower-case, accent-free, single-spaced name: two ingredients with the same key are the same ingredient.
             $table->string('name_key');

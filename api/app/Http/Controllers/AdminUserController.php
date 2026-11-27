@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account\AccountDeletion;
 use App\Auth\AuthentikAdminGroup;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -17,6 +18,18 @@ class AdminUserController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return UserResource::collection(User::query()->orderBy('name')->get());
+    }
+
+    /** Erases a user's data on request (RGPD). An admin cannot erase their own account this way: DELETE /me exists. */
+    public function destroy(Request $request, User $user, AccountDeletion $deletion): JsonResponse
+    {
+        if ($request->user()->is($user)) {
+            return response()->json(['message' => 'Utilisez la suppression de votre propre compte.'], 422);
+        }
+
+        $deletion->erase($user);
+
+        return response()->json(null, 204);
     }
 
     public function grantAdmin(User $user): UserResource|JsonResponse
