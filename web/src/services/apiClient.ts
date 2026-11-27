@@ -27,7 +27,36 @@ export const http = axios.create({
   headers: { Accept: 'application/json' },
 });
 
+export const OFFLINE_MESSAGE = 'Vous êtes hors ligne : cette action nécessite une connexion.';
+
+export class OfflineError extends Error {
+  constructor() {
+    super(OFFLINE_MESSAGE);
+    this.name = 'OfflineError';
+  }
+}
+
+let offlineWriteHandler: (() => void) | null = null;
+
+/** Lets the app tell the user, wherever it happened, that a write was refused because the network is down. */
+export function onOfflineWrite(handler: (() => void) | null): void {
+  offlineWriteHandler = handler;
+}
+
+// Offline is read-only (ADR 0004): a write is refused up front rather than failing silently or being replayed later.
+http.interceptors.request.use((config) => {
+  const isWrite = (config.method ?? 'get').toLowerCase() !== 'get';
+  if (isWrite && !navigator.onLine) {
+    offlineWriteHandler?.();
+    return Promise.reject(new OfflineError());
+  }
+  return config;
+});
+
 export function apiErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof OfflineError) {
+    return OFFLINE_MESSAGE;
+  }
   if (axios.isAxiosError(error)) {
     return (error.response?.data as { message?: string } | undefined)?.message ?? fallback;
   }
