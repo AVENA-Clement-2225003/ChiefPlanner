@@ -41,8 +41,9 @@ class AdminIngredientController extends Controller
         DB::transaction(function () use ($ingredient, $data) {
             $target = (int) $data['intoId'];
             // A dish that already lists the target keeps that line; the duplicate line is dropped.
-            DB::table('dish_ingredients')->where('ingredient_id', $ingredient->id)
-                ->whereIn('dish_id', DB::table('dish_ingredients')->where('ingredient_id', $target)->select('dish_id'))->delete();
+            // The dish ids are read first: MySQL refuses a delete whose subquery reads the same table (error 1093).
+            $alreadyListingTarget = DB::table('dish_ingredients')->where('ingredient_id', $target)->pluck('dish_id');
+            DB::table('dish_ingredients')->where('ingredient_id', $ingredient->id)->whereIn('dish_id', $alreadyListingTarget)->delete();
             DB::table('dish_ingredients')->where('ingredient_id', $ingredient->id)->update(['ingredient_id' => $target]);
             $ingredient->delete();
         });
