@@ -15,6 +15,7 @@ use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\SpendingController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WeekController;
+use App\Local\DevLoginController;
 use Illuminate\Support\Facades\Route;
 
 // Every route lives under /api and goes through the `web` group (session cookie + CSRF),
@@ -89,3 +90,8 @@ Route::prefix('api')->group(function () {
         });
     });
 });
+
+// Local-only sign-in for working on the interface without Authentik. Never registered in production.
+if (app()->environment('local')) {
+    Route::get('/api/dev/login', DevLoginController::class);
+}

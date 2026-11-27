@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import { Alert, Button, Spin } from 'antd';
 import { useAuth } from '@/auth/AuthProvider';
+import { Logo } from '@/components/layout/Logo';
 import { LOGIN_URL } from '@/services/userService';
 import { useAppTheme } from '@/theme/ThemeProvider';
-import { FONTS } from '@/theme/tokens';
 
 const AUTH_ERRORS: Record<string, string> = {
   forbidden: "Votre compte n'a pas accès à ChiefPlanner. Demandez à un administrateur de vous ajouter au groupe.",
@@ -35,9 +35,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
         padding: 24,
       }}
     >
-      <span style={{ fontFamily: FONTS.heading, fontSize: 32, fontWeight: 700, color: neutrals.textPrimary }}>
-        Chief Planner
-      </span>
+      <Logo size={48} />
       {state.status === 'loading' && <Spin />}
       {state.status === 'error' && <Alert type="error" message={state.message} showIcon />}
       {state.status === 'anonymous' && (

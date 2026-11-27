@@ -73,24 +73,28 @@ export function AccountModal({ open, user, onClose }: AccountModalProps) {
         body: { padding: 0 },
       }}
     >
-      <div style={{ display: 'flex', height: 600, position: 'relative' }}>
-        <div style={{ flex: 1, padding: 36, overflowY: 'auto' }}>{renderSection()}</div>
+      <div style={{ display: 'flex', height: 'min(680px, 90vh)', position: 'relative' }}>
+        <div style={{ flex: 1, minWidth: 0, padding: '28px 32px', overflowY: 'auto', scrollbarWidth: 'thin' }}>
+          {renderSection()}
+        </div>
 
         <AccountModalNav user={user} activeSection={activeSection} onSelect={setActiveSection} />
 
+        {/* Top-right corner of the whole window, above the navigation column. */}
         <button
           type="button"
           aria-label="Fermer"
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: 24,
-            right: 264,
+            top: 14,
+            right: 14,
+            zIndex: 1,
             border: 'none',
             background: 'transparent',
             color: neutrals.textSecondary,
             cursor: 'pointer',
-            padding: 0,
+            padding: 6,
             lineHeight: 0,
           }}
         >
