@@ -32,7 +32,7 @@ class WeekService
             $this->rememberCurrentWeek($user);
 
             $slotRequests = $this->slotRequests($user);
-            $chosen = $this->strategy->select($slotRequests);
+            $chosen = $this->strategy->select($user, $slotRequests);
             $requests = collect($slotRequests)->keyBy(fn (SlotRequest $request) => $request->key());
 
             Meal::query()->where('user_id', $user->id)->delete();

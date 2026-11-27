@@ -2,6 +2,7 @@
 
 namespace App\Planning;
 
+use App\Models\User;
 use Closure;
 
 /**
@@ -12,7 +13,7 @@ class RandomSelection implements SelectionStrategy
     /** @param Closure(int): int|null $pickIndex returns an index below the given count (random by default) */
     public function __construct(private readonly ?Closure $pickIndex = null) {}
 
-    public function select(array $requests): array
+    public function select(User $user, array $requests): array
     {
         $used = [];
         $chosen = [];
