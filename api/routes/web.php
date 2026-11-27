@@ -4,10 +4,14 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\DishController;
+use App\Http\Controllers\ExtraController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MealFlowController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\ShoppingListController;
+use App\Http\Controllers\SpendingController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WeekController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +54,19 @@ Route::prefix('api')->group(function () {
         Route::post('/week/revert', [WeekController::class, 'revert']);
         Route::put('/week/meals/{day}/{slot}', [WeekController::class, 'updateMeal'])
             ->whereNumber('day')->whereIn('slot', ['lunch', 'dinner']);
+
+        Route::get('/shopping-list', [ShoppingListController::class, 'show']);
+        Route::put('/shopping-list/ticks', [ShoppingListController::class, 'tick']);
+        Route::post('/extras', [ExtraController::class, 'store']);
+        Route::put('/extras/{extra}', [ExtraController::class, 'update']);
+        Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);
+
+        Route::get('/store', [StoreController::class, 'index']);
+        Route::put('/store/{ingredient}', [StoreController::class, 'update']);
+
+        Route::get('/spendings/summary', [SpendingController::class, 'summary']);
+        Route::post('/spendings', [SpendingController::class, 'store']);
+        Route::delete('/spendings/{spending}', [SpendingController::class, 'destroy']);
 
         Route::get('/meal-flows', [MealFlowController::class, 'index']);
         Route::post('/meal-flows', [MealFlowController::class, 'store']);
