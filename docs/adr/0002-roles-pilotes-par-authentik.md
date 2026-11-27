@@ -6,5 +6,5 @@ Le panel admin de l'app peut promouvoir ou retirer un administrateur en appelant
 
 ## Consequences
 
-- Un changement de rôle n'est visible qu'à la prochaine connexion de la personne concernée (claim lu à la connexion).
+- Un rôle modifié dans Authentik ne se voit qu'à la prochaine connexion de la personne. Une promotion ou un retrait fait depuis le panel met aussi à jour l'application immédiatement.
 - Une base utilisateur dans l'app subsiste, liée à Authentik par le claim `sub`, pour porter plats, Préférences, Semaine, etc.
