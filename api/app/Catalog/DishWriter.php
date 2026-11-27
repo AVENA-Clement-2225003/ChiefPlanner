@@ -31,7 +31,7 @@ class DishWriter
             $dish = $this->saveDish($owner, $dish, $data);
             $dish->tags()->sync($data['tagIds'] ?? []);
 
-            [$lines, $warnings] = $this->buildLines($owner, $data);
+            [$lines, $warnings] = $this->buildLines($data);
             $dish->lines()->delete();
             $dish->lines()->createMany($lines);
 
@@ -70,7 +70,7 @@ class DishWriter
      * @param  array<string, mixed>  $data
      * @return array{0: list<array<string, mixed>>, 1: list<array<string, mixed>>}
      */
-    private function buildLines(User $owner, array $data): array
+    private function buildLines(array $data): array
     {
         $servings = (int) $data['servings'];
         $units = Unit::query()->get()->keyBy('id');
@@ -78,7 +78,7 @@ class DishWriter
         $warnings = [];
 
         foreach ($data['ingredients'] as $index => $line) {
-            $ingredient = $this->resolveIngredient($owner, $line, $index);
+            $ingredient = $this->resolveIngredient($line, $index);
             if (isset($lines[$ingredient->id])) {
                 throw ValidationException::withMessages(["ingredients.$index" => "« {$ingredient->name} » apparaît deux fois."]);
             }
@@ -99,10 +99,10 @@ class DishWriter
     }
 
     /** @param array<string, mixed> $line */
-    private function resolveIngredient(User $owner, array $line, int $index): Ingredient
+    private function resolveIngredient(array $line, int $index): Ingredient
     {
         if (! empty($line['ingredientId'])) {
-            $ingredient = Ingredient::query()->visibleTo($owner)->find($line['ingredientId']);
+            $ingredient = Ingredient::find($line['ingredientId']);
             if ($ingredient === null) {
                 throw ValidationException::withMessages(["ingredients.$index.ingredientId" => 'Ingrédient introuvable.']);
             }
@@ -110,7 +110,7 @@ class DishWriter
             return $ingredient;
         }
 
-        return $this->ingredients->findOrCreate($owner, $line['ingredientName'])[0];
+        return $this->ingredients->findOrCreate($line['ingredientName'])[0];
     }
 
     /**

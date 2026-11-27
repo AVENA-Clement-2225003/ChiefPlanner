@@ -9,7 +9,7 @@ Personne authentifiée via Authentik qui planifie ses propres repas.
 _Avoid_: Compte, membre, client
 
 **Administrateur**:
-Utilisateur du groupe admin de l'environnement, qui peut en plus promouvoir d'autres utilisateurs administrateurs et modérer le contenu partagé.
+Utilisateur du groupe admin de l'environnement, qui peut en plus promouvoir d'autres utilisateurs administrateurs et modérer les ingrédients (fusion des doublons).
 _Avoid_: Admin système, Créateur (rôle supprimé : chacun crée ses propres plats et ingrédients)
 
 **Plat**:
@@ -17,11 +17,11 @@ Recette qu'un utilisateur possède et peut planifier. Un plat appartient à son 
 _Avoid_: Dish, recette
 
 **Ingrédient**:
-Produit composant un plat, créé par un utilisateur quand il n'existe pas déjà. Il appartient à son créateur, qui décide s'il le partage avec la communauté.
+Produit composant un plat. Un ingrédient n'est que son nom, le même pour tous : il n'a ni propriétaire ni visibilité, et n'est créé que s'il n'existe pas déjà. Ce qui est personnel (Conditionnement, prix, Rayon) est rattaché à l'utilisateur, pas à l'ingrédient.
 _Avoid_: Produit
 
 **Communauté**:
-Ensemble des utilisateurs de l'environnement, avec qui un propriétaire peut partager un plat ou un ingrédient.
+Ensemble des utilisateurs de l'environnement, avec qui un propriétaire peut partager un plat.
 
 **MealFlow**:
 Regroupement nommé de plats (« Semaine végétarienne », « Repas du dimanche »), qui sert de réservoir à la génération. C'est le nom produit de ce que le code historique appelle « playlist ».

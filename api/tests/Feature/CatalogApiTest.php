@@ -71,28 +71,37 @@ class CatalogApiTest extends TestCase
         $this->postJson('/api/dishes', $payload)->assertCreated()->assertJsonPath('warnings', []);
     }
 
-    public function test_an_existing_ingredient_is_reused_by_name_across_the_community(): void
+    public function test_an_ingredient_is_reused_by_name_for_everybody(): void
     {
-        $other = User::factory()->create();
-        $shared = Ingredient::create(['owner_id' => $other->id, 'name' => 'Crème fraîche', 'name_key' => 'creme fraiche', 'is_shared' => true]);
+        $existing = Ingredient::create(['name' => 'Crème fraîche', 'name_key' => 'creme fraiche']);
         $this->actingAs(User::factory()->create());
 
         $this->postJson('/api/ingredients', ['name' => '  CREME   fraiche '])
             ->assertOk()
-            ->assertJsonPath('id', $shared->id);
+            ->assertJsonPath('id', $existing->id);
 
         $this->assertDatabaseCount('ingredients', 1);
     }
 
-    public function test_a_private_ingredient_of_someone_else_is_not_reused(): void
+    public function test_a_dish_reuses_an_existing_ingredient_instead_of_creating_a_duplicate(): void
     {
-        $other = User::factory()->create();
-        Ingredient::create(['owner_id' => $other->id, 'name' => 'Tomate', 'name_key' => 'tomate', 'is_shared' => false]);
+        $existing = Ingredient::create(['name' => 'Riz', 'name_key' => 'riz']);
+        $this->actingAs(User::factory()->create());
+        $payload = $this->dishPayload(['ingredients' => [['ingredientName' => ' RIZ ', 'quantity' => 100, 'unitId' => 'g']]]);
+
+        $this->postJson('/api/dishes', $payload)->assertCreated();
+
+        $this->assertDatabaseCount('ingredients', 1);
+        $this->assertDatabaseHas('dish_ingredients', ['ingredient_id' => $existing->id]);
+    }
+
+    public function test_ingredients_can_be_searched(): void
+    {
+        Ingredient::create(['name' => 'Tomate', 'name_key' => 'tomate']);
+        Ingredient::create(['name' => 'Riz', 'name_key' => 'riz']);
         $this->actingAs(User::factory()->create());
 
-        $this->postJson('/api/ingredients', ['name' => 'Tomate'])->assertCreated();
-
-        $this->assertDatabaseCount('ingredients', 2);
+        $this->getJson('/api/ingredients?q=TOM')->assertOk()->assertJsonCount(1, 'data')->assertJsonPath('data.0.name', 'Tomate');
     }
 
     public function test_the_same_ingredient_twice_in_a_dish_is_refused(): void
@@ -186,27 +195,6 @@ class CatalogApiTest extends TestCase
         $this->getJson('/api/dishes/shared?slot=dinner')->assertJsonCount(1, 'data')->assertJsonPath('data.0.name', 'Soupe');
         $this->getJson('/api/dishes/shared?tag=vegetarian')->assertJsonCount(1, 'data')->assertJsonPath('data.0.name', 'Salade');
         $this->getJson('/api/dishes/shared?q=sou')->assertJsonCount(1, 'data');
-    }
-
-    public function test_an_ingredient_used_by_a_dish_cannot_be_deleted(): void
-    {
-        $this->actingAs($owner = User::factory()->create());
-        $dish = $this->dishOf($owner);
-        $ingredient = $dish->lines->first()->ingredient;
-
-        $this->deleteJson("/api/ingredients/{$ingredient->id}")->assertStatus(409);
-    }
-
-    public function test_an_unused_ingredient_can_be_deleted_only_by_its_owner(): void
-    {
-        $owner = User::factory()->create();
-        $ingredient = Ingredient::create(['owner_id' => $owner->id, 'name' => 'Sel', 'name_key' => 'sel']);
-
-        $this->actingAs(User::factory()->create());
-        $this->deleteJson("/api/ingredients/{$ingredient->id}")->assertForbidden();
-
-        $this->actingAs($owner);
-        $this->deleteJson("/api/ingredients/{$ingredient->id}")->assertNoContent();
     }
 
     public function test_the_catalog_requires_a_session(): void

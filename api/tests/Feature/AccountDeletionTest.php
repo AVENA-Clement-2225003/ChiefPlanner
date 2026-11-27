@@ -32,7 +32,7 @@ class AccountDeletionTest extends TestCase
 
         $this->deleteJson('/api/me')->assertNoContent();
 
-        foreach (['users', 'dishes', 'dish_ingredients', 'ingredients', 'meal_flows', 'meal_flow_dish', 'meals', 'extras', 'spendings', 'slot_preferences', 'preferences'] as $table) {
+        foreach (['users', 'dishes', 'dish_ingredients', 'meal_flows', 'meal_flow_dish', 'meals', 'extras', 'spendings', 'slot_preferences', 'preferences'] as $table) {
             $this->assertDatabaseCount($table, 0);
         }
         $this->assertGuest();
@@ -54,28 +54,18 @@ class AccountDeletionTest extends TestCase
         $this->getJson('/api/week')->assertJsonPath('meals.0.needsReplacement', true)->assertJsonPath('meals.0.servings', 3);
     }
 
-    public function test_a_shared_ingredient_used_by_others_goes_to_the_community(): void
+    public function test_ingredients_stay_when_a_user_leaves(): void
     {
         $leaver = User::factory()->create();
         $stayer = User::factory()->create();
-        $dish = $this->makeDish($stayer, 'Pâtes');
-        $tomato = $this->addLine($dish, 'Tomate', 100, 'g', ingredientOwner: $leaver);
+        $dish = $this->makeDish($leaver, 'Pâtes');
+        $tomato = $this->addLine($dish, 'Tomate', 100, 'g');
+        $this->actingAs($stayer)->postJson('/api/ingredients', ['name' => 'Sel'])->assertCreated();
 
         $this->actingAs($leaver)->deleteJson('/api/me')->assertNoContent();
 
-        $this->assertNull($tomato->fresh()->owner_id);
-        $this->assertTrue($tomato->fresh()->is_shared);
+        $this->assertDatabaseHas('ingredients', ['id' => $tomato->id]);
         $this->actingAs($stayer)->getJson('/api/ingredients?q=tomate')->assertJsonCount(1, 'data');
-    }
-
-    public function test_an_unused_ingredient_of_a_leaving_user_is_deleted(): void
-    {
-        $leaver = User::factory()->create();
-        Ingredient::create(['owner_id' => $leaver->id, 'name' => 'Sel', 'name_key' => 'sel']);
-
-        $this->actingAs($leaver)->deleteJson('/api/me')->assertNoContent();
-
-        $this->assertDatabaseCount('ingredients', 0);
     }
 
     public function test_an_admin_can_erase_another_user_but_not_themselves_that_way(): void
@@ -105,7 +95,7 @@ class AccountDeletionTest extends TestCase
         $second = $this->makeDish($owner, 'Soupe');
         $both = $this->makeDish($owner, 'Mixte');
         $tomate = $this->addLine($first, 'Tomate', 100, 'g');
-        $tomates = Ingredient::create(['owner_id' => $owner->id, 'name' => 'Tomates', 'name_key' => 'tomates']);
+        $tomates = Ingredient::create(['name' => 'Tomates', 'name_key' => 'tomates']);
         $second->lines()->create(['ingredient_id' => $tomates->id, 'quantity_per_person' => 2, 'unit_id' => 'unit']);
         $both->lines()->create(['ingredient_id' => $tomate->id, 'quantity_per_person' => 50, 'unit_id' => 'g']);
         $both->lines()->create(['ingredient_id' => $tomates->id, 'quantity_per_person' => 1, 'unit_id' => 'unit']);
@@ -119,7 +109,7 @@ class AccountDeletionTest extends TestCase
 
     public function test_only_admins_moderate_ingredients(): void
     {
-        $ingredient = Ingredient::create(['owner_id' => null, 'name' => 'Sel', 'name_key' => 'sel']);
+        $ingredient = Ingredient::create(['name' => 'Sel', 'name_key' => 'sel']);
         $this->actingAs(User::factory()->create());
 
         $this->getJson('/api/admin/ingredients')->assertForbidden();

@@ -7,12 +7,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-/** Moderation of the ingredients shared with the Community: duplicates are merged by hand. */
+/** Moderation of the ingredient names: duplicates are merged by hand. */
 class AdminIngredientController extends Controller
 {
     public function index(): JsonResponse
     {
-        $ingredients = Ingredient::query()->where('is_shared', true)->withCount('dishLines')->orderBy('name')->get();
+        $ingredients = Ingredient::query()->withCount('dishLines')->orderBy('name')->get();
 
         return response()->json(['data' => $ingredients->map(fn (Ingredient $ingredient) => [
             'id' => $ingredient->id,

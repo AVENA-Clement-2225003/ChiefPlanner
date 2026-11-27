@@ -7,8 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Erases everything a user owns (RGPD). The only thing that stays is a shared ingredient other people's dishes
- * still use: it becomes the Community's, with no link left to the person. Their identity in Authentik is not touched.
+ * Erases everything a user owns (RGPD). Ingredients stay: they are shared names, not personal data. Their identity
+ * in Authentik is not touched.
  */
 class AccountDeletion
 {
@@ -18,14 +18,8 @@ class AccountDeletion
             // Dishes first: their ingredient lines would otherwise keep the user's ingredients in use.
             $user->dishes()->each(fn ($dish) => $dish->delete());
 
-            Ingredient::query()->where('owner_id', $user->id)->each(function (Ingredient $ingredient) {
-                $ingredient->dishLines()->exists()
-                    ? $ingredient->update(['is_shared' => true])
-                    : $ingredient->delete();
-            });
-
-            // Owned data (meals, preferences, MealFlows, packs, extras, spendings...) and the ownerless
-            // ingredients above are handled by the foreign keys of this delete.
+            // Owned data (meals, preferences, MealFlows, packs, extras, spendings...) goes with the foreign keys of this delete.
+            // Ingredients are not personal data: they are shared names, and stay.
             $user->delete();
         });
     }

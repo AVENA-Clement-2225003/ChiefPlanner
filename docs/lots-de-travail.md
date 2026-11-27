@@ -18,12 +18,13 @@ Le code des lots L0 à L9 est écrit, sur des branches empilées (voir plus bas)
 | `feat/foundations` | L0 : dépôt `api/` + `web/`, nettoyage, règles, CI |
 | `feat/deploy-skeleton` | L1 : Dockerfiles, compose, images GHCR, guide de déploiement |
 | `feat/auth-authentik` | L2 : connexion OIDC côté serveur, rôles, panneau admin |
-| `feat/catalog` | L3 (API) : plats, ingrédients, étiquettes, unités, partage |
+| `feat/catalog` | L3 (API) : plats, ingrédients, étiquettes, unités et partage des plats |
 | `feat/mealflows` | L4 (API) |
 | `feat/week` | L5 (API) : Préférences, Semaine, Proposition, annulation |
 | `feat/shopping` | L6 et L7 (API) : courses, paquets, rayons, extras, dépenses |
 | `feat/leftovers` | L7 : sélection qui réutilise les Restes |
 | `feat/rgpd-moderation` | L9 (API) : suppression de compte, modération des ingrédients |
+| `fix/ingredients-are-global` | Un ingrédient n'est qu'un nom, sans propriétaire ni partage |
 | `feat/web-integration` | L2 à L8 (SPA) : tous les écrans branchés sur l'API, PWA hors ligne en lecture seule |
 
 ## Décisions prises en route
@@ -32,7 +33,7 @@ Elles n'étaient pas dans l'entretien et sont faciles à changer :
 
 - **Structure** `api/` et `web/`, noms **en anglais** dans le code (table de correspondance dans `CONTRIBUTING.md`).
 - **Laravel 13** (Laravel 11 avait des avis de sécurité ouverts), PHP 8.3 minimum, image `serversideup/php:8.4-fpm-nginx`.
-- Un ingrédient créé est **partagé par défaut** (ses noms ne portent pas de donnée personnelle, et cela limite les doublons) ; un plat est **privé par défaut**.
+- Un ingrédient n'est que son nom, le même pour tous (ni propriétaire ni partage) ; le privé, ce sont les Conditionnements, prix et Rayons de chaque utilisateur. Un plat est **privé par défaut**.
 - Les étiquettes sont des listes fixes en trois familles (cuisine, régime, contrainte). Elles servent au filtre de recherche et aux fiches, pas encore à la sélection : « compatible avec le contexte du jour » n'est pas défini, la `SelectionStrategy` est prête à l'accueillir.
 - Les Préférences par défaut : les 14 Moments activés, 1 personne, aucun MealFlow.
 - Un MealFlow qui n'a aucun plat pour un Moment laisse la sélection retomber sur tous les plats du Moment.
@@ -82,11 +83,11 @@ Valider tout le chemin « push » → « conteneur à jour sur `origae` » avant
 [ADR 0005](adr/0005-quantites-par-personne-et-conditionnements.md).
 
 - Données de référence en seed : Unités (par famille), Étiquettes (cuisine, régime, contrainte), Moments `midi` et `soir`.
-- Ingrédients : création avec réutilisation par libellé normalisé, propriétaire, partage.
+- Ingrédients : un nom unique, réutilisé par libellé normalisé, sans propriétaire.
 - Plats : création avec nombre de personnes de saisie et division par N, quantités stockées par personne, Moments et Étiquettes, Étapes ordonnées, partage, avertissement non bloquant sur les quantités non entières.
 - Adoption d'un plat partagé de la Communauté (le lien d'abonnement sert de dépendance, ce qui permet le retrait RGPD).
 - Écrans : Plats, Tous les plats, Ingrédients, fiche et édition d'un plat avec recette pas à pas.
-- Modération admin des ingrédients partagés (simple suppression ou masquage).
+- Modération admin des ingrédients : fusion des doublons, suppression des ingrédients inutilisés.
 
 **Fini quand** : un utilisateur crée un plat de A à Z, le partage, et un autre le trouve et l'adopte.
 
@@ -136,7 +137,7 @@ Valider tout le chemin « push » → « conteneur à jour sur `origae` » avant
 
 ## L9. RGPD et passage en production
 
-- Suppression d'un utilisateur : tout ce qu'il possède, sauf les ingrédients partagés utilisés par d'autres qui passent à la Communauté.
+- Suppression d'un utilisateur : tout ce qu'il possède ; les ingrédients restent (ce sont des noms partagés, pas des données personnelles).
 - Stack `prod` : application Authentik `chiefplanner-prod`, `chiefplanner.michaelkineticsystems.fr`, `.env` de prod.
 - Bascule : arrêt de l'ancienne stack (`chiefplanner-app`, `chiefplanner-mysql`), base vide, premier administrateur ajouté dans Authentik.
 - Revue finale : tests de bout en bout, vérification du glossaire et des ADR.

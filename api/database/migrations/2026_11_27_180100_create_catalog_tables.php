@@ -10,16 +10,10 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            // No owner: the ingredient belongs to the Community (its creator left, but others' dishes use it).
-            $table->foreignId('owner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
-            // Lower-case, accent-free, single-spaced name: two ingredients with the same key are the same ingredient.
-            $table->string('name_key');
-            $table->boolean('is_shared')->default(true);
+            // Lower-case, accent-free, single-spaced name: two names with the same key are the same ingredient.
+            $table->string('name_key')->unique();
             $table->timestamps();
-
-            $table->unique(['owner_id', 'name_key']);
-            $table->index('name_key');
         });
 
         Schema::create('dishes', function (Blueprint $table) {
