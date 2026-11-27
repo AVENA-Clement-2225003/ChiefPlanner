@@ -211,3 +211,28 @@ export function GripIcon({ size = 14, ...props }: IconProps) {
     </svg>
   );
 }
+
+/** A week at a glance: the Planning section. */
+export function CalendarIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="3" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+      <circle cx="8.5" cy="14.5" r="1" fill="currentColor" />
+      <circle cx="12" cy="14.5" r="1" fill="currentColor" />
+      <circle cx="15.5" cy="14.5" r="1" fill="currentColor" />
+    </Icon>
+  );
+}
+
+/** A painter's palette: the Appearance section (theme and accent colour). */
+export function PaletteIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.4 0 2-.9 2-1.8 0-1.3-1.2-1.6-1.2-2.8 0-1 .8-1.7 1.9-1.7H17a3.5 3.5 0 0 0 3.5-3.5C20.5 6.7 16.7 3.5 12 3.5z" />
+      <circle cx="7.8" cy="11" r="1.1" fill="currentColor" />
+      <circle cx="10.5" cy="7.4" r="1.1" fill="currentColor" />
+      <circle cx="15" cy="7.8" r="1.1" fill="currentColor" />
+    </Icon>
+  );
+}

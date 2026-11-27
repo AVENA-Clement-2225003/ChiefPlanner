@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { DatabaseIcon, DocumentIcon, ShieldIcon, SlidersIcon } from '@/components/icons';
+import { CalendarIcon, DatabaseIcon, DocumentIcon, PaletteIcon, ShieldIcon } from '@/components/icons';
 import { useAppTheme } from '@/theme/ThemeProvider';
 import { FONTS } from '@/theme/tokens';
 import type { CurrentUser } from '@/types';
@@ -15,8 +15,8 @@ interface SectionEntry {
 }
 
 const SECTIONS: SectionEntry[] = [
-  { key: 'planning', label: 'Planning', Icon: SlidersIcon },
-  { key: 'preferences', label: 'Apparence', Icon: SlidersIcon },
+  { key: 'planning', label: 'Planning', Icon: CalendarIcon },
+  { key: 'preferences', label: 'Apparence', Icon: PaletteIcon },
   { key: 'data', label: 'Mes données', Icon: DatabaseIcon },
   { key: 'administration', label: 'Administration', Icon: ShieldIcon, adminOnly: true, separatorBefore: true },
   { key: 'legal', label: 'Légal', Icon: DocumentIcon },
