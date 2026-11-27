@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Dish extends Model
 {
@@ -43,6 +44,28 @@ class Dish extends Model
     public function subscribers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'dish_subscriptions');
+    }
+
+    /**
+     * Takes the dish out of the catalogue of everybody who adopted it, and out of their MealFlows.
+     * No copy is kept: this is what makes unsharing and deleting a dish a real removal (RGPD).
+     */
+    public function releaseSubscribers(): void
+    {
+        $this->releaseUsers($this->subscribers()->pluck('users.id')->all());
+    }
+
+    public function releaseSubscriber(User $user): void
+    {
+        $this->releaseUsers([$user->id]);
+    }
+
+    /** @param list<int> $userIds */
+    private function releaseUsers(array $userIds): void
+    {
+        $flowIds = MealFlow::query()->whereIn('owner_id', $userIds)->select('id');
+        DB::table('meal_flow_dish')->where('dish_id', $this->id)->whereIn('meal_flow_id', $flowIds)->delete();
+        $this->subscribers()->detach($userIds);
     }
 
     public function isOwnedBy(User $user): bool

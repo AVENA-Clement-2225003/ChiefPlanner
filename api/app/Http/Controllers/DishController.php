@@ -82,7 +82,7 @@ class DishController extends Controller
 
         $dish->update(['is_shared' => $data['isShared']]);
         if (! $dish->is_shared) {
-            $dish->subscribers()->detach();
+            $dish->releaseSubscribers();
         }
 
         return new DishResource($dish->load(self::WITH));
@@ -98,7 +98,7 @@ class DishController extends Controller
 
     public function unsubscribe(Request $request, Dish $dish): DishResource
     {
-        $dish->subscribers()->detach($request->user()->id);
+        $dish->releaseSubscriber($request->user());
 
         return new DishResource($dish->load(self::WITH));
     }

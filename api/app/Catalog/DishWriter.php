@@ -39,7 +39,7 @@ class DishWriter
             $dish->steps()->createMany($this->buildSteps($data['steps'] ?? []));
 
             if (! $dish->is_shared) {
-                $dish->subscribers()->detach();
+                $dish->releaseSubscribers();
             }
 
             return [$dish->load(['tags', 'lines.ingredient', 'steps']), $warnings];

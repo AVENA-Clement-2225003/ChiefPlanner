@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\MealFlowController;
 use App\Http\Controllers\MeController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,11 @@ Route::prefix('api')->group(function () {
         Route::put('/dishes/{dish}/share', [DishController::class, 'share']);
         Route::put('/dishes/{dish}/subscription', [DishController::class, 'subscribe']);
         Route::delete('/dishes/{dish}/subscription', [DishController::class, 'unsubscribe']);
+
+        Route::get('/meal-flows', [MealFlowController::class, 'index']);
+        Route::post('/meal-flows', [MealFlowController::class, 'store']);
+        Route::put('/meal-flows/{mealFlow}', [MealFlowController::class, 'update']);
+        Route::delete('/meal-flows/{mealFlow}', [MealFlowController::class, 'destroy']);
 
         Route::middleware('admin')->prefix('admin')->group(function () {
             Route::get('/users', [AdminUserController::class, 'index']);
