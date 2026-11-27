@@ -29,7 +29,7 @@ class OidcClient
             'response_type' => 'code',
             'client_id' => config('oidc.client_id'),
             'redirect_uri' => config('oidc.redirect_uri'),
-            'scope' => 'openid profile email groups',
+            'scope' => 'openid profile email',
             'state' => $state,
             'nonce' => $nonce,
             'code_challenge' => $this->codeChallenge($codeVerifier),

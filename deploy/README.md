@@ -19,7 +19,7 @@ Les images sont privées. Le `docker login ghcr.io` fait pour Extrudo (`/root/.d
 Dans Authentik, pour chaque instance (`dev`, puis `prod`) :
 
 1. **Groupes** : `chiefplanner-<instance>-user` et `chiefplanner-<instance>-admin`.
-2. **Provider OAuth2/OpenID** `chiefplanner-<instance>` : client confidentiel, redirect URI `https://<hôte>/api/auth/callback`, scopes `openid profile email groups`, signature RS256. Le claim `groups` doit être renvoyé.
+2. **Provider OAuth2/OpenID** `chiefplanner-<instance>` : client confidentiel, redirect URI `https://<hôte>/api/auth/callback`, scopes `openid profile email` (le claim `groups` est fourni par le scope `profile`), signature RS256.
 3. **Application** `chiefplanner-<instance>`, slug `chiefplanner-<instance>` (l'émetteur est donc `https://auth.michaelkineticsystems.fr/application/o/chiefplanner-<instance>/`), liée au provider. Restreindre l'accès aux deux groupes.
 4. **Compte de service** avec un jeton d'API limité à la modification du groupe `chiefplanner-<instance>-admin` (rôle avec la seule permission « modifier l'utilisateur dans ce groupe », jamais superutilisateur, [ADR 0002](../docs/adr/0002-roles-pilotes-par-authentik.md)). Noter l'identifiant (UUID) du groupe admin pour `AUTHENTIK_ADMIN_GROUP_ID`.
 5. Le premier administrateur : ajouter à la main un compte au groupe `chiefplanner-<instance>-admin`.
