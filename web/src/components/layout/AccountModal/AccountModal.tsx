@@ -73,31 +73,36 @@ export function AccountModal({ open, user, onClose }: AccountModalProps) {
         body: { padding: 0 },
       }}
     >
-      <div style={{ display: 'flex', height: 'min(680px, 90vh)', position: 'relative' }}>
-        <div style={{ flex: 1, padding: '28px 44px 28px 32px', overflowY: 'auto', scrollbarWidth: 'thin' }}>
-          {renderSection()}
+      <div style={{ display: 'flex', height: 'min(680px, 90vh)' }}>
+        {/* The close button belongs to the content column, so it can never sit on the divider or the nav. */}
+        <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
+          <button
+            type="button"
+            aria-label="Fermer"
+            onClick={onClose}
+            style={{
+              position: 'absolute',
+              top: 16,
+              right: 18,
+              zIndex: 1,
+              border: 'none',
+              background: 'transparent',
+              color: neutrals.textSecondary,
+              cursor: 'pointer',
+              padding: 4,
+              lineHeight: 0,
+            }}
+          >
+            <CloseIcon size={16} />
+          </button>
+          <div
+            style={{ height: '100%', padding: '28px 48px 28px 32px', overflowY: 'auto', scrollbarWidth: 'thin' }}
+          >
+            {renderSection()}
+          </div>
         </div>
 
         <AccountModalNav user={user} activeSection={activeSection} onSelect={setActiveSection} />
-
-        <button
-          type="button"
-          aria-label="Fermer"
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: 18,
-            right: 252,
-            border: 'none',
-            background: 'transparent',
-            color: neutrals.textSecondary,
-            cursor: 'pointer',
-            padding: 0,
-            lineHeight: 0,
-          }}
-        >
-          <CloseIcon size={16} />
-        </button>
       </div>
     </Modal>
   );
